@@ -1,6 +1,7 @@
 {
     "require": {
         "chriskacerguis/codeigniter-restserver": "^3.1",
-        "firebase/php-jwt": "^6.3"
+        "firebase/php-jwt": "^6.3",
+        "swiftmailer/swiftmailer": "^6.3"
     }
 }

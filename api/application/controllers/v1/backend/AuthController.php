@@ -27,11 +27,12 @@ class AuthController extends RestController
 
     public function __construct()
     {
+        header('Content-type: application/json');
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET");
+        header("Access-Control-Allow-Methods: GET, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
-
-        header('Access-Control-Allow-Origin: *'); //for allow any domain, insecure
-        header('Access-Control-Allow-Headers: *'); //for allow any headers, insecure
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //method allowed
 
         // Load the user model
         $this->load->model('user_model');

@@ -42,6 +42,7 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
+    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -72,6 +73,10 @@ export default {
   },
 
   loading: '~/components/admin/LoadingBar.vue',
+
+  publicRuntimeConfig:{
+    API_URL: process.env.API_URL
+  },
 
   auth: {
     redirect: false,
