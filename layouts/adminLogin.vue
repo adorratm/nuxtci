@@ -40,15 +40,17 @@ export default {
       {
         src: "/vendor/js/bootstrap.bundle.min.js",
         body: true,
+        defer:true,
       },
-      { src: "/vendor/js/dropdown-bootstrap-extended.js", body: true },
+      { src: "/vendor/js/dropdown-bootstrap-extended.js", body: true,defer:true },
       {
         src: "/vendor/js/owlcarousel/owl.carousel.min.js",
         body: true,
         ssr: false,
+        defer:true,
       },
-      { src: "/vendor/js/feather.min.js", body: true },
-      { src: "/vendor/js/init.js", body: true },
+      { src: "/vendor/js/feather.min.js", body: true,defer:true },
+      { src: "/vendor/js/init.js", body: true,defer:true },
     ],
   },
   middleware:['unauthenticated']

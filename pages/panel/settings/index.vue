@@ -81,15 +81,14 @@ export default {
   data() {
     return {
       columns: [
-        "<i class='fa fa-list'></i>",
-        "<i class='fa fa-list'></i>",
-        "#Id",
-        "Firma Adı",
-        "Dil",
-        "Durum",
-        "Oluşturulma Tarihi",
-        "Güncelleme Tarihi",
-        "İşlem",
+        { label: "#", field: "rank", html: true,width:'100px' },
+        { label: "#Id", field: "id", html: true,width:'65px' },
+        { label: "Firma Adı", field: "company_name", html: true },
+        { label: "Dil", field: "lang", html: true,width:'60px' },
+        { label: "Durum", field: "status", html: true },
+        { label: "Oluşturulma Tarihi", field: "createdAt", html: true },
+        { label: "Güncelleme Tarihi", field: "updatedAt", html: true },
+        { label: "İşlem", field: "actions", html: true,globalSearchDisabled: true,sortable:false },
       ],
     };
   },

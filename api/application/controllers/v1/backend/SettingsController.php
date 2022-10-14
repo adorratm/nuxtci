@@ -42,9 +42,9 @@ class SettingsController extends RestController
         // return response if token is valid
         $output = [];
         if ($this->token) {
-            $items = $this->settings_model->getRows([], $_POST);
+            $items = $this->settings_model->getRows([], $this->post(null,true));
             $data = [];
-            $i = (!empty($_POST['start']) ? $_POST['start'] : 0);
+            $i = (!empty($this->post('start',true)) ? $this->post('start',true) : 0);
             if (!empty($items)) :
                 foreach ($items as $item) :
                     $i++;
@@ -60,13 +60,13 @@ class SettingsController extends RestController
                         </div>
                 </div>';
                     $checkbox = '<div class="custom-control custom-switch"><input data-id="' . $item->id . '" data-url="' . base_url("settings/isActiveSetter/{$item->id}") . '" data-status="' . ($item->isActive == 1 ? "checked" : null) . '" id="customSwitch' . $i . '" type="checkbox" ' . ($item->isActive == 1 ? "checked" : null) . ' class="my-check custom-control-input" >  <label class="custom-control-label" for="customSwitch' . $i . '"></label></div>';
-                    $data[] = [$item->rank, '<i class="fa fa-arrows" data-id="' . $item->id . '"></i>', $item->id, $item->company_name, $item->lang, $checkbox, turkishDate("d F Y, l H:i:s", $item->createdAt), turkishDate("d F Y, l H:i:s", $item->updatedAt), $proccessing];
+                    $data[] = ["rank" => '<input class="form-control form-control-sm rounded-0" value="' . $item->rank . '">',"id" => $item->id,"company_name" => $item->company_name,"lang" => $item->lang,"status" => $checkbox,"createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt),"updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt),"actions" => $proccessing];
                 endforeach;
             endif;
             $output = [
-                "draw" => (!empty($_POST['draw']) ? $_POST['draw'] : 0),
+                "draw" => (!empty($this->post('draw',true)) ? $this->post('draw',true) : 0),
                 "recordsTotal" => $this->settings_model->rowCount(),
-                "recordsFiltered" => $this->settings_model->countFiltered([], (!empty($_POST) ? $_POST : [])),
+                "recordsFiltered" => $this->settings_model->countFiltered([], (!empty($this->post(null,true)) ? $this->post(null,true) : [])),
                 "data" => $data,
             ];
         }

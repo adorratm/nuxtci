@@ -1,11 +1,14 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
+    htmlAttrs: {
+      lang: 'tr'
+    },
     title: 'Excellence Halı',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: 'Mutfak Yapım Dijital Reklam Ajansı Yönetim Platformu' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
@@ -25,7 +28,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    "~/plugins/vee-validate"
+    { src: "~/plugins/axios" },
+    { src: "~/plugins/vee-validate" },
+    { src: '~/plugins/vue-good-table', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -42,7 +47,6 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
-    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -74,7 +78,7 @@ export default {
 
   loading: '~/components/admin/LoadingBar.vue',
 
-  publicRuntimeConfig:{
+  publicRuntimeConfig: {
     API_URL: process.env.API_URL
   },
 
@@ -83,7 +87,7 @@ export default {
     strategies: {
       admin: {
         //scheme: "refresh",
-        scheme:'local',
+        scheme: 'local',
         token: {
           property: "user.token",
           global: true,
@@ -112,11 +116,11 @@ export default {
             propertyName: "user"
           }
         },
-        
+
       },
       user: {
         //scheme: "refresh",
-        scheme:'local',
+        scheme: 'local',
         token: {
           property: "user.token",
           global: true,
@@ -145,7 +149,7 @@ export default {
             propertyName: "user"
           }
         },
-        
+
       },
     }
   }
