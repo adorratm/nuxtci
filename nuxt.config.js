@@ -116,7 +116,7 @@ export default {
             propertyName: "user"
           }
         },
-
+        autoLogout: true
       },
       user: {
         //scheme: "refresh",
@@ -149,7 +149,7 @@ export default {
             propertyName: "user"
           }
         },
-
+        autoLogout: true
       },
     }
   }

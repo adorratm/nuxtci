@@ -11,11 +11,32 @@
       :isLoading.sync="isLoading"
       :pagination-options="{
         enabled: true,
+        mode: 'records',
+        perPage: 10,
+        position: 'bottom',
+        perPageDropdown: [10, 20, 30, 40, 50, 75, 100, 1000],
+        dropdownAllowAll: false,
+        setCurrentPage: 1,
+        jumpFirstOrLast: true,
+        firstLabel: 'İlk Sayfa',
+        lastLabel: 'Son Sayfa',
+        nextLabel: 'Sonraki',
+        prevLabel: 'Önceki',
+        rowsPerPageLabel: 'Sayfadaki Satır Sayısı',
+        ofLabel: '/',
+        pageLabel: 'Sayfa', // for 'pages' mode
+        allLabel: 'Tümü',
       }"
       :columns="columns"
       :rows="rows"
-      compactMode
-      :fixed-header="true"
+      :globalSearch="true"
+      :search-options="{
+        enabled: true,
+        skipDiacritics: true,
+        placeholder: 'Tabloda Ara',
+        trigger: 'enter',
+      }"
+      @on-search="onSearch"
     />
   </div>
 </template>
@@ -24,8 +45,30 @@
 export default {
   name: "Datatable",
   props: ["columns", "dataurl", "token"],
+  computed: {
+    pagesNumber() {
+      if (!this.pagination.to) {
+        return [];
+      }
+      let from = this.pagination.current_page - this.offset;
+      if (from < 1) {
+        from = 1;
+      }
+      let to = from + this.offset * 2;
+      if (to >= this.pagination.last_page) {
+        to = this.pagination.last_page;
+      }
+      let pagesArray = [];
+      for (let page = from; page <= to; page++) {
+        pagesArray.push(page);
+      }
+      return pagesArray;
+    },
+  },
   data() {
     return {
+      pagination:{},
+      offset:4,
       isLoading: false,
       totalRecords: 0,
       serverParams: {
@@ -36,8 +79,8 @@ export default {
             type: "",
           },
         ],
-        length: -1,
-        start: 1,
+        perPage: 10,
+        page: 0,
       },
       rows: [],
     };
@@ -48,7 +91,10 @@ export default {
     },
 
     onPageChange(params) {
-      this.updateParams({ page: params.currentPage });
+      this.updateParams({
+        page: params.currentPage,
+        perPage: params.currentPerPage + params.currentPage,
+      });
       this.loadItems();
     },
 
@@ -74,6 +120,11 @@ export default {
       this.loadItems();
     },
 
+    onSearch(params) {
+      this.updateParams(params);
+      this.loadItems();
+    },
+
     // load items is what brings back the rows from server
     loadItems() {
       this.getFromServer(this.serverParams).then((response) => {
@@ -83,7 +134,7 @@ export default {
     },
     getFromServer(params) {
       console.log(params);
-     
+
       const data = this.$axios.$post(this.dataurl, params);
       return data;
     },

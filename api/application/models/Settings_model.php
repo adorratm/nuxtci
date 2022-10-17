@@ -49,8 +49,8 @@ class Settings_model extends CI_Model
             $this->db->where($where);
         endif;
         $this->_get_datatables_query($postData);
-        if ($postData['length'] != -1) :
-            $this->db->limit($postData['length'], $postData['start']);
+        if ($postData['perPage'] >=0) :
+            $this->db->limit($postData['perPage'], $postData['page']);
         endif;
         return $this->db->get()->result();
     }
@@ -64,24 +64,24 @@ class Settings_model extends CI_Model
             foreach ($this->column_search as $item) :
                 // if datatable send POST for search
 
-                if (!empty($postData['search'])) :
+                if (!empty($postData['searchTerm'])) :
                     // first loop
                     if ($i === 0) :
                         // open bracket
                         $this->db->group_start();
-                        $this->db->like($item, $postData['search'], 'both');
-                        $this->db->or_like($item, strto("lower", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|upper", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|ucwords", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|capitalizefirst", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|ucfirst", $postData['search']), 'both');
+                        $this->db->like($item, $postData['searchTerm'], 'both');
+                        $this->db->or_like($item, strto("lower", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|upper", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|ucwords", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|capitalizefirst", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|ucfirst", $postData['searchTerm']), 'both');
                     else :
-                        $this->db->or_like($item, $postData['search'], 'both');
-                        $this->db->or_like($item, strto("lower", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|upper", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|ucwords", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|capitalizefirst", $postData['search']), 'both');
-                        $this->db->or_like($item, strto("lower|ucfirst", $postData['search']), 'both');
+                        $this->db->or_like($item, $postData['searchTerm'], 'both');
+                        $this->db->or_like($item, strto("lower", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|upper", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|ucwords", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|capitalizefirst", $postData['searchTerm']), 'both');
+                        $this->db->or_like($item, strto("lower|ucfirst", $postData['searchTerm']), 'both');
                     endif;
                     // last loop
                     if (count($this->column_search) - 1 == $i) :

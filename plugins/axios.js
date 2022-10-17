@@ -7,7 +7,7 @@ export default function ({ $axios, app }) {
             }
         }
     });
-    api.onRequest((config) => {console.log(app.$auth);
+    api.onRequest((config) => {
         if(app.$auth.loggedIn){
             const token = app.$auth.strategy.token.get().split(' ')[1];
             api.setToken(token,'Bearer')
