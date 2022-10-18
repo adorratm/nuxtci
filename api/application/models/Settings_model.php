@@ -49,7 +49,7 @@ class Settings_model extends CI_Model
             $this->db->where($where);
         endif;
         $this->_get_datatables_query($postData);
-        if ($postData['start'] >=0) :
+        if ($postData['start'] >= 0) :
             $this->db->limit($postData['perPage'], $postData['start']);
         endif;
         return $this->db->get()->result();
@@ -92,8 +92,8 @@ class Settings_model extends CI_Model
                 $i++;
             endforeach;
         endif;
-        if (isset($postData['order'])) :
-            $this->db->order_by($this->column_order[$postData['order']['0']['column']], $postData['order']['0']['dir']);
+        if (isset($postData['sort'])) :
+            print_r($postData["sort"]);
         elseif (isset($this->order)) :
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);

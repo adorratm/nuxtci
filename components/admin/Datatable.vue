@@ -9,6 +9,7 @@
       @on-per-page-change="onPerPageChange"
       :totalRows="totalRecords"
       :isLoading.sync="isLoading"
+      compact-mode
       :pagination-options="{
         enabled: true,
         mode: 'pages',
@@ -37,6 +38,10 @@
         trigger: 'enter',
       }"
       @on-search="onSearch"
+      :sort-options="{
+        enabled: true,
+        multipleColumns: true,
+      }"
     />
   </div>
 </template>
@@ -44,22 +49,17 @@
 <script>
 export default {
   name: "Datatable",
-  props: ["columns", "dataurl", "token"],
+  props: ["columns", "dataurl", "token", "sort"],
   data() {
     return {
       isLoading: false,
       totalRecords: 0,
       serverParams: {
         columnFilters: {},
-        sort: [
-          {
-            field: "",
-            type: "",
-          },
-        ],
-        start:0,
+        start: 0,
         perPage: 10,
         page: 0,
+        sort: [],
       },
       rows: [],
     };
@@ -71,8 +71,8 @@ export default {
 
     onPageChange(params) {
       this.updateParams({
-        page: params.currentPage -1,
-        start: (params.currentPage -1) * params.currentPerPage,
+        page: params.currentPage - 1,
+        start: (params.currentPage - 1) * params.currentPerPage,
       });
       this.loadItems();
     },
@@ -83,13 +83,12 @@ export default {
     },
 
     onSortChange(params) {
+      console.log(params);
+      let objIndex = this.sort.findIndex((obj) => obj.field == params[0].field);
+      let newSort = this.sort;
+      newSort[objIndex].type = params[0].type;
       this.updateParams({
-        sort: [
-          {
-            type: params.sortType,
-            field: this.columns[params.columnIndex].field,
-          },
-        ],
+        sort: newSort,
       });
       this.loadItems();
     },
@@ -119,6 +118,7 @@ export default {
     },
   },
   mounted() {
+    this.serverParams.sort = this.sort;
     this.loadItems();
   },
 };

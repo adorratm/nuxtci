@@ -50,6 +50,7 @@
                       :rankurl="$config.API_URL"
                       :token="this.$auth.strategy.token.get()"
                       :columns="columns"
+                      :sort="sort"
                     />
                   </keep-alive>
                 </div>
@@ -81,14 +82,50 @@ export default {
   data() {
     return {
       columns: [
-        { label: "#", field: "rank", html: true,width:'100px' },
-        { label: "#Id", field: "id", html: true,width:'65px' },
+        { label: "#Sıra", field: "rank", html: true, width: "100px" },
+        { label: "#Id", field: "id", html: true, width: "65px" },
         { label: "Firma Adı", field: "company_name", html: true },
-        { label: "Dil", field: "lang", html: true,width:'60px' },
+        { label: "Dil", field: "lang", html: true, width: "60px" },
         { label: "Durum", field: "status", html: true },
         { label: "Oluşturulma Tarihi", field: "createdAt", html: true },
         { label: "Güncelleme Tarihi", field: "updatedAt", html: true },
-        { label: "İşlem", field: "actions", html: true,globalSearchDisabled: true,sortable:false },
+        {
+          label: "İşlem",
+          field: "actions",
+          html: true,
+          globalSearchDisabled: true,
+          sortable: false,
+        },
+      ],
+      sort: [
+        {
+          field: "rank",
+          type: "asc",
+        },
+        {
+          field: "id",
+          type: "asc",
+        },
+        {
+          field: "company_name",
+          type: "asc",
+        },
+        {
+          field: "lang",
+          type: "asc",
+        },
+        {
+          field: "status",
+          type: "asc",
+        },
+        {
+          field: "createdAt",
+          type: "asc",
+        },
+        {
+          field: "updatedAt",
+          type: "asc",
+        },
       ],
     };
   },
