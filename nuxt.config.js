@@ -92,7 +92,8 @@ export default {
           property: "user.token",
           global: true,
           required: true,
-          type: "Bearer"
+          type: "Bearer",
+          maxAge:7200
         },
         user: {
           property: "user",

@@ -41,18 +41,21 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <keep-alive>
-                    <Datatable
-                      :dataurl="
-                        $config.API_URL +
-                        'v1/backend/settingsController/datatable'
-                      "
-                      :rankurl="$config.API_URL"
-                      :token="this.$auth.strategy.token.get()"
-                      :columns="columns"
-                      :sort="sort"
-                    />
-                  </keep-alive>
+                  <Datatable
+                    :dataurl="
+                      $config.API_URL +
+                      'v1/backend/settingsController/datatable'
+                    "
+                    :rankurl="
+                      $config.API_URL + 'v1/backend/settingsController/rank'
+                    "
+                    :isactiveurl="
+                      $config.API_URL + 'v1/backend/settingsController/isactive'
+                    "
+                    :token="this.$auth.strategy.token.get()"
+                    :columns="columns"
+                    :sort="sort"
+                  />
                 </div>
               </div>
             </div>
@@ -82,13 +85,13 @@ export default {
   data() {
     return {
       columns: [
-        { label: "#Sıra", field: "rank", html: true, width: "100px" },
-        { label: "#Id", field: "id", html: true, width: "65px" },
-        { label: "Firma Adı", field: "company_name", html: true },
-        { label: "Dil", field: "lang", html: true, width: "60px" },
-        { label: "Durum", field: "status", html: true },
-        { label: "Oluşturulma Tarihi", field: "createdAt", html: true },
-        { label: "Güncelleme Tarihi", field: "updatedAt", html: true },
+        { label: "#Sıra No", field: "rank", html: true, width: "100px",type:'number' },
+        { label: "#Id", field: "id", html: true, width: "65px",type:'number' },
+        { label: "Firma Adı", field: "company_name", html: true,type:'string' },
+        { label: "Dil", field: "lang", html: true, width: "60px",type:'string' },
+        { label: "Durum", field: "isActive", html: true,type:'boolean' },
+        { label: "Oluşturulma Tarihi", field: "createdAt", html: true,type:'string' },
+        { label: "Güncelleme Tarihi", field: "updatedAt", html: true,type:'string' },
         {
           label: "İşlem",
           field: "actions",
@@ -100,31 +103,31 @@ export default {
       sort: [
         {
           field: "rank",
-          type: "asc",
+          type: "none",
         },
         {
           field: "id",
-          type: "asc",
+          type: "none",
         },
         {
           field: "company_name",
-          type: "asc",
+          type: "none",
         },
         {
           field: "lang",
-          type: "asc",
+          type: "none",
         },
         {
-          field: "status",
-          type: "asc",
+          field: "isActive",
+          type: "none",
         },
         {
           field: "createdAt",
-          type: "asc",
+          type: "none",
         },
         {
           field: "updatedAt",
-          type: "asc",
+          type: "none",
         },
       ],
     };

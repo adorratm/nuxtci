@@ -42,9 +42,9 @@ class SettingsController extends RestController
         // return response if token is valid
         $output = [];
         if ($this->token) {
-            $items = $this->settings_model->getRows([], $this->post(null,true));
+            $items = $this->settings_model->getRows([], $this->post(null, true));
             $data = [];
-            $i = (!empty($this->post('start',true)) ? $this->post('start',true) : 0);
+            $i = (!empty($this->post('start', true)) ? $this->post('start', true) : 0);
             if (!empty($items)) :
                 foreach ($items as $item) :
                     $i++;
@@ -59,17 +59,45 @@ class SettingsController extends RestController
                         <a class="dropdown-item remove-btn d-none" href="javascript:void(0)" data-table="settingsTable" data-url="' . base_url("settings/delete/$item->id") . '"><i class="fa fa-trash mr-2"></i>Kaydı Sil</a>
                         </div>
                 </div>';
-                    $checkbox = '<div class="custom-control custom-switch"><input data-id="' . $item->id . '" data-url="' . base_url("settings/isActiveSetter/{$item->id}") . '" data-status="' . ($item->isActive == 1 ? "checked" : null) . '" id="customSwitch' . $i . '" type="checkbox" ' . ($item->isActive == 1 ? "checked" : null) . ' class="my-check custom-control-input" >  <label class="custom-control-label" for="customSwitch' . $i . '"></label></div>';
-                    $data[] = ["rank" => '<input class="form-control form-control-sm rounded-0" value="' . $item->rank . '">',"id" => $item->id,"company_name" => $item->company_name,"lang" => $item->lang,"status" => $checkbox,"createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt),"updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt),"actions" => $proccessing];
+                    $data[] = ["rank" => $item->rank, "id" => $item->id, "company_name" => $item->company_name, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $proccessing];
                 endforeach;
             endif;
             $output = [
                 "recordsTotal" => $this->settings_model->rowCount(),
-                "recordsFiltered" => $this->settings_model->countFiltered([], (!empty($this->post(null,true)) ? $this->post(null,true) : [])),
+                "recordsFiltered" => $this->settings_model->countFiltered([], (!empty($this->post(null, true)) ? $this->post(null, true) : [])),
                 "data" => $data,
             ];
         }
         // Output to JSON format
         return $this->response($output, RestController::HTTP_OK);
+    }
+
+    public function rank_post()
+    {
+        if ($this->settings_model->update(["id" => $this->post('id', true)], ["rank" => $this->post('rank', true)])) {
+            $this->response([
+                'status' => TRUE,
+                'message' => "Sıralama Başarıyla Güncellendi."
+            ], RestController::HTTP_OK);
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Sıralama Güncellenirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function isactive_post()
+    {
+        $isActive = boolval($this->post("isActive", true)) === true ? 1 : 0;
+        if ($this->settings_model->update(["id" => $this->post('id', true)], ["isActive" => $isActive])) {
+            $this->response([
+                'status' => TRUE,
+                'message' => "Durum Başarıyla Güncellendi."
+            ], RestController::HTTP_OK);
+        }
+        $this->response([
+            'status' => TRUE,
+            'message' => "Durum Güncellenirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
     }
 }

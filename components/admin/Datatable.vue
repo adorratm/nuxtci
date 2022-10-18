@@ -40,16 +40,44 @@
       @on-search="onSearch"
       :sort-options="{
         enabled: true,
-        multipleColumns: true,
+        multipleColumns: true
       }"
-    />
+    >
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field === 'rank'">
+          <input
+            class="form-control form-control-sm rounded-0"
+            @blur.prevent="changeRank($event, props.row.id)"
+            :value="props.formattedRow[props.column.field]"
+          />
+        </span>
+        <span v-else-if="props.column.field === 'isActive'">
+          <div class="custom-control custom-switch">
+            <input
+              :id="'customSwitch' + props.row.id"
+              type="checkbox"
+              class="my-check custom-control-input"
+              :checked="props.row.isActive == 1 ? true : false"
+              @input.prevent="changeIsActive($event, props.row.id)"
+            />
+            <label
+              class="custom-control-label"
+              :for="'customSwitch' + props.row.id"
+            ></label>
+          </div>
+        </span>
+        <span v-else>
+          {{ props.formattedRow[props.column.field] }}
+        </span>
+      </template>
+    </vue-good-table>
   </div>
 </template>
 
 <script>
 export default {
   name: "Datatable",
-  props: ["columns", "dataurl", "token", "sort"],
+  props: ["columns", "dataurl", "token", "sort", "rankurl", "isactiveurl"],
   data() {
     return {
       isLoading: false,
@@ -83,7 +111,6 @@ export default {
     },
 
     onSortChange(params) {
-      console.log(params);
       let objIndex = this.sort.findIndex((obj) => obj.field == params[0].field);
       let newSort = this.sort;
       newSort[objIndex].type = params[0].type;
@@ -111,10 +138,22 @@ export default {
       });
     },
     getFromServer(params) {
-      console.log(params);
-
       const data = this.$axios.$post(this.dataurl, params);
       return data;
+    },
+
+    // Rank Change
+    changeRank(e, id) {
+      this.$axios.$post(this.rankurl, { id: id, rank: e.target.value });
+      this.loadItems();
+    },
+
+    // Status Change
+    changeIsActive(e, id) {
+      this.$axios.$post(this.isactiveurl, {
+        id: id,
+        isActive: e.target.checked,
+      });
     },
   },
   mounted() {

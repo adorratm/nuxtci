@@ -93,7 +93,11 @@ class Settings_model extends CI_Model
             endforeach;
         endif;
         if (isset($postData['sort'])) :
-            print_r($postData["sort"]);
+            foreach ($postData['sort'] as $sKey => $sValue) :
+                if ($sValue["type"] != "none") :
+                    $this->db->order_by($sValue["field"], $sValue["type"]);
+                endif;
+            endforeach;
         elseif (isset($this->order)) :
             $order = $this->order;
             $this->db->order_by(key($order), $order[key($order)]);
