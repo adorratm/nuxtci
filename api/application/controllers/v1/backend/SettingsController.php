@@ -64,7 +64,6 @@ class SettingsController extends RestController
                 endforeach;
             endif;
             $output = [
-                "draw" => (!empty($this->post('draw',true)) ? $this->post('draw',true) : 0),
                 "recordsTotal" => $this->settings_model->rowCount(),
                 "recordsFiltered" => $this->settings_model->countFiltered([], (!empty($this->post(null,true)) ? $this->post(null,true) : [])),
                 "data" => $data,

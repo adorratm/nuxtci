@@ -11,7 +11,7 @@
       :isLoading.sync="isLoading"
       :pagination-options="{
         enabled: true,
-        mode: 'records',
+        mode: 'pages',
         perPage: 10,
         position: 'bottom',
         perPageDropdown: [10, 20, 30, 40, 50, 75, 100, 1000],
@@ -45,30 +45,8 @@
 export default {
   name: "Datatable",
   props: ["columns", "dataurl", "token"],
-  computed: {
-    pagesNumber() {
-      if (!this.pagination.to) {
-        return [];
-      }
-      let from = this.pagination.current_page - this.offset;
-      if (from < 1) {
-        from = 1;
-      }
-      let to = from + this.offset * 2;
-      if (to >= this.pagination.last_page) {
-        to = this.pagination.last_page;
-      }
-      let pagesArray = [];
-      for (let page = from; page <= to; page++) {
-        pagesArray.push(page);
-      }
-      return pagesArray;
-    },
-  },
   data() {
     return {
-      pagination:{},
-      offset:4,
       isLoading: false,
       totalRecords: 0,
       serverParams: {
@@ -79,6 +57,7 @@ export default {
             type: "",
           },
         ],
+        start:0,
         perPage: 10,
         page: 0,
       },
@@ -92,8 +71,8 @@ export default {
 
     onPageChange(params) {
       this.updateParams({
-        page: params.currentPage,
-        perPage: params.currentPerPage + params.currentPage,
+        page: params.currentPage -1,
+        start: (params.currentPage -1) * params.currentPerPage,
       });
       this.loadItems();
     },

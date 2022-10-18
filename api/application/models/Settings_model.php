@@ -49,8 +49,8 @@ class Settings_model extends CI_Model
             $this->db->where($where);
         endif;
         $this->_get_datatables_query($postData);
-        if ($postData['perPage'] >=0) :
-            $this->db->limit($postData['perPage'], $postData['page']);
+        if ($postData['start'] >=0) :
+            $this->db->limit($postData['perPage'], $postData['start']);
         endif;
         return $this->db->get()->result();
     }

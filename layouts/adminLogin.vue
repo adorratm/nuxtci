@@ -14,6 +14,7 @@
 <script>
 import Header from "~/components/admin/login/Header.vue";
 export default {
+  auth:'guest',
   name: "adminLogin",
   components: {
     Header,
@@ -53,7 +54,7 @@ export default {
       { src: "/vendor/js/init.js", body: true,defer:true },
     ],
   },
-  middleware:['unauthenticated']
+  middleware:['auth','unauthenticated']
 };
 </script>
 
