@@ -44,22 +44,9 @@ class SettingsController extends RestController
         if ($this->token) {
             $items = $this->settings_model->getRows([], $this->post(null, true));
             $data = [];
-            $i = (!empty($this->post('start', true)) ? $this->post('start', true) : 0);
             if (!empty($items)) :
                 foreach ($items as $item) :
-                    $i++;
-                    $proccessing = '
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-outline-primary rounded-0 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        İşlemler
-                    </button>
-                    <div class="dropdown-menu rounded-0 dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item updateSettingsBtn" href="javascript:void(0)" data-url="' . base_url("settings/update_form/$item->id") . '"><i class="fa fa-pen mr-2"></i>Kaydı Düzenle</a>
-                        <a class="dropdown-item" href="' . base_url("dashboard/language") . '"><i class="fa fa-language mr-2"></i>Dil Sabitlerini Düzenle</a>
-                        <a class="dropdown-item remove-btn d-none" href="javascript:void(0)" data-table="settingsTable" data-url="' . base_url("settings/delete/$item->id") . '"><i class="fa fa-trash mr-2"></i>Kaydı Sil</a>
-                        </div>
-                </div>';
-                    $data[] = ["rank" => $item->rank, "id" => $item->id, "company_name" => $item->company_name, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $proccessing];
+                    $data[] = ["rank" => $item->rank, "id" => $item->id, "company_name" => $item->company_name, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $item->id];
                 endforeach;
             endif;
             $output = [

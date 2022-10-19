@@ -47,7 +47,29 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
+    '@nuxtjs/i18n'
   ],
+
+  i18n: {
+    baseURL: '/',
+    locales: [
+      {
+        name: 'English',
+        code: 'en',
+        iso: 'en-US',
+        file: 'en.js'
+      },
+      {
+        name: 'Turkish',
+        code: 'tr',
+        iso: 'tr-TR',
+        file: 'tr.js'
+      },
+    ],
+    langDir: 'locales/',
+    defaultLocale: 'tr',
+    lazy: true,
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -93,7 +115,7 @@ export default {
           global: true,
           required: true,
           type: "Bearer",
-          maxAge:7200
+          maxAge: 7200
         },
         user: {
           property: "user",

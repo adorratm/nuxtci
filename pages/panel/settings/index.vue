@@ -13,31 +13,17 @@
                 </div>
                 <div class="card-header card-header-action">
                   <div class="flex-grow-1">
-                    <h6 class="mb-10">Ayarlar</h6>
+                    <h6 class="mb-10">{{ $t("panel.settings.settings") }}</h6>
                     <p class="font-14 w-80">
-                      Websitenizin Genel Ayarlarını Buradan Yönetebilirsiniz
+                      {{ $t("panel.settings.settingsDesc") }}
                     </p>
                   </div>
-                  <div class="d-flex align-items-center card-action-wrap">
-                    <div class="inline-block dropdown">
-                      <a
-                        class="dropdown-toggle no-caret"
-                        data-toggle="dropdown"
-                        href="#"
-                        aria-expanded="false"
-                        role="button"
-                        ><i class="ion ion-md-more"></i
-                      ></a>
-                      <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#"
-                          >Something else here</a
-                        >
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                      </div>
-                    </div>
+                  <div class="d-flex align-items-center">
+                    <nuxt-link
+                      class="btn btn-sm btn-outline-primary rounded-0"
+                      to="/panel/settings/add"
+                      >{{ $t("panel.createNew") }}</nuxt-link
+                    >
                   </div>
                 </div>
                 <div class="card-body">
@@ -74,26 +60,56 @@ export default {
     Datatable,
   },
   layout: "admin",
-  computed: {
-    getUserInfo() {
-      return this.$store.getters.getUserInfo;
-    },
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated; // it check if user isAuthenticated
-    },
-  },
   data() {
     return {
       columns: [
-        { label: "#Sıra No", field: "rank", html: true, width: "100px",type:'number' },
-        { label: "#Id", field: "id", html: true, width: "65px",type:'number' },
-        { label: "Firma Adı", field: "company_name", html: true,type:'string' },
-        { label: "Dil", field: "lang", html: true, width: "60px",type:'string' },
-        { label: "Durum", field: "isActive", html: true,type:'boolean' },
-        { label: "Oluşturulma Tarihi", field: "createdAt", html: true,type:'string' },
-        { label: "Güncelleme Tarihi", field: "updatedAt", html: true,type:'string' },
         {
-          label: "İşlem",
+          label: this.$i18n.t("panel.rank"),
+          field: "rank",
+          html: true,
+          width: "100px",
+          type: "number",
+        },
+        {
+          label: this.$i18n.t("panel.id"),
+          field: "id",
+          html: true,
+          width: "65px",
+          type: "number",
+        },
+        {
+          label: this.$i18n.t("panel.settings.company_name"),
+          field: "company_name",
+          html: true,
+          type: "string",
+        },
+        {
+          label: this.$i18n.t("panel.lang"),
+          field: "lang",
+          html: true,
+          width: "60px",
+          type: "string",
+        },
+        {
+          label: this.$i18n.t("panel.isActive"),
+          field: "isActive",
+          html: true,
+          type: "boolean",
+        },
+        {
+          label: this.$i18n.t("panel.createdAt"),
+          field: "createdAt",
+          html: true,
+          type: "string",
+        },
+        {
+          label: this.$i18n.t("panel.updatedAt"),
+          field: "updatedAt",
+          html: true,
+          type: "string",
+        },
+        {
+          label: this.$i18n.t("panel.actions"),
           field: "actions",
           html: true,
           globalSearchDisabled: true,
@@ -139,7 +155,7 @@ export default {
       setTimeout(() => {
         this.$nuxt.$loading.finish();
         $(".hk-wrapper").removeClass("d-none");
-      }, 1000);
+      }, 500);
     });
   },
 };

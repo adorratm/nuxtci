@@ -1,6 +1,6 @@
 
 <template>
-  <div>
+  <client-only>
     <vue-good-table
       mode="remote"
       @on-page-change="onPageChange"
@@ -10,6 +10,7 @@
       :totalRows="totalRecords"
       :isLoading.sync="isLoading"
       compact-mode
+      theme="polar-bear"
       :pagination-options="{
         enabled: true,
         mode: 'pages',
@@ -40,9 +41,12 @@
       @on-search="onSearch"
       :sort-options="{
         enabled: true,
-        multipleColumns: true
+        multipleColumns: true,
       }"
     >
+      <template slot="loadingContent">
+        yükleniyir amk
+      </template>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'rank'">
           <input
@@ -66,12 +70,43 @@
             ></label>
           </div>
         </span>
+        <span v-else-if="props.column.field === 'actions'">
+          <div class="dropdown">
+            <button
+              class="btn btn-sm btn-outline-primary rounded-0 dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              {{ $t("panel.actions") }}
+            </button>
+            <div
+              class="dropdown-menu rounded-0 dropdown-menu-right"
+              aria-labelledby="dropdownMenuButton"
+            >
+              <nuxt-link
+                class="dropdown-item updateSettingsBtn"
+                :to="'/panel/settings/update/' + props.row.id"
+                ><i class="fa fa-pen mr-2"></i
+                >{{ $t("panel.editRecord") }}</nuxt-link
+              >
+              <nuxt-link
+                class="dropdown-item remove-btn"
+                :to="'/panel/settings/delete/' + props.row.id"
+                ><i class="fa fa-trash mr-2"></i
+                >{{ $t("panel.deleteRecord") }}</nuxt-link
+              >
+            </div>
+          </div>
+        </span>
         <span v-else>
           {{ props.formattedRow[props.column.field] }}
         </span>
       </template>
     </vue-good-table>
-  </div>
+  </client-only>
 </template>
 
 <script>
@@ -80,7 +115,7 @@ export default {
   props: ["columns", "dataurl", "token", "sort", "rankurl", "isactiveurl"],
   data() {
     return {
-      isLoading: false,
+      isLoading: true,
       totalRecords: 0,
       serverParams: {
         columnFilters: {},
