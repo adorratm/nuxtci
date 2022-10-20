@@ -27,6 +27,10 @@
                   </div>
                 </div>
                 <div class="card-body">
+                  
+                    <SettingsTab :tabs="tabs" />
+                  
+                  <SettingsTabContent />
                 </div>
               </div>
             </div>
@@ -39,10 +43,25 @@
   </div>
 </template>
 <script>
+import SettingsTab from "~/components/admin/SettingsTab.vue";
+import SettingsTabContent from "~/components/admin/SettingsTabContent.vue";
 export default {
   layout: "admin",
+  components: {
+    SettingsTab,
+    SettingsTabContent,
+  },
   data() {
     return {
+      tabs: [
+        this.$i18n.t("panel.settings.siteInformations"),
+        this.$i18n.t("panel.settings.addressInformations"),
+        this.$i18n.t("panel.settings.socialMedia"),
+        this.$i18n.t("panel.settings.logo"),
+        this.$i18n.t("panel.settings.metaTag"),
+        this.$i18n.t("panel.settings.siteAnalysis"),
+        this.$i18n.t("panel.settings.liveSupport"),
+      ],
     };
   },
   mounted() {

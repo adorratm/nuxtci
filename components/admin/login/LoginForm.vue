@@ -85,7 +85,6 @@ export default {
         });
         this.$router.replace("/panel");
       } catch (error) {
-        console.log(error);
         this.$refs.form.setErrors({
           email: [error.response.data.message],
           password: [error.response.data.message],

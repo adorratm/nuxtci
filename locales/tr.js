@@ -4,6 +4,13 @@ module.exports = {
             settings: "Ayarlar",
             settingsDesc: "Websitenizin Genel Ayarlarını Buradan Yönetebilirsiniz.",
             company_name: "Firma Adı",
+            siteInformations: "Site Bilgileri",
+            addressInformations: "Adres Bilgileri",
+            socialMedia: "Sosyal Medya",
+            logo: "Logo",
+            metaTag: "Meta Tag",
+            siteAnalysis: "Site Analiz Kodları",
+            liveSupport: "Canlı Destek Kodları"
         },
         rank: "#Sıra No",
         id: "#Id",
