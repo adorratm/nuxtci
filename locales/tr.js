@@ -22,6 +22,8 @@ module.exports = {
         createNew: "Yeni Ekle",
         editRecord: "Kaydı Düzenle",
         deleteRecord: "Kaydı Sil",
-        goBack: "Geri Dön"
+        goBack: "Geri Dön",
+        save:"Kaydet",
+        next:"Sonraki"
     },
 }
