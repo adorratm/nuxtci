@@ -1,4 +1,4 @@
-# frontend
+# This project using NuxtJS 2 & Codeigniter 3 REST API
 
 ## Build Setup
 
