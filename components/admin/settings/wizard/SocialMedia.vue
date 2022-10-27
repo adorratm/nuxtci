@@ -1,0 +1,259 @@
+<template>
+  <div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="email"
+            :name="$t('panel.settings.email')"
+            rules="required|min:2|email"
+            v-slot="{ errors }"
+          >
+            <label for="email" class="mb-5">{{
+              $t("panel.settings.email")
+            }}</label>
+            <input
+              id="email"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.email')"
+              type="text"
+              required
+              v-model="email"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="facebook"
+            :name="$t('panel.settings.facebook')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="facebook" class="mb-5">{{
+              $t("panel.settings.facebook")
+            }}</label>
+            <input
+              id="facebook"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.facebook')"
+              type="text"
+              required
+              v-model="facebook"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="instagram"
+            :name="$t('panel.settings.instagram')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="instagram" class="mb-5">{{
+              $t("panel.settings.instagram")
+            }}</label>
+            <input
+              id="instagram"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.instagram')"
+              type="text"
+              required
+              v-model="instagram"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="twitter"
+            :name="$t('panel.settings.twitter')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="twitter" class="mb-5">{{
+              $t("panel.settings.twitter")
+            }}</label>
+            <input
+              id="twitter"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.twitter')"
+              type="text"
+              required
+              v-model="twitter"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="linkedin"
+            :name="$t('panel.settings.linkedin')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="linkedin" class="mb-5">{{
+              $t("panel.settings.linkedin")
+            }}</label>
+            <input
+              id="linkedin"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.linkedin')"
+              type="text"
+              required
+              v-model="linkedin"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="youtube"
+            :name="$t('panel.settings.youtube')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="youtube" class="mb-5">{{
+              $t("panel.settings.youtube")
+            }}</label>
+            <input
+              id="youtube"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.youtube')"
+              type="text"
+              required
+              v-model="youtube"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="medium"
+            :name="$t('panel.settings.medium')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="medium" class="mb-5">{{
+              $t("panel.settings.medium")
+            }}</label>
+            <input
+              id="medium"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.medium')"
+              type="text"
+              required
+              v-model="medium"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="pinterest"
+            :name="$t('panel.settings.pinterest')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="pinterest" class="mb-5">{{
+              $t("panel.settings.pinterest")
+            }}</label>
+            <input
+              id="pinterest"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.pinterest')"
+              type="text"
+              required
+              v-model="pinterest"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="appstore"
+            :name="$t('panel.settings.appstore')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="appstore" class="mb-5">{{
+              $t("panel.settings.appstore")
+            }}</label>
+            <input
+              id="appstore"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.appstore')"
+              type="text"
+              required
+              v-model="appstore"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group my-3">
+          <ValidationProvider
+            vid="playstore"
+            :name="$t('panel.settings.playstore')"
+            rules="min:2"
+            v-slot="{ errors }"
+          >
+            <label for="playstore" class="mb-5">{{
+              $t("panel.settings.playstore")
+            }}</label>
+            <input
+              id="playstore"
+              class="form-control form-control-sm rounded-0"
+              :placeholder="$t('panel.settings.playstore')"
+              type="text"
+              required
+              v-model="playstore"
+            />
+            <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+          </ValidationProvider>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ValidationProvider } from "vee-validate";
+export default {
+  components: {
+    ValidationProvider,
+  },
+  data() {
+    return {
+      email: null,
+      facebook: null,
+      instagram: null,
+      twitter: null,
+      youtube: null,
+      linkedin: null,
+      medium: null,
+      pinterest: null,
+      appstore: null,
+      playstore: null,
+    };
+  },
+};
+</script>

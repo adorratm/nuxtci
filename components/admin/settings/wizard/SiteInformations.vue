@@ -4,17 +4,20 @@
       <div class="form-group my-3">
         <ValidationProvider
           vid="company_name"
-          name="Şirket Adı"
+          :name="$t('panel.settings.company_name')"
           rules="required|min:2"
           v-slot="{ errors }"
         >
-          <label for="company_name" class="mb-5">Şirket Adı</label>
+          <label for="company_name" class="mb-5">{{
+            $t("panel.settings.company_name")
+          }}</label>
           <input
             id="company_name"
             class="form-control form-control-sm rounded-0"
-            placeholder="Şirket Adı"
+            :placeholder="$t('panel.settings.company_name')"
             type="text"
             required
+            name="company_name"
             v-model="company_name"
           />
           <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
@@ -25,16 +28,19 @@
       <div class="form-group my-3">
         <ValidationProvider
           vid="slogan"
-          name="Slogan"
+          :name="$t('panel.settings.slogan')"
           rules="min:2"
           v-slot="{ errors }"
         >
-          <label for="slogan" class="mb-5">Slogan</label>
+          <label for="slogan" class="mb-5">{{
+            $t("panel.settings.slogan")
+          }}</label>
           <input
             id="slogan"
             class="form-control form-control-sm rounded-0"
-            placeholder="Slogan"
+            :placeholder="$t('panel.settings.slogan')"
             type="text"
+            name="slogan"
             v-model="slogan"
           />
           <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>

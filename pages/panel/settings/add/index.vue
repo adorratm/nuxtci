@@ -27,7 +27,6 @@
                   </div>
                 </div>
                 <div class="card-body">
-
                   <SettingsTabContent :steps="steps" />
                 </div>
               </div>

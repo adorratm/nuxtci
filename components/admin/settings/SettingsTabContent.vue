@@ -24,8 +24,7 @@
           <AddressInformations />
         </div>
         <div slot="socialMedia">
-          <h4>Step 3</h4>
-          <p>This is step 3</p>
+          <SocialMedia />
         </div>
         <div slot="logo">
           <h4>Step 4</h4>
@@ -53,6 +52,7 @@ import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { GoodWizard } from "vue-good-wizard";
 import SiteInformations from "~/components/admin/settings/wizard/SiteInformations.vue";
 import AddressInformations from "~/components/admin/settings/wizard/AddressInformations.vue";
+import SocialMedia from "~/components/admin/settings/wizard/SocialMedia.vue";
 export default {
   components: {
     ValidationProvider,
@@ -60,8 +60,38 @@ export default {
     VueGoodWizard: GoodWizard,
     SiteInformations,
     AddressInformations,
+    SocialMedia,
   },
   props: ["steps"],
+  data() {
+    return {
+      company_name: null,
+      slogan: null,
+      address_informations: [
+        {
+          address: null,
+          map: null,
+          phones: [
+            {
+              phone: null,
+              whatsapp: null,
+              fax: null,
+            },
+          ],
+        },
+      ],
+      email: null,
+      facebook: null,
+      instagram: null,
+      twitter: null,
+      youtube: null,
+      linkedin: null,
+      medium: null,
+      pinterest: null,
+      appstore: null,
+      playstore: null,
+    };
+  },
   methods: {
     nextClicked() {
       const _this = this;
@@ -85,7 +115,7 @@ export default {
       return true; //return false if you want to prevent moving to previous page
     },
     async saveSettings() {
-      try {
+      /*try {
         let response = await this.$axios.post("admin", {});
         this.$router.replace("/panel");
       } catch (error) {
@@ -93,7 +123,7 @@ export default {
           email: [error.response.data.message],
           password: [error.response.data.message],
         });
-      }
+      }*/
     },
   },
   mounted() {
