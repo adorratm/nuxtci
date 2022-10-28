@@ -201,23 +201,7 @@ export default {
   components: {
     ValidationProvider,
   },
-  data() {
-    return {
-      address_informations: [
-        {
-          address: null,
-          map: null,
-          phones: [
-            {
-              phone: null,
-              whatsapp: null,
-              fax: null,
-            },
-          ],
-        },
-      ],
-    };
-  },
+  props: ["address_informations"],
   methods: {
     appendAddress() {
       this.address_informations.push({

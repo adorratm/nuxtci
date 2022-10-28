@@ -18,7 +18,8 @@
             type="text"
             required
             name="company_name"
-            v-model="company_name"
+            :value="company_name"
+            @input="$emit('update:company_name', $event.target.value)"
           />
           <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
         </ValidationProvider>
@@ -41,7 +42,8 @@
             :placeholder="$t('panel.settings.slogan')"
             type="text"
             name="slogan"
-            v-model="slogan"
+            :value="slogan"
+            @input="$emit('update:slogan', $event.target.value)"
           />
           <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
         </ValidationProvider>
@@ -56,11 +58,6 @@ export default {
   components: {
     ValidationProvider,
   },
-  data() {
-    return {
-      company_name: null,
-      slogan: null,
-    };
-  },
+  props: ["company_name", "slogan"],
 };
 </script>

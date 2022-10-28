@@ -18,17 +18,36 @@
         :finalStepLabel="$t('panel.save')"
       >
         <div slot="siteInformations">
-          <SiteInformations />
+          <SiteInformations
+            :company_name.sync="formData.company_name"
+            :slogan.sync="formData.slogan"
+          />
         </div>
         <div slot="addressInformations">
-          <AddressInformations />
+          <AddressInformations
+            :address_informations.sync="formData.address_informations"
+          />
         </div>
         <div slot="socialMedia">
-          <SocialMedia />
+          <SocialMedia
+            :email.sync="formData.email"
+            :facebook.sync="formData.sync"
+            :instagram.sync="formData.instagram"
+            :twitter.sync="formData.instagram"
+            :youtube.sync="formData.youtube"
+            :linkedin.sync="formData.linkedin"
+            :medium.sync="formData.medium"
+            :pinterest.sync="formData.pinterest"
+            :appstore.sync="formData.appstore"
+            :playstore.sync="formData.playstore"
+          />
         </div>
         <div slot="logo">
-          <h4>Step 4</h4>
-          <p>This is step 4</p>
+          <Logo
+            :logo.sync="formData.logo"
+            :mobile_logo.sync="formData.mobile_logo"
+            :favicon.sync="formData.favicon"
+          />
         </div>
         <div slot="metaTag">
           <h4>Step 4</h4>
@@ -53,6 +72,7 @@ import { GoodWizard } from "vue-good-wizard";
 import SiteInformations from "~/components/admin/settings/wizard/SiteInformations.vue";
 import AddressInformations from "~/components/admin/settings/wizard/AddressInformations.vue";
 import SocialMedia from "~/components/admin/settings/wizard/SocialMedia.vue";
+import Logo from "~/components/admin/settings/wizard/Logo.vue";
 export default {
   components: {
     ValidationProvider,
@@ -61,35 +81,41 @@ export default {
     SiteInformations,
     AddressInformations,
     SocialMedia,
+    Logo,
   },
   props: ["steps"],
   data() {
     return {
-      company_name: null,
-      slogan: null,
-      address_informations: [
-        {
-          address: null,
-          map: null,
-          phones: [
-            {
-              phone: null,
-              whatsapp: null,
-              fax: null,
-            },
-          ],
-        },
-      ],
-      email: null,
-      facebook: null,
-      instagram: null,
-      twitter: null,
-      youtube: null,
-      linkedin: null,
-      medium: null,
-      pinterest: null,
-      appstore: null,
-      playstore: null,
+      formData: {
+        company_name: null,
+        slogan: null,
+        address_informations: [
+          {
+            address: null,
+            map: null,
+            phones: [
+              {
+                phone: null,
+                whatsapp: null,
+                fax: null,
+              },
+            ],
+          },
+        ],
+        email: null,
+        facebook: null,
+        instagram: null,
+        twitter: null,
+        youtube: null,
+        linkedin: null,
+        medium: null,
+        pinterest: null,
+        appstore: null,
+        playstore: null,
+        logo: null,
+        mobile_logo: null,
+        favicon: null,
+      },
     };
   },
   methods: {

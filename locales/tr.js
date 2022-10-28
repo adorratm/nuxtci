@@ -26,7 +26,9 @@ module.exports = {
             medium: "Medium",
             pinterest: "Pinterest",
             appstore: "App Store Uygulama Linki",
-            playstore: "Play Store Uygulama Linki"
+            playstore: "Play Store Uygulama Linki",
+            mobile_logo:"Mobil Logo",
+            favicon: "Favicon"
         },
         rank: "#Sıra No",
         id: "#Id",

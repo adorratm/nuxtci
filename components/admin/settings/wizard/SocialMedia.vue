@@ -18,7 +18,8 @@
               :placeholder="$t('panel.settings.email')"
               type="text"
               required
-              v-model="email"
+              :value="email"
+              @input="$emit('update:email', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -40,8 +41,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.facebook')"
               type="text"
-              required
-              v-model="facebook"
+              :value="facebook"
+              @input="$emit('update:facebook', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -63,8 +64,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.instagram')"
               type="text"
-              required
-              v-model="instagram"
+              :value="instagram"
+              @input="$emit('update:instagram', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -86,8 +87,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.twitter')"
               type="text"
-              required
-              v-model="twitter"
+              :value="twitter"
+              @input="$emit('update:twitter', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -109,8 +110,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.linkedin')"
               type="text"
-              required
-              v-model="linkedin"
+              :value="linkedin"
+              @input="$emit('update:linkedin', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -132,8 +133,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.youtube')"
               type="text"
-              required
-              v-model="youtube"
+              :value="youtube"
+              @input="$emit('update:youtube', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -155,8 +156,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.medium')"
               type="text"
-              required
-              v-model="medium"
+              :value="medium"
+              @input="$emit('update:medium', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -178,8 +179,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.pinterest')"
               type="text"
-              required
-              v-model="pinterest"
+              :value="pinterest"
+              @input="$emit('update:pinterest', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -201,8 +202,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.appstore')"
               type="text"
-              required
-              v-model="appstore"
+              :value="appstore"
+              @input="$emit('update:appstore', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -224,8 +225,8 @@
               class="form-control form-control-sm rounded-0"
               :placeholder="$t('panel.settings.playstore')"
               type="text"
-              required
-              v-model="playstore"
+              :value="playstore"
+              @input="$emit('update:playstore', $event.target.value)"
             />
             <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
           </ValidationProvider>
@@ -241,19 +242,17 @@ export default {
   components: {
     ValidationProvider,
   },
-  data() {
-    return {
-      email: null,
-      facebook: null,
-      instagram: null,
-      twitter: null,
-      youtube: null,
-      linkedin: null,
-      medium: null,
-      pinterest: null,
-      appstore: null,
-      playstore: null,
-    };
-  },
+  props: [
+    "email",
+    "facebook",
+    "instagram",
+    "twitter",
+    "youtube",
+    "linkedin",
+    "medium",
+    "pinterest",
+    "appstore",
+    "playstore",
+  ],
 };
 </script>
