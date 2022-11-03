@@ -10,7 +10,7 @@ module.exports = {
             socialMedia: "Sosyal Medya",
             logo: "Logo",
             metaTag: "Meta Tag",
-            siteAnalysis: "Site Analiz Kodları",
+            siteAnalytics: "Site Analiz Kodları",
             liveSupport: "Canlı Destek Kodları",
             addressInformation: "Adres Bilgisi",
             map: "Harita Kodu (Embed)",
@@ -27,8 +27,12 @@ module.exports = {
             pinterest: "Pinterest",
             appstore: "App Store Uygulama Linki",
             playstore: "Play Store Uygulama Linki",
-            mobile_logo:"Mobil Logo",
-            favicon: "Favicon"
+            mobile_logo: "Mobil Logo",
+            favicon: "Favicon",
+            meta_description: "Meta Açıklaması",
+            metrica: "Yandex Metrica",
+            analytics: "Google Analytics",
+            live_support: "Canlı Destek Kodları"
         },
         rank: "#Sıra No",
         id: "#Id",

@@ -50,16 +50,16 @@
           />
         </div>
         <div slot="metaTag">
-          <h4>Step 4</h4>
-          <p>This is step 4</p>
+          <MetaTag :meta_description.sync="formData.meta_description" />
         </div>
-        <div slot="siteAnalysis">
-          <h4>Step 4</h4>
-          <p>This is step 4</p>
+        <div slot="siteAnalytics">
+          <SiteAnalytics
+            :metrica.sync="formData.metrica"
+            :analytics.sync="formData.analytics"
+          />
         </div>
         <div slot="liveSupport">
-          <h4>Step 4</h4>
-          <p>This is step 4</p>
+          <LiveSupport :live_support.sync="formData.sync" />
         </div>
       </VueGoodWizard>
     </ValidationObserver>
@@ -73,6 +73,9 @@ import SiteInformations from "~/components/admin/settings/wizard/SiteInformation
 import AddressInformations from "~/components/admin/settings/wizard/AddressInformations.vue";
 import SocialMedia from "~/components/admin/settings/wizard/SocialMedia.vue";
 import Logo from "~/components/admin/settings/wizard/Logo.vue";
+import MetaTag from "~/components/admin/settings/wizard/MetaTag.vue";
+import SiteAnalytics from "~/components/admin/settings/wizard/SiteAnalytics.vue";
+import LiveSupport from "~/components/admin/settings/wizard/LiveSupport.vue";
 export default {
   components: {
     ValidationProvider,
@@ -82,6 +85,9 @@ export default {
     AddressInformations,
     SocialMedia,
     Logo,
+    MetaTag,
+    SiteAnalytics,
+    LiveSupport,
   },
   props: ["steps"],
   data() {
@@ -119,14 +125,20 @@ export default {
     };
   },
   methods: {
-    nextClicked() {
+    nextClicked(currentPage) {
       const _this = this;
-
+      console.log(currentPage)
       // on next, we need to validate the form
       _this.$refs.form.validate().then((success) => {
         if (success) {
           //all is good, lets proceed to next step
           _this.$refs.wizard.goNext(true);
+          if(currentPage == 5){
+            this.$emit('update:steps[6].options.nextDisabled',false);
+            this.saveSettings();
+          }else{
+            this.$emit('update:steps[6].options.nextDisabled',true);
+          }
           return true; //return false if you want to prevent moving to next page
         } else {
           //error. don't proceed.

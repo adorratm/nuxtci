@@ -27,7 +27,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <SettingsTabContent :steps="steps" />
+                  <SettingsTabContent :steps.sync="steps" />
                 </div>
               </div>
             </div>
@@ -64,8 +64,8 @@ export default {
         { label: this.$i18n.t("panel.settings.logo"), slot: "logo" },
         { label: this.$i18n.t("panel.settings.metaTag"), slot: "metaTag" },
         {
-          label: this.$i18n.t("panel.settings.siteAnalysis"),
-          slot: "siteAnalysis",
+          label: this.$i18n.t("panel.settings.siteAnalytics"),
+          slot: "siteAnalytics",
         },
         {
           label: this.$i18n.t("panel.settings.liveSupport"),
