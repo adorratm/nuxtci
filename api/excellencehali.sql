@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 13, 2022 at 04:39 PM
+-- Generation Time: Nov 04, 2022 at 03:48 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -31,8 +31,6 @@ CREATE TABLE `settings` (
   `id` int(11) NOT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `slogan` varchar(255) DEFAULT NULL,
-  `address` longtext DEFAULT NULL,
-  `map` varchar(1000) DEFAULT NULL,
   `logo` varchar(255) DEFAULT NULL,
   `mobile_logo` varchar(255) DEFAULT NULL,
   `favicon` varchar(255) DEFAULT NULL,
@@ -53,15 +51,11 @@ CREATE TABLE `settings` (
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isActive` tinyint(1) DEFAULT 1,
-  `lang` char(2) DEFAULT 'tr'
+  `lang` char(2) DEFAULT 'tr',
+  `address_informations` longtext DEFAULT NULL,
+  `appstore` varchar(255) DEFAULT NULL,
+  `playstore` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `settings`
---
-
-INSERT INTO `settings` (`id`, `company_name`, `slogan`, `address`, `map`, `logo`, `mobile_logo`, `favicon`, `email`, `facebook`, `twitter`, `instagram`, `linkedin`, `youtube`, `medium`, `pinterest`, `meta_keywords`, `meta_description`, `analytics`, `metrica`, `live_support`, `rank`, `createdAt`, `updatedAt`, `isActive`, `lang`) VALUES
-(1, 'Gülkaymak Zade Market &amp; Şarküteri', 'Gülkaymak Zade Market &amp; Şarküteri', '																																								Bozyaka, 3055. Sk. No: 27/A, 35110 Karabağlar/İzmir																														', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12509.350795866814!2d27.1189267!3d38.3874402!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x3e727858f92fcd69!2sG%C3%BClkaymak%20Zade%20Market%20ve%20%C5%9Eark%C3%BCteri!5e0!3m2!1sen!2str!4v1658740746591!5m2!1sen!2str\" width=\"100%\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>', '97647af947123c24225dd1ff2a62f200.webp', '4d8f7a1f1bd149219097e721c59808de.webp', '5decacea18d27787a1f7f5f8be246fe6.webp', 'info@gulkaymakzade.com.tr', 'https://www.facebook.com/gulkaymakzadesarkuteri/', NULL, 'https://www.instagram.com/gulkaymakzade/', NULL, NULL, NULL, NULL, 'düğün paketi, koltuk takımı, yatak odası, yemek odası, genç odası, mobilya aksesuar', 'Armento Mobilya, mobilya sektöründeki 20 yıldan fazla tecrübesi ve birikimiyle hizmet hayatına başlamıştır. Ürün çeşitliliği, kalitesi ve tasarımlarıyla İzmir’ de yeni bir soluk olan firmamız; İzmir Mobilya Firmaları arasında yerini almıştır.', '', '', '', 1, '2020-07-22 20:57:22', '2022-07-28 15:04:00', 1, 'tr');
 
 -- --------------------------------------------------------
 
@@ -114,7 +108,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
