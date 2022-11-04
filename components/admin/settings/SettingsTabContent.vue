@@ -127,17 +127,21 @@ export default {
   methods: {
     nextClicked(currentPage) {
       const _this = this;
-      console.log(currentPage)
+      console.log(currentPage);
       // on next, we need to validate the form
       _this.$refs.form.validate().then((success) => {
         if (success) {
           //all is good, lets proceed to next step
           _this.$refs.wizard.goNext(true);
-          if(currentPage == 5){
-            this.$emit('update:steps[6].options.nextDisabled',false);
+          if (currentPage == 5) {
+            this.steps[6].options.nextDisabled = false;
+            this.$emit("update:steps", this.steps);
+          } else {
+            this.steps[6].options.nextDisabled = true;
+            this.$emit("update:steps", this.steps);
+          }
+          if (currentPage === 6) {
             this.saveSettings();
-          }else{
-            this.$emit('update:steps[6].options.nextDisabled',true);
           }
           return true; //return false if you want to prevent moving to next page
         } else {
@@ -149,19 +153,36 @@ export default {
       return false; //don't proceed by default.
     },
     backClicked(currentPage) {
-      console.log("back clicked", currentPage);
       return true; //return false if you want to prevent moving to previous page
     },
     async saveSettings() {
-      /*try {
-        let response = await this.$axios.post("admin", {});
-        this.$router.replace("/panel");
+      try {
+        const getFormData = (object) =>
+          Object.keys(object).reduce((formData, key) => {
+            if (object[key] !== null) {
+              formData.append(
+                key,
+                Array.isArray(object[key])
+                  ? JSON.stringify(object[key])
+                  : object[key]
+              );
+            }
+            return formData;
+          }, new FormData());
+        let response = await this.$axios.post(
+          "v1/panel/settings/save",
+          getFormData(this.formData),
+          {
+            headers: {
+              "Content-Type":
+                "multipart/form-data; boundary=" + getFormData._boundary,
+            },
+          }
+        );
+        this.$router.replace("/panel/settings/");
       } catch (error) {
-        this.$refs.form.setErrors({
-          email: [error.response.data.message],
-          password: [error.response.data.message],
-        });
-      }*/
+        console.log(error);
+      }
     },
   },
   mounted() {

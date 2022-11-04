@@ -786,10 +786,10 @@ function get_picture($path = "", $picture = "")
         if (file_exists(FCPATH . "uploads/$path/$picture")) :
             $picture = base_url("uploads/$path/$picture");
         else :
-            $picture = base_url("assets/img/default_image.webp");
+            $picture = base_url("uploads/default_image.webp");
         endif;
     else :
-        $picture = base_url("assets/img/default_image.webp");
+        $picture = base_url("uploads/default_image.webp");
     endif;
     return $picture;
 }

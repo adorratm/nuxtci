@@ -44,9 +44,7 @@
         multipleColumns: true,
       }"
     >
-      <template slot="loadingContent">
-        yükleniyir amk
-      </template>
+      <template slot="loadingContent"> yükleniyir amk </template>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'rank'">
           <input
@@ -92,11 +90,12 @@
                 ><i class="fa fa-pen mr-2"></i
                 >{{ $t("panel.editRecord") }}</nuxt-link
               >
-              <nuxt-link
+              <a
+                href="javascript:void(0)"
                 class="dropdown-item remove-btn"
-                :to="'/panel/settings/delete/' + props.row.id"
+                @click="deleteRecord(props.row.id)"
                 ><i class="fa fa-trash mr-2"></i
-                >{{ $t("panel.deleteRecord") }}</nuxt-link
+                >{{ $t("panel.deleteRecord") }}</a
               >
             </div>
           </div>
@@ -128,6 +127,17 @@ export default {
     };
   },
   methods: {
+    async deleteRecord(id) {
+      try {
+        let response = await this.$axios.delete(
+          "v1/panel/settings/delete/"+id
+        );
+        this.loadItems();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     updateParams(newProps) {
       this.serverParams = Object.assign({}, this.serverParams, newProps);
     },
