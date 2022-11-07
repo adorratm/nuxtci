@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2022 at 03:48 PM
+-- Generation Time: Nov 07, 2022 at 03:38 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -57,6 +57,13 @@ CREATE TABLE `settings` (
   `playstore` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `settings`
+--
+
+INSERT INTO `settings` (`id`, `company_name`, `slogan`, `logo`, `mobile_logo`, `favicon`, `email`, `facebook`, `twitter`, `instagram`, `linkedin`, `youtube`, `medium`, `pinterest`, `meta_keywords`, `meta_description`, `analytics`, `metrica`, `live_support`, `rank`, `createdAt`, `updatedAt`, `isActive`, `lang`, `address_informations`, `appstore`, `playstore`) VALUES
+(1, 'Excellence Halı', NULL, '4e8e3222fe61843042e69a25d6535267.webp', '2986aca27c89e7c815b6acdc65ab23ea.webp', 'cd58e4244d76633b9ba65b1f3f6e3651.webp', 'emrekilic@mutfakyapim.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2022-11-07 13:18:03', '2022-11-07 13:18:03', 1, 'tr', '\"[{\\\"address\\\":\\\"H\\u00fcrriyet, 35473 Menderes\\/\\u0130zmir\\\",\\\"map\\\":\\\"<iframe class=\\\\\\\"lazy\\\\\\\" data-src=\\\\\\\"https:\\/\\/www.google.com\\/maps\\/embed?pb=!1m18!1m12!1m3!1d3131.719034905321!2d27.13809241498435!3d38.2860053903549!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bbe044e28b9981%3A0xe19993c774170db9!2sYal%C3%A7inkaya%20Hali!5e0!3m2!1sen!2str!4v1667826978115!5m2!1sen!2str\\\\\\\" width=\\\\\\\"600\\\\\\\" height=\\\\\\\"450\\\\\\\" style=\\\\\\\"border:0;\\\\\\\" allowfullscreen=\\\\\\\"\\\\\\\" loading=\\\\\\\"lazy\\\\\\\" referrerpolicy=\\\\\\\"no-referrer-when-downgrade\\\\\\\"><\\/iframe>\\\",\\\"phones\\\":[{\\\"phone\\\":\\\"+90 232 431 03 51\\\",\\\"whatsapp\\\":\\\"+90 507 992 72 07\\\",\\\"fax\\\":\\\"+90 232 431 03 98\\\"}]}]\"', NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -108,7 +115,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
