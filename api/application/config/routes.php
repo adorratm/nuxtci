@@ -63,6 +63,7 @@ $route['v1/panel/users'] = 'v1/backend/AuthController/user';
 $route['v1/panel/users/(:num)'] = 'v1/backend/AuthController/user/$1';
 
 // SETTINGS
+$route['v1/panel/settings/(:num)'] = 'v1/backend/SettingsController/index/$1';
 $route['v1/panel/settings/save'] = 'v1/backend/SettingsController/save';
 $route['v1/panel/settings/update/(:num)'] = 'v1/backend/SettingsController/update/$1';
 $route['v1/panel/settings/delete/(:num)'] = 'v1/backend/SettingsController/delete/$1';

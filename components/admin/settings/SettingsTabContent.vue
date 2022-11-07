@@ -89,7 +89,7 @@ export default {
     SiteAnalytics,
     LiveSupport,
   },
-  props: ["steps"],
+  props: ["steps", "id"],
   data() {
     return {
       formData: {
@@ -125,6 +125,19 @@ export default {
     };
   },
   methods: {
+    getFormData(object) {
+      return Object.keys(object).reduce((formData, key) => {
+        if (object[key] !== null) {
+          formData.append(
+            key,
+            Array.isArray(object[key])
+              ? JSON.stringify(object[key])
+              : object[key]
+          );
+        }
+        return formData;
+      }, new FormData());
+    },
     nextClicked(currentPage) {
       const _this = this;
       console.log(currentPage);
@@ -157,25 +170,14 @@ export default {
     },
     async saveSettings() {
       try {
-        const getFormData = (object) =>
-          Object.keys(object).reduce((formData, key) => {
-            if (object[key] !== null) {
-              formData.append(
-                key,
-                Array.isArray(object[key])
-                  ? JSON.stringify(object[key])
-                  : object[key]
-              );
-            }
-            return formData;
-          }, new FormData());
+        const formData = this.getFormData(this.formData);
         let response = await this.$axios.post(
           "v1/panel/settings/save",
-          getFormData(this.formData),
+          formData,
           {
             headers: {
               "Content-Type":
-                "multipart/form-data; boundary=" + getFormData._boundary,
+                "multipart/form-data; boundary=" + formData._boundary,
             },
           }
         );
@@ -184,8 +186,23 @@ export default {
         console.log(error);
       }
     },
+    async getSettings(id) {
+      try {
+        let {data} = await this.$axios.get("v1/panel/settings/" + id);
+        if(data && data.settings){
+          this.formData = data.settings;
+          this.formData.address_informations = JSON.parse(data.settings.address_informations);
+        }
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   mounted() {
+    if (this.id) {
+      this.getSettings(this.id);
+    }
     setTimeout(() => {
       window.dispatchEvent(new Event("resize"));
     }, 500);

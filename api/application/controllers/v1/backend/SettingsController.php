@@ -38,6 +38,23 @@ class SettingsController extends RestController
         $this->viewFolder = "settings";
     }
 
+    public function index_get($id)
+    {
+        if (!empty($id)) {
+            $settings = $this->settings_model->get(["id" => $id]);
+            $settings->address_informations = json_decode($settings->address_informations, true);
+            $this->response([
+                'status' => TRUE,
+                'message' => "Site Ayarı Başarıyla Getirildi.",
+                'settings' => $settings
+            ], RestController::HTTP_OK);
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Site Ayarı Getirilirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
     public function datatable_post()
     {
         // return response if token is valid
@@ -104,8 +121,8 @@ class SettingsController extends RestController
         if ($favicon["success"]) :
             $data["favicon"] = $favicon["file_name"];
         endif;
-        if(!empty($data["address_informations"])):
-            foreach(json_decode($data["address_informations"]) as $adKey => $adValue):
+        if (!empty($data["address_informations"])) :
+            foreach (json_decode($data["address_informations"]) as $adKey => $adValue) :
                 json_decode($data["address_informations"])[$adKey]->map = htmlspecialchars(html_entity_decode(json_decode($data["address_informations"])[$adKey]->map));
             endforeach;
         endif;
