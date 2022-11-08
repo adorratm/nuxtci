@@ -47,6 +47,7 @@
             :logo.sync="formData.logo"
             :mobile_logo.sync="formData.mobile_logo"
             :favicon.sync="formData.favicon"
+            :id="id"
           />
         </div>
         <div slot="metaTag">
@@ -140,7 +141,6 @@ export default {
     },
     nextClicked(currentPage) {
       const _this = this;
-      console.log(currentPage);
       // on next, we need to validate the form
       _this.$refs.form.validate().then((success) => {
         if (success) {
@@ -159,7 +159,6 @@ export default {
           return true; //return false if you want to prevent moving to next page
         } else {
           //error. don't proceed.
-          console.log("error submit!!");
           return false;
         }
       });
@@ -171,31 +170,36 @@ export default {
     async saveSettings() {
       try {
         const formData = this.getFormData(this.formData);
-        let response = await this.$axios.post(
-          "v1/panel/settings/save",
-          formData,
-          {
-            headers: {
-              "Content-Type":
-                "multipart/form-data; boundary=" + formData._boundary,
-            },
-          }
-        );
-        this.$router.replace("/panel/settings/");
+        let url = this.id
+          ? "v1/panel/settings/update/" + this.id
+          : "v1/panel/settings/save/";
+        let { data } = await this.$axios.post(url, formData, {
+          headers: {
+            "Content-Type":
+              "multipart/form-data; boundary=" + formData._boundary,
+          },
+        });
+        data.status
+          ? this.$toast.success(data.message, this.$t("successfully"))
+          : this.$toast.error(data.message, this.$t("unsuccessfully"));
+        setTimeout(() => {
+          this.$router.replace("/panel/settings/");
+        }, 1000);
       } catch (error) {
-        console.log(error);
+        this.$toast.error(error.response.data.message, this.$t("error"));
       }
     },
     async getSettings(id) {
       try {
-        let {data} = await this.$axios.get("v1/panel/settings/" + id);
-        if(data && data.settings){
+        let { data } = await this.$axios.get("v1/panel/settings/" + id);
+        if (data && data.settings) {
           this.formData = data.settings;
-          this.formData.address_informations = JSON.parse(data.settings.address_informations);
+          this.formData.address_informations = JSON.parse(
+            data.settings.address_informations
+          );
         }
-        console.log(data);
       } catch (error) {
-        console.log(error);
+        this.$toast.error(error.response.data.message, this.$t("error"));
       }
     },
   },

@@ -48,4 +48,7 @@ module.exports = {
         save: "Kaydet",
         next: "Sonraki"
     },
+    successfully: "Başarılı!",
+    unsuccessfully: "Başarısız!",
+    error: "Hata!",
 }

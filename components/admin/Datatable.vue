@@ -14,9 +14,9 @@
       :pagination-options="{
         enabled: true,
         mode: 'pages',
-        perPage: 10,
+        perPage: 50,
         position: 'bottom',
-        perPageDropdown: [10, 20, 30, 40, 50, 75, 100, 1000],
+        perPageDropdown: [50, 75, 100, 250, 500, 750, 1000],
         dropdownAllowAll: false,
         setCurrentPage: 1,
         jumpFirstOrLast: true,
@@ -44,12 +44,11 @@
         multipleColumns: true,
       }"
     >
-      <template slot="loadingContent"> yükleniyir amk </template>
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field === 'rank'">
           <input
             class="form-control form-control-sm rounded-0"
-            @blur.prevent="changeRank($event, props.row.id)"
+            @change="changeRank($event, props.row.id)"
             :value="props.formattedRow[props.column.field]"
           />
         </span>
@@ -84,9 +83,7 @@
               class="dropdown-menu rounded-0 dropdown-menu-right"
               aria-labelledby="dropdownMenuButton"
             >
-              <nuxt-link
-                class="dropdown-item updateSettingsBtn"
-                :to="'/panel/settings/update/' + props.row.id"
+              <nuxt-link class="dropdown-item" :to="editurl + props.row.id"
                 ><i class="fa fa-pen mr-2"></i
                 >{{ $t("panel.editRecord") }}</nuxt-link
               >
@@ -111,7 +108,16 @@
 <script>
 export default {
   name: "Datatable",
-  props: ["columns", "dataurl", "token", "sort", "rankurl", "isactiveurl"],
+  props: [
+    "columns",
+    "dataurl",
+    "token",
+    "sort",
+    "rankurl",
+    "isactiveurl",
+    "editurl",
+    "deleteurl",
+  ],
   data() {
     return {
       isLoading: true,
@@ -129,12 +135,13 @@ export default {
   methods: {
     async deleteRecord(id) {
       try {
-        let response = await this.$axios.delete(
-          "v1/panel/settings/delete/"+id
-        );
+        let {data} = await this.$axios.delete(this.deleteurl + id);
+        data.status
+          ? this.$toast.success(data.message, this.$t("successfully"))
+          : this.$toast.error(data.message, this.$t("unsuccessfully"));
         this.loadItems();
       } catch (error) {
-        console.log(error);
+        this.$toast.error(error.response.data.message, this.$t("error"));
       }
     },
 
@@ -188,17 +195,31 @@ export default {
     },
 
     // Rank Change
-    changeRank(e, id) {
-      this.$axios.$post(this.rankurl, { id: id, rank: e.target.value });
-      this.loadItems();
+    async changeRank(e, id) {
+      try {
+        let response = await this.$axios.$put(this.rankurl + id, {
+          rank: e.target.value,
+        });
+        response.status
+          ? this.$toast.success(response.message, this.$t("successfully"))
+          : this.$toast.error(response.message, this.$t("unsuccessfully"));
+      } catch (error) {
+        this.$toast.error(error.response.data.message, this.$t("error"));
+      }
     },
 
     // Status Change
-    changeIsActive(e, id) {
-      this.$axios.$post(this.isactiveurl, {
-        id: id,
-        isActive: e.target.checked,
-      });
+    async changeIsActive(e, id) {
+      try {
+        let response = await this.$axios.$put(this.isactiveurl + id, {
+          isActive: e.target.checked,
+        });
+        response.status
+          ? this.$toast.success(response.message, this.$t("successfully"))
+          : this.$toast.error(response.message, this.$t("unsuccessfully"));
+      } catch (error) {
+        this.$toast.error(error.response.data.message, this.$t("error"));
+      }
     },
   },
   mounted() {

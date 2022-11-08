@@ -85,6 +85,7 @@ export default {
         });
         this.$router.replace("/panel");
       } catch (error) {
+        this.$toast.error(error.response.data.message, this.$t("error"));
         this.$refs.form.setErrors({
           email: [error.response.data.message],
           password: [error.response.data.message],

@@ -77,9 +77,9 @@ class SettingsController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_post()
+    public function rank_put($id)
     {
-        if ($this->settings_model->update(["id" => $this->post('id', true)], ["rank" => $this->post('rank', true)])) {
+        if ($this->settings_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
             $this->response([
                 'status' => TRUE,
                 'message' => "Sıralama Başarıyla Güncellendi."
@@ -91,10 +91,10 @@ class SettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_post()
+    public function isactive_put($id)
     {
-        $isActive = boolval($this->post("isActive", true)) === true ? 1 : 0;
-        if ($this->settings_model->update(["id" => $this->post('id', true)], ["isActive" => $isActive])) {
+        $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
+        if ($this->settings_model->update(["id" => $id], ["isActive" => $isActive])) {
             $this->response([
                 'status' => TRUE,
                 'message' => "Durum Başarıyla Güncellendi."
@@ -125,8 +125,8 @@ class SettingsController extends RestController
             foreach (json_decode($data["address_informations"]) as $adKey => $adValue) :
                 json_decode($data["address_informations"])[$adKey]->map = htmlspecialchars(html_entity_decode(json_decode($data["address_informations"])[$adKey]->map));
             endforeach;
+            $data["address_informations"] = json_encode($data["address_informations"]);
         endif;
-        $data["address_informations"] = json_encode($data["address_informations"]);
         $data["rank"] = $this->settings_model->rowCount() + 1;
         if ($this->settings_model->add($data)) {
             $this->response([
@@ -153,6 +153,53 @@ class SettingsController extends RestController
         $this->response([
             'status' => FALSE,
             'message' => "Site Ayarları Kayıt Edilirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function update_post($id)
+    {
+        if (!empty($id)) {
+            $settings = $this->settings_model->get(["id" => $id]);
+            if (!empty($settings)) {
+                $data = $this->post();
+                $logo = upload_picture("logo", "uploads/$this->viewFolder", [], "*");
+                $mobile_logo = upload_picture("mobile_logo", "uploads/$this->viewFolder", [], "*");
+                $favicon = upload_picture("favicon", "uploads/$this->viewFolder", [], "*");
+                if ($logo["success"]) :
+                    $data["logo"] = $logo["file_name"];
+                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}")) :
+                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}");
+                    endif;
+                endif;
+                if ($mobile_logo["success"]) :
+                    $data["mobile_logo"] = $mobile_logo["file_name"];
+                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$settings->mobile_logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$settings->mobile_logo}")) :
+                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$settings->mobile_logo}");
+                    endif;
+                endif;
+                if ($favicon["success"]) :
+                    $data["favicon"] = $favicon["file_name"];
+                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$settings->favicon}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$settings->favicon}")) :
+                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$settings->favicon}");
+                    endif;
+                endif;
+                if (!empty($data["address_informations"])) :
+                    foreach (json_decode($data["address_informations"]) as $adKey => $adValue) :
+                        json_decode($data["address_informations"])[$adKey]->map = htmlspecialchars(html_entity_decode(json_decode($data["address_informations"])[$adKey]->map));
+                    endforeach;
+                    $data["address_informations"] = json_encode($data["address_informations"]);
+                endif;
+                if ($this->settings_model->update(["id" => $id], $data)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Site Ayarları Başarıyla Güncellendi."
+                    ], RestController::HTTP_OK);
+                }
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Site Ayarları Güncellenirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 

@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Settings_model extends CI_Model
+class Emailsettings_model extends CI_Model
 {
-    public $tableName = "settings";
+    public $tableName = "email_settings";
     public function __construct()
     {
         parent::__construct();

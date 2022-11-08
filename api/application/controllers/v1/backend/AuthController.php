@@ -64,7 +64,7 @@ class AuthController extends RestController
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'User login successful.',
+                    'message' => 'Başarıyla Giriş Yaptınız.',
                     'user' => $user,
                 ], RestController::HTTP_OK);
             } else {
@@ -72,14 +72,14 @@ class AuthController extends RestController
                 //BAD_REQUEST (400) being the HTTP response code
                 $this->response([
                     'status' => FALSE,
-                    'message' => "Wrong email or password."
+                    'message' => "E-Mail Adresiniz veya Şifreniz Hatalı."
                 ], RestController::HTTP_BAD_REQUEST);
             }
         } else {
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => "Provide email and password."
+                'message' => "Lütfen Geçerli Bir Email Adresi ve Şifre Giriniz."
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -107,7 +107,7 @@ class AuthController extends RestController
                 // Set the response and exit
                 $this->response([
                     'status' => FALSE,
-                    'message' => "The given email already exists."
+                    'message' => "Girmiş Olduğunuz E-Mail Adresi Sistemde Farklı Bir Kullanıcı Tarafından Kullanılıyor. Lütfen Farklı Bir Email Adresi İle Tekrar Deneyin."
                 ], RestController::HTTP_BAD_REQUEST);
             }
             // Insert user data
@@ -125,14 +125,14 @@ class AuthController extends RestController
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'The user has been added successfully.',
+                    'message' => 'Başarıyla Kayıt Oldunuz.',
                     'data' => $insert
                 ], RestController::HTTP_OK);
             }
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => 'Some problems occurred, please try again.'
+                'message' => 'Kayıt Olurken Hata Oluştu, Lütfen Daha Sonra Tekrar Deneyin.'
             ], RestController::HTTP_BAD_REQUEST);
         }
         // Set the response and exit
@@ -161,13 +161,13 @@ class AuthController extends RestController
             //NOT_FOUND (404) being the HTTP response code
             $this->response([
                 'status' => FALSE,
-                'message' => 'No user was found.'
+                'message' => 'Kullanıcı Bulunamadı.'
             ], RestController::HTTP_NOT_FOUND);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmek İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 
@@ -192,13 +192,13 @@ class AuthController extends RestController
             //NOT_FOUND (404) being the HTTP response code
             $this->response([
                 'status' => FALSE,
-                'message' => 'No user was found.'
+                'message' => 'Girmiş Olduğunuz Bilgilerle Eşleşen Kullanıcı Bulunamadı.'
             ], RestController::HTTP_NOT_FOUND);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmeniz İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 
@@ -240,19 +240,19 @@ class AuthController extends RestController
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'The user info has been updated successfully.'
+                    'message' => 'Kullanıcı Bilgileri Başarıyla Güncellendi.'
                 ], RestController::HTTP_OK);
             }
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => 'Some problems occurred, please try again.'
+                'message' => 'Kullanıcı Bilgileri Güncellenirken Hata Oluştu, Lütfen Daha Sonra Tekrar Deneyin.'
             ], RestController::HTTP_BAD_REQUEST);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmeniz İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 }
