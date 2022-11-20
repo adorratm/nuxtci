@@ -34,6 +34,11 @@ module.exports = {
             analytics: "Google Analytics",
             live_support: "Canlı Destek Kodları"
         },
+        emailSettings:{
+            emailSettings: "E-Posta Ayarları",
+            emailSettingsDesc: "Websitenizin E-Posta Ayarlarını Buradan Yönetebilirsiniz.",
+            email: "E-Posta"
+        },
         rank: "#Sıra No",
         id: "#Id",
         lang: "Dil",
