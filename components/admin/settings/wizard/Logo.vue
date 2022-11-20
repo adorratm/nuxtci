@@ -12,7 +12,7 @@
           <div class="row">
             <div v-if="id" class="col-4">
               <img
-                :src="$config.UPLOADS_URL + 'settings/' + logo"
+                :src="$config.API_URL + 'uploads/settings/' + logo"
                 class="img-fluid"
                 alt="Logo"
               />
@@ -47,7 +47,7 @@
           <div class="row">
             <div v-if="id" class="col-4">
               <img
-                :src="$config.UPLOADS_URL + 'settings/' + mobile_logo"
+                :src="$config.API_URL + 'uploads/settings/' + mobile_logo"
                 class="img-fluid"
                 alt="Mobile Logo"
               />
@@ -82,7 +82,7 @@
           <div class="row">
             <div v-if="id" class="col-4">
               <img
-                :src="$config.UPLOADS_URL + 'settings/' + favicon"
+                :src="$config.API_URL + 'uploads/settings/' + favicon"
                 class="img-fluid"
                 alt="Favicon"
               />

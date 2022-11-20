@@ -103,8 +103,7 @@ export default {
   loading: '~/components/admin/LoadingBar.vue',
 
   publicRuntimeConfig: {
-    API_URL: process.env.API_URL,
-    UPLOADS_URL:process.env.UPLOADS_URL
+    API_URL: process.env.API_URL
   },
 
   auth: {
