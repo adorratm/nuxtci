@@ -27,7 +27,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <SettingsTabContent :steps.sync="steps" />
+                  
                 </div>
               </div>
             </div>
@@ -40,41 +40,12 @@
   </div>
 </template>
 <script>
-import SettingsTabContent from "~/components/admin/settings/SettingsTabContent.vue";
 export default {
   layout: "admin",
   components: {
-    SettingsTabContent,
   },
   data() {
     return {
-      steps: [
-        {
-          label: this.$i18n.t("panel.settings.siteInformations"),
-          slot: "siteInformations",
-        },
-        {
-          label: this.$i18n.t("panel.settings.addressInformations"),
-          slot: "addressInformations",
-        },
-        {
-          label: this.$i18n.t("panel.settings.socialMedia"),
-          slot: "socialMedia",
-        },
-        { label: this.$i18n.t("panel.settings.logo"), slot: "logo" },
-        { label: this.$i18n.t("panel.settings.metaTag"), slot: "metaTag" },
-        {
-          label: this.$i18n.t("panel.settings.siteAnalytics"),
-          slot: "siteAnalytics",
-        },
-        {
-          label: this.$i18n.t("panel.settings.liveSupport"),
-          slot: "liveSupport",
-          options: {
-            nextDisabled: true, // control whether next is disabled or not
-          },
-        },
-      ],
     };
   },
   mounted() {

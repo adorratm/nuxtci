@@ -8,7 +8,7 @@ class Emailsettings_model extends CI_Model
     {
         parent::__construct();
         // Set searchable column fields
-        $this->column_search = ['rank', 'id', 'company_name', 'lang', 'createdAt', 'updatedAt', 'isActive'];
+        $this->column_search = ['rank', 'id', 'host', 'port', 'user', 'password', 'tomail', 'lang', 'createdAt', 'updatedAt', 'isActive'];
         // Set default order
         $this->order = ['rank' => 'ASC'];
     }

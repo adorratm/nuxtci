@@ -66,7 +66,6 @@ export default {
         iso: 'en-US',
         file: 'en.js'
       },
-      
     ],
     langDir: 'locales/',
     defaultLocale: 'tr',
