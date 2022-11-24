@@ -37,7 +37,10 @@ module.exports = {
         emailSettings:{
             emailSettings: "E-Posta Ayarları",
             emailSettingsDesc: "Websitenizin E-Posta Ayarlarını Buradan Yönetebilirsiniz.",
-            email: "E-Posta"
+            email: "E-Posta",
+            protocol: "Protokol",
+            port: "Port",
+            host: "Host",
         },
         rank: "#Sıra No",
         id: "#Id",

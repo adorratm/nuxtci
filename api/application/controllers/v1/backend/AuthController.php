@@ -2,8 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use \chriskacerguis\RestServer\RestController;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class AuthController extends RestController
 {

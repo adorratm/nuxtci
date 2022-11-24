@@ -27,7 +27,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <EmailSettingsContent :steps.sync="steps" :id="this.$route.params.id" />
+                  <EmailSettingsContent :id="this.$route.params.id" />
                 </div>
               </div>
             </div>
@@ -45,10 +45,6 @@ export default {
   layout: "admin",
   components: {
     EmailSettingsContent,
-  },
-  data() {
-    return {
-    };
   },
   mounted() {
     this.$nextTick(() => {

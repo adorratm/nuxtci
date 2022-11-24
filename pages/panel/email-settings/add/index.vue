@@ -13,7 +13,9 @@
                 </div>
                 <div class="card-header card-header-action">
                   <div class="flex-grow-1">
-                    <h6 class="mb-10">{{ $t("panel.emailSettings.emailSettings") }}</h6>
+                    <h6 class="mb-10">
+                      {{ $t("panel.emailSettings.emailSettings") }}
+                    </h6>
                     <p class="font-14 w-80">
                       {{ $t("panel.emailSettings.emailSettingsDesc") }}
                     </p>
@@ -27,7 +29,7 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  
+                  <EmailSettingsContent :id="this.$route.params.id" />
                 </div>
               </div>
             </div>
@@ -40,13 +42,11 @@
   </div>
 </template>
 <script>
+import EmailSettingsContent from "~/components/admin/email-settings/EmailSettingsContent.vue";
 export default {
   layout: "admin",
   components: {
-  },
-  data() {
-    return {
-    };
+    EmailSettingsContent,
   },
   mounted() {
     this.$nextTick(() => {

@@ -68,6 +68,12 @@ $route['v1/panel/settings/save'] = 'v1/backend/SettingsController/save';
 $route['v1/panel/settings/update/(:num)'] = 'v1/backend/SettingsController/update/$1';
 $route['v1/panel/settings/delete/(:num)'] = 'v1/backend/SettingsController/delete/$1';
 
+// EMAIL SETTINGS
+$route['v1/panel/emailsettings/(:num)'] = 'v1/backend/EmailSettingsController/index/$1';
+$route['v1/panel/emailsettings/save'] = 'v1/backend/EmailSettingsController/save';
+$route['v1/panel/emailsettings/update/(:num)'] = 'v1/backend/EmailSettingsController/update/$1';
+$route['v1/panel/emailsettings/delete/(:num)'] = 'v1/backend/EmailSettingsController/delete/$1';
+
 /**
  * User Panel Routes
  */
