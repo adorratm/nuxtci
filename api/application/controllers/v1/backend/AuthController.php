@@ -25,11 +25,6 @@ class AuthController extends RestController
 
     public function __construct()
     {
-        header('Content-type: application/json');
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET");
-        header("Access-Control-Allow-Methods: GET, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
         parent::__construct();
 
         // Load the user model
@@ -46,17 +41,14 @@ class AuthController extends RestController
         // Validate the post data
         if (!empty($email) && !empty($password)) {
 
-            // Check if any user exists with the given credentials
-            $con['returnType'] = 'single';
-            $con['conditions'] = array(
+            $user = $this->user_model->get([
                 'email' => $email,
                 'password' => mb_substr(sha1(md5($password)), 0, 32),
-                'status' => 1,
+                'isActive' => 1,
                 'role_id' => 1
-            );
-            $user = $this->user_model->getRows($con);
-            $user["timestamp"] = time();
-            $user["token"] = AUTHORIZATION::generateToken($user);
+            ]);
+            $user->timestamp = time();
+            $user->token = AUTHORIZATION::generateToken((array)$user);
 
             if ($user) {
                 // Set the response and exit
@@ -94,12 +86,7 @@ class AuthController extends RestController
         // Validate the post data
         if (!empty($first_name) && !empty($last_name) && !empty($email) && !empty($password)) {
 
-            // Check if the given email already exists
-            $con['returnType'] = 'count';
-            $con['conditions'] = array(
-                'email' => $email,
-            );
-            $userCount = $this->user_model->getRows($con);
+            $userCount = $this->user_model->rowCount(['email' => $email]);
 
             if ($userCount > 0) {
                 // Set the response and exit
@@ -116,7 +103,7 @@ class AuthController extends RestController
                 'password' => mb_substr(sha1(md5($password)), 0, 32),
                 'phone' => $phone
             );
-            $insert = $this->user_model->insert($userData);
+            $insert = $this->user_model->add($userData);
 
             // Check if the user data is inserted
             if ($insert) {
@@ -146,8 +133,7 @@ class AuthController extends RestController
         if ($this->token) {
             // Returns all the users data if the id not specified,
             // Otherwise, a single user will be returned.
-            $con = $id ? array('id' => $id) : '';
-            $users = $this->user_model->getRows($con);
+            $users = $this->user_model->get(["id" => $id]);
 
             // Check if the user data exists
             if (!empty($users)) {
@@ -175,9 +161,9 @@ class AuthController extends RestController
         if ($this->token) {
             // Returns all the users data if the id not specified,
             // Otherwise, a single user will be returned.
-            $con = !empty($this->token->id) ? array('id' => $this->token->id, 'status' => 1) : NULL;
+            $con = !empty($this->token->id) ? array('id' => $this->token->id, 'isActive' => 1) : NULL;
             if (!empty($con)) {
-                $users = $this->user_model->getRows($con);
+                $users = $this->user_model->get($con);
 
                 // Check if the user data exists
                 if (!empty($users)) {
@@ -231,7 +217,7 @@ class AuthController extends RestController
             if (!empty($phone)) {
                 $userData['phone'] = $phone;
             }
-            $update = $this->user_model->update($userData, $id);
+            $update = $this->user_model->update(["id" => $id], $userData);
 
             // Check if the user data is updated
             if ($update) {

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Emailsettings_model extends CI_Model
 {

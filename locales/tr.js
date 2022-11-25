@@ -43,8 +43,17 @@ module.exports = {
             host: "Host",
             password: "Şifre"
         },
+        users:{
+            users: "Kullanıcılar",
+            usersDesc: "Websitenizdeki Kullanıcıları Buradan Yönetebilirsiniz.",
+            firstName: "Ad",
+            lastName: "Soyad",
+            email: "E-Mail",
+            phone:"Telefon",
+            password: "Şifre"
+        },
         rank: "#Sıra No",
-        id: "#Id",
+        id: "#ID",
         lang: "Dil",
         isActive: "Durum",
         createdAt: "Oluşturulma Tarihi",

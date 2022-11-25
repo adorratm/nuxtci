@@ -2,8 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use \chriskacerguis\RestServer\RestController;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class AuthController extends RestController
 {
@@ -29,10 +27,6 @@ class AuthController extends RestController
     {
         parent::__construct();
 
-        header('Access-Control-Allow-Origin: *'); //for allow any domain, insecure
-        header('Access-Control-Allow-Headers: *'); //for allow any headers, insecure
-        header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE'); //method allowed
-
         // Load the user model
         $this->load->model('user_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
@@ -47,23 +41,20 @@ class AuthController extends RestController
         // Validate the post data
         if (!empty($email) && !empty($password)) {
 
-            // Check if any user exists with the given credentials
-            $con['returnType'] = 'single';
-            $con['conditions'] = array(
+            $user = $this->user_model->get([
                 'email' => $email,
                 'password' => mb_substr(sha1(md5($password)), 0, 32),
-                'status' => 1,
-                'role_id' => 2
-            );
-            $user = $this->user_model->getRows($con);
-            $user["timestamp"] = time();
-            $user["token"] = AUTHORIZATION::generateToken($user);
+                'isActive' => 1,
+                'role_id' => 1
+            ]);
+            $user->timestamp = time();
+            $user->token = AUTHORIZATION::generateToken((array)$user);
 
             if ($user) {
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'User login successful.',
+                    'message' => 'Başarıyla Giriş Yaptınız.',
                     'user' => $user,
                 ], RestController::HTTP_OK);
             } else {
@@ -71,14 +62,14 @@ class AuthController extends RestController
                 //BAD_REQUEST (400) being the HTTP response code
                 $this->response([
                     'status' => FALSE,
-                    'message' => "Wrong email or password."
+                    'message' => "E-Mail Adresiniz veya Şifreniz Hatalı."
                 ], RestController::HTTP_BAD_REQUEST);
             }
         } else {
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => "Provide email and password."
+                'message' => "Lütfen Geçerli Bir Email Adresi ve Şifre Giriniz."
             ], RestController::HTTP_BAD_REQUEST);
         }
     }
@@ -95,18 +86,13 @@ class AuthController extends RestController
         // Validate the post data
         if (!empty($first_name) && !empty($last_name) && !empty($email) && !empty($password)) {
 
-            // Check if the given email already exists
-            $con['returnType'] = 'count';
-            $con['conditions'] = array(
-                'email' => $email,
-            );
-            $userCount = $this->user_model->getRows($con);
+            $userCount = $this->user_model->rowCount(['email' => $email]);
 
             if ($userCount > 0) {
                 // Set the response and exit
                 $this->response([
                     'status' => FALSE,
-                    'message' => "The given email already exists."
+                    'message' => "Girmiş Olduğunuz E-Mail Adresi Sistemde Farklı Bir Kullanıcı Tarafından Kullanılıyor. Lütfen Farklı Bir Email Adresi İle Tekrar Deneyin."
                 ], RestController::HTTP_BAD_REQUEST);
             }
             // Insert user data
@@ -117,21 +103,21 @@ class AuthController extends RestController
                 'password' => mb_substr(sha1(md5($password)), 0, 32),
                 'phone' => $phone
             );
-            $insert = $this->user_model->insert($userData);
+            $insert = $this->user_model->add($userData);
 
             // Check if the user data is inserted
             if ($insert) {
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'The user has been added successfully.',
+                    'message' => 'Başarıyla Kayıt Oldunuz.',
                     'data' => $insert
                 ], RestController::HTTP_OK);
             }
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => 'Some problems occurred, please try again.'
+                'message' => 'Kayıt Olurken Hata Oluştu, Lütfen Daha Sonra Tekrar Deneyin.'
             ], RestController::HTTP_BAD_REQUEST);
         }
         // Set the response and exit
@@ -147,8 +133,7 @@ class AuthController extends RestController
         if ($this->token) {
             // Returns all the users data if the id not specified,
             // Otherwise, a single user will be returned.
-            $con = $id ? array('id' => $id) : '';
-            $users = $this->user_model->getRows($con);
+            $users = $this->user_model->get(["id" => $id]);
 
             // Check if the user data exists
             if (!empty($users)) {
@@ -160,13 +145,13 @@ class AuthController extends RestController
             //NOT_FOUND (404) being the HTTP response code
             $this->response([
                 'status' => FALSE,
-                'message' => 'No user was found.'
+                'message' => 'Kullanıcı Bulunamadı.'
             ], RestController::HTTP_NOT_FOUND);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmek İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 
@@ -176,9 +161,9 @@ class AuthController extends RestController
         if ($this->token) {
             // Returns all the users data if the id not specified,
             // Otherwise, a single user will be returned.
-            $con = !empty($this->token->id) ? array('id' => $this->token->id, 'status' => 1, 'role_id' => 2) : NULL;
+            $con = !empty($this->token->id) ? array('id' => $this->token->id, 'isActive' => 1) : NULL;
             if (!empty($con)) {
-                $users = $this->user_model->getRows($con);
+                $users = $this->user_model->get($con);
 
                 // Check if the user data exists
                 if (!empty($users)) {
@@ -191,13 +176,13 @@ class AuthController extends RestController
             //NOT_FOUND (404) being the HTTP response code
             $this->response([
                 'status' => FALSE,
-                'message' => 'No user was found.'
+                'message' => 'Girmiş Olduğunuz Bilgilerle Eşleşen Kullanıcı Bulunamadı.'
             ], RestController::HTTP_NOT_FOUND);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmeniz İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 
@@ -232,26 +217,26 @@ class AuthController extends RestController
             if (!empty($phone)) {
                 $userData['phone'] = $phone;
             }
-            $update = $this->user_model->update($userData, $id);
+            $update = $this->user_model->update(["id" => $id], $userData);
 
             // Check if the user data is updated
             if ($update) {
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,
-                    'message' => 'The user info has been updated successfully.'
+                    'message' => 'Kullanıcı Bilgileri Başarıyla Güncellendi.'
                 ], RestController::HTTP_OK);
             }
             // Set the response and exit
             $this->response([
                 'status' => FALSE,
-                'message' => 'Some problems occurred, please try again.'
+                'message' => 'Kullanıcı Bilgileri Güncellenirken Hata Oluştu, Lütfen Daha Sonra Tekrar Deneyin.'
             ], RestController::HTTP_BAD_REQUEST);
         }
         // return response if token is invalid
         $this->response([
             'status' => FALSE,
-            'message' => 'Unauthorized.'
+            'message' => 'Bu İşlemi Yapabilmeniz İçin Yetkiniz Yok.'
         ], RestController::HTTP_UNAUTHORIZED);
     }
 }
