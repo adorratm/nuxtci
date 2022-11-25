@@ -13,15 +13,15 @@
                 </div>
                 <div class="card-header card-header-action">
                   <div class="flex-grow-1">
-                    <h6 class="mb-10">{{ $t("panel.settings.settings") }}</h6>
+                    <h6 class="mb-10">{{ $t("panel.emailSettings.emailSettings") }}</h6>
                     <p class="font-14 w-80">
-                      {{ $t("panel.settings.settingsDesc") }}
+                      {{ $t("panel.emailSettings.emailSettingsDesc") }}
                     </p>
                   </div>
                   <div class="d-flex align-items-center">
                     <nuxt-link
                       class="btn btn-sm btn-outline-primary rounded-0"
-                      to="/panel/settings/"
+                      to="/panel/email-settings/"
                       >{{ $t("panel.goBack") }}</nuxt-link
                     >
                   </div>

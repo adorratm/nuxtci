@@ -17,7 +17,7 @@ module.exports = {
             phone: "Telefon",
             whatsapp: "Whatsapp",
             fax: "Faks",
-            email: "E-Posta Adresiniz",
+            email: "E-Mail Adresiniz",
             facebook: "Facebook",
             instagram: "Instagram",
             twitter: "Twitter",
@@ -35,12 +35,13 @@ module.exports = {
             live_support: "Canlı Destek Kodları"
         },
         emailSettings:{
-            emailSettings: "E-Posta Ayarları",
-            emailSettingsDesc: "Websitenizin E-Posta Ayarlarını Buradan Yönetebilirsiniz.",
-            email: "E-Posta",
+            emailSettings: "E-Mail Ayarları",
+            emailSettingsDesc: "Websitenizin E-Mail Ayarlarını Buradan Yönetebilirsiniz.",
+            email: "E-Mail",
             protocol: "Protokol",
             port: "Port",
             host: "Host",
+            password: "Şifre"
         },
         rank: "#Sıra No",
         id: "#Id",

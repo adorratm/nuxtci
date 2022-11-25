@@ -63,7 +63,7 @@ class EmailSettingsController extends RestController
             $data = [];
             if (!empty($items)) :
                 foreach ($items as $item) :
-                    $data[] = ["rank" => $item->rank, "id" => $item->id, "user" => $item->user, "host" => $item->host, "protocol" => $item->protocol, "port" => $item->port, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $item->id];
+                    $data[] = ["rank" => $item->rank, "id" => $item->id, "email" => $item->email, "host" => $item->host, "protocol" => $item->protocol, "port" => $item->port, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $item->id];
                 endforeach;
             endif;
             $output = [
@@ -114,7 +114,7 @@ class EmailSettingsController extends RestController
         if ($this->token) {
             $data = $this->post();
             $data["rank"] = $this->emailsettings_model->rowCount() + 1;
-            if ($this->settings_model->add($data)) {
+            if ($this->emailsettings_model->add($data)) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Email Ayarları Başarıyla Kayıt Edildi."

@@ -40,7 +40,7 @@
                 custom
               >
                 <a class="nav-link"
-                  ><i class="fa fa-mail-bulk"></i> E-Posta Ayarları</a
+                  ><i class="fa fa-mail-bulk"></i> E-Mail Ayarları</a
                 >
               </nuxt-link>
               <li class="nav-item">
