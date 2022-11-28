@@ -39,7 +39,8 @@ class UserRolesController extends RestController
             $this->response([
                 'status' => TRUE,
                 'message' => "Yetki Başarıyla Getirildi.",
-                'user_roles' => $roles
+                'user_roles' => $roles,
+                'controllers' => getControllerList()
             ], RestController::HTTP_OK);
         }
         $this->response([

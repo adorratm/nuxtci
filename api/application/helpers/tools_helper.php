@@ -565,20 +565,16 @@ function get_active_user()
         return false;
     }
 }
-function getControllerList()
+function getControllerList($path = APPPATH . "controllers")
 {
-    $t = &get_instance();
-    $controllers = [];
-    $t->load->helper("file");
-    $files = get_dir_file_info(APPPATH . "controllers", FALSE);
-    if (!empty($files)) :
-        foreach (array_keys($files) as $file) :
-            if ($file !== "index.html") :
-                $controllers[] = strtolower(str_replace(".php", '', $file));
-            endif;
-        endforeach;
-    endif;
-    return $controllers;
+    $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+
+    $files = array();
+    foreach ($rii as $file)
+        if (!$file->isDir() && $file->getBasename() != "index.html")
+            $files[] = [$file->getBasename('.' . $file->getExtension()) => ["read" => null, "write" => null, "update" => null, "delete" => null]];
+
+    return $files;
 }
 function get_controller_name($seo)
 {

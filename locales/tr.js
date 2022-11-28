@@ -58,7 +58,12 @@ module.exports = {
             userRoles: "Kullanıcı Yetkileri",
             userRolesDesc: "Websitenizdeki Kullanıcı Yetkilerini Buradan Yönetebilirsiniz.",
             title:"Yetki Başlığı",
-            permissions: "Yetkiler"
+            permissions: "Yetkiler",
+            read:"Okuma Yetkisi",
+            write: "Yazma Yetkisi",
+            update: "Güncelleme Yetkisi",
+            delete: "Silme Yetkisi",
+            module: "Modül"
         },
         rank: "#Sıra No",
         id: "#ID",
