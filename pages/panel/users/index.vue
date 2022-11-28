@@ -147,7 +147,7 @@ export default {
           type: "none",
         },
         {
-          field: "fisrt_name",
+          field: "first_name",
           type: "none",
         },
         {

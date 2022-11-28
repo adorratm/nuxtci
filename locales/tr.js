@@ -34,7 +34,7 @@ module.exports = {
             analytics: "Google Analytics",
             live_support: "Canlı Destek Kodları"
         },
-        emailSettings:{
+        emailSettings: {
             emailSettings: "E-Mail Ayarları",
             emailSettingsDesc: "Websitenizin E-Mail Ayarlarını Buradan Yönetebilirsiniz.",
             email: "E-Mail",
@@ -43,14 +43,22 @@ module.exports = {
             host: "Host",
             password: "Şifre"
         },
-        users:{
+        users: {
             users: "Kullanıcılar",
             usersDesc: "Websitenizdeki Kullanıcıları Buradan Yönetebilirsiniz.",
             firstName: "Ad",
             lastName: "Soyad",
             email: "E-Mail",
-            phone:"Telefon",
-            password: "Şifre"
+            phone: "Telefon",
+            password: "Şifre",
+            passwordRepeat: "Tekrar Şifre",
+            role: "Yetki"
+        },
+        userRoles: {
+            userRoles: "Kullanıcı Yetkileri",
+            userRolesDesc: "Websitenizdeki Kullanıcı Yetkilerini Buradan Yönetebilirsiniz.",
+            title:"Yetki Başlığı",
+            permissions: "Yetkiler"
         },
         rank: "#Sıra No",
         id: "#ID",

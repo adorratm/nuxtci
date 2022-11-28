@@ -50,7 +50,6 @@ export default {
         ssr: false,
         defer:true,
       },
-      { src: "/vendor/js/feather.min.js", body: true,defer:true },
       { src: "/vendor/js/init.js", body: true,defer:true },
     ],
   },

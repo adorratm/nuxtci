@@ -93,19 +93,10 @@ Project:	pinkman
 /****************************/
 /** Imports **/
 /****************************/
-@import url(https://fonts.googleapis.com/icon?family=Material+Icons|Roboto:400,500,700&display=swap);
 @import url(./bootstrap.min.css);
 @import url(./all.min.css);
 @import url(./v4-shims.min.css);
-@import url(./ionicons.min.css);
-@import url(./dripicons.css);
-@import url(./glyphicons.css);
-@import url(./themify-icons.css);
 @import url(./animate.css);
-@import url(./simple-line-icons.css);
-@import url(./linea-icon.css);
-@import url(./pe-icon-7-stroke.css);
-@import url(./material-design-iconic-font.min.css);
 @import url(../js/owlcarousel/owl.carousel.min.css);
 @import url(../js/owlcarousel/owl.theme.default.min.css);
 
@@ -142,14 +133,10 @@ body {
   font-size: 1rem;
   font-style: normal;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   line-height: 1.5;
   background: #acb0b1;
   overflow-x: hidden;
-}
-
-.main-font, .jq-toast-wrap .jq-toast-single, .jq-toast-wrap .jq-toast-single .jq-toast-heading {
-  font-family: "Roboto", sans-serif;
 }
 
 a:hover, a:active {
@@ -15619,7 +15606,7 @@ ul.list-icon>li {
   counter-increment: li;
 }
 
-ul.list-icon>li .feather-icon {
+ul.list-icon>li .fa {
   display: inline-block;
   height: 20px;
   width: 20px;
@@ -15692,7 +15679,7 @@ ul.list-icon>li .feather-icon {
   position: relative;
 }
 
-.btn.btn-wth-icon .feather-icon .feather {
+.btn.btn-wth-icon .fa .feather {
   height: 20px;
   width: 20px;
 }
@@ -15754,7 +15741,7 @@ ul.list-icon>li .feather-icon {
   padding-right: 20px;
 }
 
-.btn.btn-wth-icon.btn-lg .feather-icon .feather {
+.btn.btn-wth-icon.btn-lg .fa .feather {
   height: 24px;
   width: 24px;
 }
@@ -15792,7 +15779,7 @@ ul.list-icon>li .feather-icon {
   padding-right: 28px;
 }
 
-.btn.btn-wth-icon.btn-sm .feather-icon .feather {
+.btn.btn-wth-icon.btn-sm .fa .feather {
   height: 16px;
   width: 16px;
 }
@@ -15830,7 +15817,7 @@ ul.list-icon>li .feather-icon {
   padding-right: 18px;
 }
 
-.btn.btn-wth-icon.btn-xs .feather-icon .feather {
+.btn.btn-wth-icon.btn-xs .fa .feather {
   height: 13px;
   width: 13px;
 }
@@ -15891,7 +15878,7 @@ ul.list-icon>li .feather-icon {
   font-size: 15px;
 }
 
-.btn.btn-icon .feather-icon .feather {
+.btn.btn-icon .fa .feather {
   height: 20px;
   width: 20px;
 }
@@ -15988,7 +15975,7 @@ ul.list-icon>li .feather-icon {
   font-size: 18px;
 }
 
-.btn.btn-icon.btn-lg .feather-icon .feather {
+.btn.btn-icon.btn-lg .fa .feather {
   height: 24px;
   width: 24px;
 }
@@ -16002,7 +15989,7 @@ ul.list-icon>li .feather-icon {
   font-size: 13px;
 }
 
-.btn.btn-icon.btn-sm .feather-icon .feather {
+.btn.btn-icon.btn-sm .fa .feather {
   height: 16px;
   width: 16px;
 }
@@ -16018,7 +16005,7 @@ ul.list-icon>li .feather-icon {
   font-size: 11px;
 }
 
-.btn.btn-icon.btn-xs .feather-icon .feather {
+.btn.btn-icon.btn-xs .fa .feather {
   height: 13px;
   width: 13px;
 }
@@ -18856,19 +18843,8 @@ Project:	pinkman
   box-shadow: 0 0 28px rgba(0, 0, 0, 0.07);
 }
 
-.hk-wrapper .hk-navbar .feather-icon {
-  display: block;
-}
-
-.hk-wrapper .hk-navbar .feather-icon>svg {
-  width: 20px;
-  height: 20px;
-}
-
-.hk-wrapper .hk-navbar i.ion {
-  font-size: 22px;
-  position: relative;
-  top: 3px;
+.hk-wrapper .hk-navbar .fa {
+  display: inline-block;
 }
 
 .hk-wrapper .hk-navbar a.navbar-toggle-btn {
@@ -19281,11 +19257,11 @@ Project:	pinkman
   background-color: #ecd11e;
 }
 
-.hk-wrapper .navbar-search .feather-icon {
+.hk-wrapper .navbar-search .fa {
   display: block;
 }
 
-.hk-wrapper .navbar-search .feather-icon>svg {
+.hk-wrapper .navbar-search .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -19538,11 +19514,11 @@ Project:	pinkman
   background: inherit;
 }
 
-.hk-wrapper.hk-vertical-nav .hk-nav .hk-nav-close .feather-icon {
+.hk-wrapper.hk-vertical-nav .hk-nav .hk-nav-close .fa {
   display: block;
 }
 
-.hk-wrapper.hk-vertical-nav .hk-nav .hk-nav-close .feather-icon>svg {
+.hk-wrapper.hk-vertical-nav .hk-nav .hk-nav-close .fa>svg {
   height: 20px;
   width: 20px;
 }
@@ -19573,19 +19549,19 @@ Project:	pinkman
   min-width: 25px;
 }
 
-.hk-wrapper.hk-vertical-nav .hk-nav .navbar-nav .nav-item .nav-link>.feather-icon {
+.hk-wrapper.hk-vertical-nav .hk-nav .navbar-nav .nav-item .nav-link>.fa {
   min-width: 32px;
   line-height: 25px;
 }
 
-.hk-wrapper.hk-vertical-nav .hk-nav .navbar-nav .nav-item .nav-link>.feather-icon>svg {
+.hk-wrapper.hk-vertical-nav .hk-nav .navbar-nav .nav-item .nav-link>.fa>svg {
   height: 18px;
   width: 18px;
 }
 
 .hk-wrapper.hk-vertical-nav .hk-nav .navbar-nav .nav-item .nav-link[data-toggle="collapse"]::after {
-  content: '\f2f9';
-  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+  content: '\f078';
+  font: normal normal 900 14px/1 'Font Awesome 6 Free';
   font-size: 16px;
   text-rendering: auto;
   margin-left: auto;
@@ -19708,12 +19684,20 @@ Project:	pinkman
   display: none;
 }
 
+.hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav .navbar-nav .nav-item .nav-link::after{
+  display: none;
+}
+
 .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav .navbar-nav .collapse.show {
   display: none;
 }
 
 .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav:hover {
   width: 240px;
+}
+
+.hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav:hover.hk-nav .navbar-nav .nav-item .nav-link::after {
+  display: inline-block;
 }
 
 .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav:hover .nav-header>span:first-child {
@@ -19805,6 +19789,9 @@ Project:	pinkman
   .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav .navbar-nav .nav-item .nav-link-text {
     display: inline-block;
   }
+  .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav .navbar-nav .nav-item .nav-link::after {
+    display: inline-block;
+  }
 
   .hk-wrapper.hk-vertical-nav.hk-nav-toggle .hk-nav .navbar-nav .collapse.show {
     display: block;
@@ -19860,11 +19847,11 @@ Project:	pinkman
   background: inherit;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .hk-nav-close .feather-icon {
+.hk-wrapper.hk-horizontal-nav .hk-nav .hk-nav-close .fa {
   display: block;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .hk-nav-close .feather-icon>svg {
+.hk-wrapper.hk-horizontal-nav .hk-nav .hk-nav-close .fa>svg {
   height: 20px;
   width: 20px;
 }
@@ -19899,19 +19886,19 @@ Project:	pinkman
   min-width: 25px;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.feather-icon {
+.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.fa {
   min-width: 32px;
   line-height: 25px;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.feather-icon>svg {
+.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.fa>svg {
   height: 18px;
   width: 18px;
 }
 
 .hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link[data-toggle="collapse"]::after {
   content: '\f2f9';
-  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+  font: normal normal 900 14px/1 'Font Awesome 6 Free';
   font-size: 16px;
   text-rendering: auto;
   margin-left: auto;
@@ -19941,11 +19928,11 @@ Project:	pinkman
   margin-left: auto;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link.link-with-indicator>.feather-icon {
+.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link.link-with-indicator>.fa {
   position: relative;
 }
 
-.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link.link-with-indicator>.feather-icon .badge {
+.hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link.link-with-indicator>.fa .badge {
   position: absolute;
   left: 13px;
   top: 0;
@@ -20150,7 +20137,7 @@ Project:	pinkman
     padding: .75rem 1rem;
   }
 
-  .hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.feather-icon {
+  .hk-wrapper.hk-horizontal-nav .hk-nav .navbar-nav .nav-item .nav-link>.fa {
     min-width: 26px;
   }
 
@@ -20309,11 +20296,11 @@ Project:	pinkman
   top: 10px;
 }
 
-.hk-wrapper .hk-settings-panel .settings-panel-wrap .settings-panel-head a .feather-icon {
+.hk-wrapper .hk-settings-panel .settings-panel-wrap .settings-panel-head a .fa {
   display: block;
 }
 
-.hk-wrapper .hk-settings-panel .settings-panel-wrap .settings-panel-head a .feather-icon>svg {
+.hk-wrapper .hk-settings-panel .settings-panel-wrap .settings-panel-head a .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -20660,8 +20647,9 @@ Project:	pinkman
 }
 
 .hk-breadcrumb .breadcrumb-item+.breadcrumb-item:before {
-  font-family: "dripicons-v2", sans-serif !important;
+  font-family: "Font Awesome 6 Free", sans-serif !important;
   content: "V";
+  font-weight: 900;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -21067,10 +21055,6 @@ label {
   color: #98a0a3 !important;
 }
 
-.mce-text {
-  font-family: "Roboto", sans-serif !important;
-}
-
 .mce-menu-item .mce-caret {
   border-left-color: #98a0a3 !important;
 }
@@ -21168,7 +21152,6 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
   padding: 0.25rem 0.5rem !important;
   border-radius: 0.25rem;
   color: #fff !important;
-  font-family: "Roboto", sans-serif !important;
 }
 
 .mce-tooltip-arrow {
@@ -21261,10 +21244,10 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
 
 .dropify-wrapper .dropify-message span.file-icon:before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -21974,7 +21957,7 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
 
 .accordion .card .card-header>a::before {
   content: '\f2fc';
-  font: normal normal normal 14px/1 'Material-Design-Iconic-Font';
+  font: normal normal 900 14px/1 'Font Awesome 6 Free';
   font-size: 20px;
   text-rendering: auto;
   position: absolute;
@@ -22223,7 +22206,7 @@ div.mce-menu .mce-menu-item-sep, .mce-menu-item-sep:hover {
 
 .accordion.accordion-type-2 .card .card-header>a::after {
   display: inline-block;
-  font: normal normal normal 14px/1 'Ionicons';
+  font: normal normal 900 14px/1 'Font Awesome 6 Free',sans-serif;
   speak-as: none;
   text-transform: none;
   -webkit-font-smoothing: antialiased;
@@ -22856,11 +22839,11 @@ table.dataTable thead td, table.dataTable thead th {
 
 table.dataTable thead td.sorting::before, table.dataTable thead td.sorting_asc::before, table.dataTable thead td.sorting_desc::before, table.dataTable thead td.sorting::after, table.dataTable thead td.sorting_asc::after, table.dataTable thead td.sorting_desc::after, table.dataTable thead th.sorting::before, table.dataTable thead th.sorting_asc::before, table.dataTable thead th.sorting_desc::before, table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   speak-as: none;
   font-size: 18px;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -23245,11 +23228,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 }
 
 .dd-item>button.dd-expand:before, .dd-item>button.dd-collapse:before {
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   content: "";
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -23319,11 +23302,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 }
 
 .dd3-handle:before {
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   content: "\f32a";
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -24195,11 +24178,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   fill: none;
 }
 
-.feather-icon {
-  font-size: 0 !important;
-}
-
-.feather-icon.fe-x>svg {
+.fa.fe-x>svg {
   height: 16px;
   width: 16px;
 }
@@ -24429,10 +24408,10 @@ table.dataTable>tbody>tr.child span.dtr-data {
 .carousel-control-next-icon:before,
 .carousel-control-prev-icon:before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -24520,11 +24499,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 
 .owl-carousel .owl-video-play-icon:before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   padding-left: 3px;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -24599,11 +24578,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 }
 
 .pickr:after {
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   speak-as: none;
   font-size: 18px;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -25234,7 +25213,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   border: none;
 }
 
-.faq-search-wrap .form-group .input-group-append .input-group-text .feather-icon>svg {
+.faq-search-wrap .form-group .input-group-append .input-group-text .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -25332,11 +25311,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 
 .card.card-profile-feed .btn-video-link:before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   padding-left: 3px;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -25491,11 +25470,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #324148;
 }
 
-.review-star>.feather-icon {
+.review-star>.fa {
   display: block;
 }
 
-.review-star>.feather-icon>svg {
+.review-star>.fa>svg {
   height: 20px;
   width: 20px;
 }
@@ -25504,11 +25483,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #324148;
 }
 
-.review-star:hover>.feather-icon>svg {
+.review-star:hover>.fa>svg {
   fill: #324148 !important;
 }
 
-.review-star:hover>.feather-icon>svg polygon {
+.review-star:hover>.fa>svg polygon {
   fill: #324148 !important;
 }
 
@@ -25516,11 +25495,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #324148;
 }
 
-.review-star.starred>.feather-icon>svg {
+.review-star.starred>.fa>svg {
   fill: #324148 !important;
 }
 
-.review-star.starred>.feather-icon>svg polygon {
+.review-star.starred>.fa>svg polygon {
   fill: #324148 !important;
 }
 
@@ -26839,7 +26818,6 @@ table.dataTable>tbody>tr.child span.dtr-data {
 .infowindow-wrap .infowindow-header {
   color: #324148;
   padding: 10px 5px 0;
-  font-family: "Roboto", sans-serif;
 }
 
 .infowindow-wrap .infowindow-body {
@@ -26847,7 +26825,6 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #5e7d8a;
   font-size: 16px;
   font-weight: 400;
-  font-family: "Roboto", sans-serif;
 }
 
 /*Vecotor Map*/
@@ -27021,7 +26998,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #5e7d8a;
 }
 
-.chatapp-wrap .chatapp-left header .feather-icon {
+.chatapp-wrap .chatapp-left header .fa {
   display: block;
 }
 
@@ -27063,12 +27040,12 @@ table.dataTable>tbody>tr.child span.dtr-data {
   pointer-events: none;
 }
 
-.chatapp-wrap .chatapp-left .chat-search .input-group .input-group-prepend .feather-icon {
+.chatapp-wrap .chatapp-left .chat-search .input-group .input-group-prepend .fa {
   display: block;
   color: #848d91;
 }
 
-.chatapp-wrap .chatapp-left .chat-search .input-group .input-group-prepend .feather-icon>svg {
+.chatapp-wrap .chatapp-left .chat-search .input-group .input-group-prepend .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -27176,7 +27153,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   border-bottom: 1px solid #eaecec;
 }
 
-.chatapp-wrap .chatapp-right header .feather-icon {
+.chatapp-wrap .chatapp-right header .fa {
   display: block;
 }
 
@@ -27437,7 +27414,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   position: relative;
 }
 
-.chatapp-wrap .chatapp-right footer .feather-icon {
+.chatapp-wrap .chatapp-right footer .fa {
   display: block;
 }
 
@@ -27463,14 +27440,14 @@ table.dataTable>tbody>tr.child span.dtr-data {
   background: transparent;
 }
 
-.chatapp-wrap .chatapp-right footer .input-group .input-group-prepend .btn .feather-icon,
-.chatapp-wrap .chatapp-right footer .input-group .input-group-append .btn .feather-icon {
+.chatapp-wrap .chatapp-right footer .input-group .input-group-prepend .btn .fa,
+.chatapp-wrap .chatapp-right footer .input-group .input-group-append .btn .fa {
   display: block;
   color: #adb3b6;
 }
 
-.chatapp-wrap .chatapp-right footer .input-group .input-group-prepend .btn .feather-icon>svg,
-.chatapp-wrap .chatapp-right footer .input-group .input-group-append .btn .feather-icon>svg {
+.chatapp-wrap .chatapp-right footer .input-group .input-group-prepend .btn .fa>svg,
+.chatapp-wrap .chatapp-right footer .input-group .input-group-append .btn .fa>svg {
   height: 21px;
   width: 21px;
 }
@@ -27596,7 +27573,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   padding: 0 .5rem;
 }
 
-.emailapp-wrap .emailapp-sidebar .emailapp-nav-wrap .close-emailapp-sidebar>.feather-icon {
+.emailapp-wrap .emailapp-sidebar .emailapp-nav-wrap .close-emailapp-sidebar>.fa {
   display: block;
 }
 
@@ -27678,11 +27655,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #5e7d8a;
 }
 
-.emailapp-wrap .email-box .email-star>.feather-icon {
+.emailapp-wrap .email-box .email-star>.fa {
   display: block;
 }
 
-.emailapp-wrap .email-box .email-star>.feather-icon>svg {
+.emailapp-wrap .email-box .email-star>.fa>svg {
   height: 16px;
   width: 16px;
 }
@@ -27691,11 +27668,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #22af47;
 }
 
-.emailapp-wrap .email-box .email-star:hover>.feather-icon>svg {
+.emailapp-wrap .email-box .email-star:hover>.fa>svg {
   fill: #22af47 !important;
 }
 
-.emailapp-wrap .email-box .email-star:hover>.feather-icon>svg polygon {
+.emailapp-wrap .email-box .email-star:hover>.fa>svg polygon {
   fill: #22af47 !important;
 }
 
@@ -27703,11 +27680,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #22af47;
 }
 
-.emailapp-wrap .email-box .email-star.starred>.feather-icon>svg {
+.emailapp-wrap .email-box .email-star.starred>.fa>svg {
   fill: #22af47 !important;
 }
 
-.emailapp-wrap .email-box .email-star.starred>.feather-icon>svg polygon {
+.emailapp-wrap .email-box .email-star.starred>.fa>svg polygon {
   fill: #22af47 !important;
 }
 
@@ -27748,7 +27725,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #5e7d8a;
 }
 
-.emailapp-wrap .email-box .emailapp-left header .feather-icon {
+.emailapp-wrap .email-box .emailapp-left header .fa {
   display: block;
 }
 
@@ -27790,12 +27767,12 @@ table.dataTable>tbody>tr.child span.dtr-data {
   pointer-events: none;
 }
 
-.emailapp-wrap .email-box .emailapp-left .email-search .input-group .input-group-prepend .feather-icon {
+.emailapp-wrap .email-box .emailapp-left .email-search .input-group .input-group-prepend .fa {
   display: block;
   color: #848d91;
 }
 
-.emailapp-wrap .email-box .emailapp-left .email-search .input-group .input-group-prepend .feather-icon>svg {
+.emailapp-wrap .email-box .emailapp-left .email-search .input-group .input-group-prepend .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -27873,11 +27850,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   margin-right: 5px;
 }
 
-.emailapp-wrap .email-box .emailapp-left .emailapp-emails-list a.media .media-body>div:last-child .last-email-details .email-attachment-label .feather-icon {
+.emailapp-wrap .email-box .emailapp-left .emailapp-emails-list a.media .media-body>div:last-child .last-email-details .email-attachment-label .fa {
   display: block;
 }
 
-.emailapp-wrap .email-box .emailapp-left .emailapp-emails-list a.media .media-body>div:last-child .last-email-details .email-attachment-label .feather-icon>svg {
+.emailapp-wrap .email-box .emailapp-left .emailapp-emails-list a.media .media-body>div:last-child .last-email-details .email-attachment-label .fa>svg {
   height: 13px;
   width: 13px;
 }
@@ -27949,7 +27926,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   display: inline-block;
 }
 
-.emailapp-wrap .email-box .emailapp-right header .email-options-wrap .feather-icon {
+.emailapp-wrap .email-box .emailapp-right header .email-options-wrap .fa {
   display: block;
 }
 
@@ -28181,7 +28158,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   padding: 0 .5rem;
 }
 
-.fmapp-wrap .fmapp-sidebar .fmapp-nav-wrap .close-fmapp-sidebar>.feather-icon {
+.fmapp-wrap .fmapp-sidebar .fmapp-nav-wrap .close-fmapp-sidebar>.fa {
   display: block;
 }
 
@@ -28292,7 +28269,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   color: #5e7d8a;
 }
 
-.fmapp-wrap .fm-box .fmapp-main header .fmapp-sidebar-move .feather-icon {
+.fmapp-wrap .fm-box .fmapp-main header .fmapp-sidebar-move .fa {
   display: block;
 }
 
@@ -28310,11 +28287,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   margin-left: 0;
 }
 
-.fmapp-wrap .fm-box .fmapp-main header .fm-options-wrap .feather-icon {
+.fmapp-wrap .fm-box .fmapp-main header .fm-options-wrap .fa {
   display: block;
 }
 
-.fmapp-wrap .fm-box .fmapp-main header .fm-options-wrap .feather-icon.grid-view {
+.fmapp-wrap .fm-box .fmapp-main header .fm-options-wrap .fa.grid-view {
   display: none;
 }
 
@@ -28378,11 +28355,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
   background-color: #edf9fe;
 }
 
-.fmapp-wrap .fm-box .fmapp-main.fmapp-view-switch header .fm-options-wrap .feather-icon.grid-view {
+.fmapp-wrap .fm-box .fmapp-main.fmapp-view-switch header .fm-options-wrap .fa.grid-view {
   display: block;
 }
 
-.fmapp-wrap .fm-box .fmapp-main.fmapp-view-switch header .fm-options-wrap .feather-icon.list-view {
+.fmapp-wrap .fm-box .fmapp-main.fmapp-view-switch header .fm-options-wrap .fa.list-view {
   display: none;
 }
 
@@ -28439,7 +28416,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   margin: 0 0 15px;
 }
 
-.calendarapp-wrap .calendarapp-sidebar .close-calendarapp-sidebar .feather-icon {
+.calendarapp-wrap .calendarapp-sidebar .close-calendarapp-sidebar .fa {
   display: block;
 }
 
@@ -28688,11 +28665,11 @@ table.dataTable>tbody>tr.child span.dtr-data {
 
 .hk-pg-wrapper.hk-auth-wrapper .auth-cover-img .auth-cover-info .auth-cover-content .play-wrap .play-btn:before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   padding-left: 3px;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;
@@ -28777,7 +28754,7 @@ table.dataTable>tbody>tr.child span.dtr-data {
   border: none;
 }
 
-.hk-pg-wrapper.hk-auth-wrapper .auth-form-wrap .auth-form .form-group .input-group-append .input-group-text .feather-icon>svg {
+.hk-pg-wrapper.hk-auth-wrapper .auth-form-wrap .auth-form .form-group .input-group-append .input-group-text .fa>svg {
   height: 18px;
   width: 18px;
 }
@@ -28996,12 +28973,12 @@ table.dataTable>tbody>tr.child span.dtr-data {
 
 .hk-landing .play-wrap .play-btn::before {
   display: inline-block;
-  font-family: "Ionicons", sans-serif;
+  font-family: "Font Awesome 6 Free", sans-serif;
   padding-left: 3px;
   font-size: 28px;
   speak-as: none;
   font-style: normal;
-  font-weight: normal;
+  font-weight: 900;
   font-variant: normal;
   text-transform: none;
   text-rendering: auto;

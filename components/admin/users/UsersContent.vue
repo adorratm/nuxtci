@@ -10,22 +10,22 @@
           <div class="col-sm-4">
             <div class="form-group my-1">
               <ValidationProvider
-                vid="host"
-                :name="$t('panel.users.host')"
+                vid="first_name"
+                :name="$t('panel.users.firstName')"
                 rules="required|min:2"
                 v-slot="{ errors }"
               >
-                <label for="host" class="mb-5">{{
-                  $t("panel.users.host")
+                <label for="first_name" class="mb-5">{{
+                  $t("panel.users.firstName")
                 }}</label>
                 <input
-                  id="host"
+                  id="first_name"
                   class="form-control form-control-sm rounded-0"
-                  :placeholder="$t('panel.users.host')"
+                  :placeholder="$t('panel.users.firstName')"
                   type="text"
                   required
-                  name="host"
-                  v-model="formData.host"
+                  name="first_name"
+                  v-model="formData.first_name"
                 />
                 <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -34,51 +34,22 @@
           <div class="col-sm-4">
             <div class="form-group my-1">
               <ValidationProvider
-                vid="protocol"
-                :name="$t('panel.users.protocol')"
-                rules="required"
+                vid="last_name"
+                :name="$t('panel.users.lastName')"
+                rules="required|min:2"
                 v-slot="{ errors }"
               >
-                <label for="protocol" class="mb-5">{{
-                  $t("panel.users.protocol")
-                }}</label>
-                <select
-                  name="protocol"
-                  id="protocol"
-                  class="form-control form-control-sm rounded-0"
-                  required
-                  v-model="formData.protocol"
-                >
-                  <option value="ssl" :selected="formData.protocol === 'ssl'">
-                    SSL
-                  </option>
-                  <option value="tls" :selected="formData.protocol === 'tls'">
-                    TLS
-                  </option>
-                </select>
-                <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
-              </ValidationProvider>
-            </div>
-          </div>
-          <div class="col-sm-4">
-            <div class="form-group my-1">
-              <ValidationProvider
-                vid="port"
-                :name="$t('panel.users.port')"
-                rules="required"
-                v-slot="{ errors }"
-              >
-                <label for="port" class="mb-5">{{
-                  $t("panel.users.port")
+                <label for="last_name" class="mb-5">{{
+                  $t("panel.users.lastName")
                 }}</label>
                 <input
-                  id="port"
+                  id="last_name"
                   class="form-control form-control-sm rounded-0"
-                  :placeholder="$t('panel.users.port')"
-                  type="number"
+                  :placeholder="$t('panel.users.lastName')"
+                  type="text"
                   required
-                  name="port"
-                  v-model="formData.port"
+                  name="last_name"
+                  v-model="formData.last_name"
                 />
                 <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
@@ -92,7 +63,7 @@
               <ValidationProvider
                 vid="email"
                 :name="$t('panel.users.email')"
-                rules="required|min:2"
+                rules="required|min:2|email"
                 v-slot="{ errors }"
               >
                 <label for="email" class="mb-5">{{
@@ -102,7 +73,7 @@
                   id="email"
                   class="form-control form-control-sm rounded-0"
                   :placeholder="$t('panel.users.email')"
-                  type="text"
+                  type="email"
                   required
                   name="email"
                   v-model="formData.email"
@@ -114,9 +85,36 @@
           <div class="col-sm-4">
             <div class="form-group my-1">
               <ValidationProvider
+                vid="phone"
+                :name="$t('panel.users.phone')"
+                rules="required|min:11|max:20"
+                v-slot="{ errors }"
+              >
+                <label for="phone" class="mb-5">{{
+                  $t("panel.users.phone")
+                }}</label>
+                <input
+                  id="phone"
+                  class="form-control form-control-sm rounded-0"
+                  :placeholder="$t('panel.users.phone')"
+                  type="tel"
+                  required
+                  name="phone"
+                  v-model="formData.phone"
+                />
+                <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-sm-4">
+            <div class="form-group my-1">
+              <ValidationProvider
                 vid="password"
                 :name="$t('panel.users.password')"
-                rules="required|min:2"
+                :rules="{ required: id ? false : true, min: 2 }"
                 v-slot="{ errors }"
               >
                 <label for="password" class="mb-5">{{
@@ -127,10 +125,68 @@
                   class="form-control form-control-sm rounded-0"
                   :placeholder="$t('panel.users.password')"
                   type="password"
-                  required
                   name="password"
                   v-model="formData.password"
                 />
+                <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-group my-1">
+              <ValidationProvider
+                vid="password_repeat"
+                :name="$t('panel.users.passwordRepeat')"
+                :rules="{ required: id ? false : true, min: 2 }"
+                v-slot="{ errors }"
+              >
+                <label for="password_repeat" class="mb-5">{{
+                  $t("panel.users.passwordRepeat")
+                }}</label>
+                <input
+                  id="password_repeat"
+                  class="form-control form-control-sm rounded-0"
+                  :placeholder="$t('panel.users.passwordRepeat')"
+                  type="password"
+                  name="password_repeat"
+                  v-model="formData.password_repeat"
+                />
+                <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-1">
+          <div class="col-sm-4">
+            <div class="form-group my-1">
+              <ValidationProvider
+                vid="role_id"
+                :name="$t('panel.users.role')"
+                rules="required"
+                v-slot="{ errors }"
+              >
+                <label for="role_id" class="mb-5">{{
+                  $t("panel.users.role")
+                }}</label>
+                <select
+                  name="role_id"
+                  id="role_id"
+                  class="form-control form-control-sm rounded-0"
+                  required
+                  v-model="formData.role_id"
+                  v-if="user_roles"
+                >
+                  <option
+                    v-for="(item, index) in user_roles"
+                    :key="index"
+                    :value="item.id"
+                    :selected="formData.role_id === item.id"
+                  >
+                    {{ item.title }}
+                  </option>
+                </select>
+
                 <span class="mt-5 d-block text-danger">{{ errors[0] }}</span>
               </ValidationProvider>
             </div>
@@ -165,12 +221,15 @@ export default {
   props: ["id"],
   data() {
     return {
+      user_roles: [],
       formData: {
-        protocol: "ssl",
-        host: null,
-        port: null,
+        first_name: null,
+        last_name: null,
         email: null,
+        phone: null,
         password: null,
+        password_repeat: null,
+        role_id: 3,
       },
     };
   },
@@ -188,6 +247,16 @@ export default {
         return formData;
       }, new FormData());
     },
+    async getRoles() {
+      try {
+        let { data } = await this.$axios.get("v1/panel/userroles/");
+        if (data && data.user_roles) {
+          this.user_roles = data.user_roles;
+        }
+      } catch (error) {
+        this.$toast.error(error.response.data.message, this.$t("error"));
+      }
+    },
     async saveUser() {
       try {
         const formData = this.getFormData(this.formData);
@@ -204,7 +273,7 @@ export default {
           ? this.$toast.success(data.message, this.$t("successfully"))
           : this.$toast.error(data.message, this.$t("unsuccessfully"));
         setTimeout(() => {
-          this.$router.replace("/panel/email-settings/");
+          this.$router.replace("/panel/users/");
         }, 1000);
       } catch (error) {
         this.$toast.error(error.response.data.message, this.$t("error"));
@@ -215,6 +284,8 @@ export default {
         let { data } = await this.$axios.get("v1/panel/users/" + id);
         if (data && data.user) {
           this.formData = data.user;
+          this.formData.password = null;
+          this.formData.password_repeat = null;
         }
       } catch (error) {
         this.$toast.error(error.response.data.message, this.$t("error"));
@@ -225,6 +296,7 @@ export default {
     if (this.id) {
       this.getUser(this.id);
     }
+    this.getRoles();
   },
 };
 </script>

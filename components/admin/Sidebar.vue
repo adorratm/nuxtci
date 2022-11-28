@@ -4,8 +4,7 @@
       <!-- Vertical Nav -->
       <nav class="hk-nav hk-nav-light">
         <a href="javascript:void(0);" id="hk_nav_close" class="hk-nav-close"
-          ><span class="feather-icon"><i data-feather="x"></i></span
-        ></a>
+          ><i class="fa fa-times-circle"></i></a>
         <div class="nicescroll-bar">
           <div class="navbar-nav-wrap">
             <ul class="navbar-nav flex-column">
@@ -18,7 +17,7 @@
                 custom
               >
                 <a class="nav-link"
-                  ><i class="fa fa-tachometer-alt"></i> Dashboard</a
+                  ><i class="fa fa-tachometer-alt"></i> <span class="nav-link-text">Dashboard</span></a
                 >
               </nuxt-link>
               <nuxt-link
@@ -29,7 +28,7 @@
                 exact-active-class="active"
                 custom
               >
-                <a class="nav-link"><i class="fa fa-cogs"></i> Ayarlar</a>
+                <a class="nav-link"><i class="fa fa-cogs"></i> <span class="nav-link-text">Ayarlar</span></a>
               </nuxt-link>
               <nuxt-link
                 tag="li"
@@ -40,7 +39,7 @@
                 custom
               >
                 <a class="nav-link"
-                  ><i class="fa fa-mail-bulk"></i> E-Mail Ayarları</a
+                  ><i class="fa fa-mail-bulk"></i> <span class="nav-link-text">E-Mail Ayarları</span></a
                 >
               </nuxt-link>
               <li class="nav-item">

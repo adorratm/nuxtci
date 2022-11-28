@@ -6,7 +6,7 @@
         id="navbar_toggle_btn"
         class="navbar-toggle-btn nav-link-hover"
         href="javascript:void(0);"
-        ><i class="ion ion-ios-menu"></i
+        ><i class="fa fa-list"></i
       ></a>
       <nuxt-link class="navbar-brand" to="/panel/">
         <img
@@ -96,7 +96,6 @@ export default {
         body: true,
       },
       { src: "/vendor/js/dropdown-bootstrap-extended.js", body: true },
-      { src: "/vendor/js/feather.min.js", body: true },
       { src: "/vendor/js/init.js", body: true },
     ],
   },

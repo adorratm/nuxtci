@@ -358,10 +358,8 @@
                           >
                             <span class="counter-anim display-2">4.4</span>
                             <span class="review-star starred ml-10">
-                              <span class="feather-icon"
-                                ><i data-feather="star"></i
-                              ></span>
-                            </span>
+                              <i class="fa fa-star"></i
+                            ></span>
                           </div>
                           <span class="font-18">949 ratings & 18 reviews</span>
                         </div>
@@ -1125,7 +1123,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
 
@@ -1143,12 +1140,15 @@
 <script>
 export default {
   layout: "admin",
-  mounted(){
+  mounted() {
     this.$nextTick(() => {
-      this.$nuxt.$loading.start()
+      this.$nuxt.$loading.start();
       $(".preloader-it").delay(500).fadeOut("slow");
-      setTimeout(() => {this.$nuxt.$loading.finish();$(".hk-wrapper").removeClass("d-none")}, 1000)
-    })
-  }
+      setTimeout(() => {
+        this.$nuxt.$loading.finish();
+        $(".hk-wrapper").removeClass("d-none");
+      }, 1000);
+    });
+  },
 };
 </script>

@@ -21,7 +21,7 @@
                   </div>
                   <div class="d-flex align-items-center card-action-wrap">
                     <a href="#" class="inline-block refresh mr-15">
-                      <i class="ion ion-md-radio-button-off"></i>
+                      <i class="fa fa-power-off"></i>
                     </a>
                     <div class="inline-block dropdown">
                       <a
@@ -358,9 +358,8 @@
                           >
                             <span class="counter-anim display-2">4.4</span>
                             <span class="review-star starred ml-10">
-                              <span class="feather-icon"
-                                ><i data-feather="star"></i
-                              ></span>
+                              <i class="fa fa-star"></i
+                              >
                             </span>
                           </div>
                           <span class="font-18">949 ratings & 18 reviews</span>

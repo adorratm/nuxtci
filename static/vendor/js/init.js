@@ -32,12 +32,6 @@ var height, width,
 /***** pinkman function start *****/
 var pinkman = function () {
 
-	/*Feather Icon*/
-	var featherIcon = $('.feather-icon');
-	if (featherIcon.length > 0) {
-		feather.replace();
-	}
-
 	/*Tooltip*/
 	if ($('[data-toggle="tooltip"]').length > 0)
 		$('[data-toggle="tooltip"]').tooltip();
