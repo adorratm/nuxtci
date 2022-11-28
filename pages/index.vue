@@ -1,5 +1,5 @@
 <template>
-  <Tutorial />
+  <div>Frontend Yapılacak</div>
 </template>
 
 <script>
