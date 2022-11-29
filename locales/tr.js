@@ -65,6 +65,8 @@ module.exports = {
             delete: "Silme Yetkisi",
             module: "Modül"
         },
+        dashboard: "Dashboard",
+        userActions: "Kullanıcı İşlemleri",
         rank: "#Sıra No",
         id: "#ID",
         lang: "Dil",
