@@ -49,7 +49,7 @@
           >
             <nuxt-link
               class="dropdown-item"
-              :to="'/panel/users/edit/' + getUserInfo?.id"
+              :to="'/panel/users/update/' + getUserInfo?.id"
               ><i class="dropdown-icon fa fa-user-edit"></i
               ><span>{{ $t("panel.profile") }}</span></nuxt-link
             >
