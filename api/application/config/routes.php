@@ -86,12 +86,3 @@ $route['v1/panel/userroles/(:num)'] = 'v1/backend/UserRolesController/$1';
 $route['v1/panel/userroles/save'] = 'v1/backend/UserRolesController/save';
 $route['v1/panel/userroles/update/(:num)'] = 'v1/backend/UserRolesController/update/$1';
 $route['v1/panel/userroles/delete/(:num)'] = 'v1/backend/UserRolesController/delete/$1';
-
-/**
- * User Panel Routes
- */
-$route['v1/login'] = 'v1/frontend/AuthController/login';
-$route['v1/register'] = 'v1/frontend/AuthController/register';
-$route['v1/current-user'] = 'v1/frontend/AuthController/currentUser';
-$route['v1/users'] = 'v1/frontend/AuthController/user';
-$route['v1/users/(:num)'] = 'v1/frontend/AuthController/user/$1';
