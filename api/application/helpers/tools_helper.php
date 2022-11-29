@@ -604,74 +604,45 @@ function get_controller_name($seo)
         endforeach;
     endif;
 }
-function isAllowedViewModule($modulName = "")
+function isAllowedViewModule($token = null, $moduleName = null)
 {
     $t = &get_instance();
-    $modulName = (empty($modulName)) ? $t->router->fetch_class() : $modulName;
-    $user = get_active_user();
-    $user_roles = $t->session->userdata('user_roles');
-    if (isset($user_roles[$user->role_id])) :
-        $permission = json_decode($user_roles[$user->role_id]);
-        if (isset($permission->$modulName) && isset($permission->$modulName->read)) :
-            return true;
-        endif;
+    $moduleName = (empty($moduleName)) ? $t->router->fetch_class() : $moduleName;
+    $permissions = @json_decode($token->permissions);
+    if (isset($permissions->{$moduleName}) && isset($permissions->{$moduleName}->read)) :
+        return true;
     endif;
     return false;
 }
-function isAllowedWriteViewModule($modulName = "")
+function isAllowedWriteViewModule($token = null, $moduleName = null)
 {
     $t = &get_instance();
-    $modulName = (empty($modulName)) ? $t->router->fetch_class() : $modulName;
-    $user = get_active_user();
-    $user_roles = $t->session->userdata('user_roles');
-    if (isset($user_roles[$user->role_id])) :
-        $permission = json_decode($user_roles[$user->role_id]);
-        if (isset($permission->$modulName) && isset($permission->$modulName->write)) :
-            return true;
-        endif;
+    $moduleName = (empty($moduleName)) ? $t->router->fetch_class() : $moduleName;
+    $permissions = @json_decode($token->permissions);
+    if (isset($permissions->{$moduleName}) && isset($permissions->{$moduleName}->write)) :
+        return true;
     endif;
     return false;
 }
-function isAllowedUpdateViewModule($modulName = "")
+function isAllowedUpdateViewModule($token = null, $moduleName = null)
 {
     $t = &get_instance();
-    $modulName = (empty($modulName)) ? $t->router->fetch_class() : $modulName;
-    $user = get_active_user();
-    $user_roles = $t->session->userdata('user_roles');
-    if (isset($user_roles[$user->role_id])) :
-        $permission = json_decode($user_roles[$user->role_id]);
-        if (isset($permission->$modulName) && isset($permission->$modulName->update)) :
-            return true;
-        endif;
+    $moduleName = (empty($moduleName)) ? $t->router->fetch_class() : $moduleName;
+    $permissions = @json_decode($token->permissions);
+    if (isset($permissions->{$moduleName}) && isset($permissions->{$moduleName}->update)) :
+        return true;
     endif;
     return false;
 }
-function isAllowedDeleteViewModule($modulName = "")
+function isAllowedDeleteViewModule($token = null, $moduleName = null)
 {
     $t = &get_instance();
-    $modulName = (empty($modulName)) ? $t->router->fetch_class() : $modulName;
-    $user = get_active_user();
-    $user_roles = $t->session->userdata('user_roles');
-    if (isset($user_roles[$user->role_id])) :
-        $permission = json_decode($user_roles[$user->role_id]);
-        if (isset($permission->$modulName) && isset($permission->$modulName->delete)) :
-            return true;
-        endif;
+    $moduleName = (empty($moduleName)) ? $t->router->fetch_class() : $moduleName;
+    $permissions = @json_decode($token->permissions);
+    if (isset($permissions->{$moduleName}) && isset($permissions->{$moduleName}->delete)) :
+        return true;
     endif;
     return false;
-}
-function userRole()
-{
-    $t = &get_instance();
-    $t->load->model("user_role_model");
-    $c = $t->user_role_model->get_all(['isActive' => 1]);
-    $roles = [];
-    if (!empty($c)) :
-        foreach ($c as $v) :
-            $roles[$v->id] = $v->permissions;
-        endforeach;
-    endif;
-    $t->session->set_userdata('user_roles', $roles);
 }
 function send_emailv2($toEmail = [], $subject = null, $message = null, $attachments = [], $lang = "tr", $mail_settings = 1)
 {

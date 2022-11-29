@@ -29,7 +29,9 @@ class AuthController extends RestController
 
         // Load the user model
         $this->load->model('user_model');
+        $this->load->model('user_role_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
+        $this->moduleName = ucfirst($this->router->fetch_class());
     }
 
     public function login_post()
@@ -48,8 +50,8 @@ class AuthController extends RestController
                 'role_id' => 1
             ]);
             $user->timestamp = time();
+            $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
             $user->token = AUTHORIZATION::generateToken((array)$user);
-
             if ($user) {
                 // Set the response and exit
                 $this->response([
@@ -131,6 +133,12 @@ class AuthController extends RestController
     {
         // return response if token is valid
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Kullanıcı Bilgileri Getirilirken Hata Oluştu."
+                ], RestController::HTTP_BAD_REQUEST);
+            }
             // Returns all the users data if the id not specified,
             // Otherwise, a single user will be returned.
             $users = $this->user_model->get(["id" => $id]);
@@ -163,13 +171,14 @@ class AuthController extends RestController
             // Otherwise, a single user will be returned.
             $con = !empty($this->token->id) ? array('id' => $this->token->id, 'isActive' => 1) : NULL;
             if (!empty($con)) {
-                $users = $this->user_model->get($con);
+                $user = $this->user_model->get($con);
+                $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
 
                 // Check if the user data exists
-                if (!empty($users)) {
+                if (!empty($user)) {
                     // Set the response and exit
                     //OK (200) being the HTTP response code
-                    $this->response(['status' => TRUE, "user" => $users], RestController::HTTP_OK);
+                    $this->response(['status' => TRUE, "user" => $user], RestController::HTTP_OK);
                 }
             }
             // Set the response and exit

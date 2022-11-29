@@ -27,11 +27,18 @@ class UserRolesController extends RestController
         // Load the user model
         $this->load->model('user_role_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
+        $this->moduleName = ucfirst($this->router->fetch_class());
     }
 
     public function index_get($id = null)
     {
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $roles = $this->user_role_model->get_all(["isActive" => 1]);
             if (!empty($id)) {
                 $roles = $this->user_role_model->get(["id" => $id, "isActive" => 1]);
@@ -54,6 +61,12 @@ class UserRolesController extends RestController
         // return response if token is valid
         $output = [];
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $items = $this->user_role_model->getRows([], $this->post(null, true));
             $data = [];
             if (!empty($items)) :
@@ -74,6 +87,12 @@ class UserRolesController extends RestController
     public function rank_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if ($this->user_role_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
                 $this->response([
                     'status' => TRUE,
@@ -90,6 +109,12 @@ class UserRolesController extends RestController
     public function isactive_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
             if ($this->user_role_model->update(["id" => $id], ["isActive" => $isActive])) {
                 $this->response([
@@ -107,6 +132,12 @@ class UserRolesController extends RestController
     public function save_post()
     {
         if ($this->token) {
+            if (!isAllowedWriteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $data = $this->post();
             $data["rank"] = $this->user_role_model->rowCount() + 1;
             if (!empty($data["permissions"])) {
@@ -128,6 +159,12 @@ class UserRolesController extends RestController
     public function update_post($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if (!empty($id)) {
                 $userRole = $this->user_role_model->get(["id" => $id]);
                 if (!empty($userRole)) {
@@ -153,6 +190,12 @@ class UserRolesController extends RestController
     public function delete_delete($id)
     {
         if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if ($this->user_role_model->delete(["id" => $id, "isCover" => 0])) {
                 $this->response([
                     'status' => TRUE,

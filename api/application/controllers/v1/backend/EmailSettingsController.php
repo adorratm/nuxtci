@@ -29,11 +29,18 @@ class EmailSettingsController extends RestController
         $this->load->model('user_model');
         $this->load->model('emailsettings_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
+        $this->moduleName = ucfirst($this->router->fetch_class());
     }
 
     public function index_get($id)
     {
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if (!empty($id)) {
                 $emailsettings = $this->emailsettings_model->get(["id" => $id]);
                 $this->response([
@@ -54,6 +61,12 @@ class EmailSettingsController extends RestController
         // return response if token is valid
         $output = [];
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $items = $this->emailsettings_model->getRows([], $this->post(null, true));
             $data = [];
             if (!empty($items)) :
@@ -74,6 +87,12 @@ class EmailSettingsController extends RestController
     public function rank_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if ($this->emailsettings_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
                 $this->response([
                     'status' => TRUE,
@@ -90,6 +109,12 @@ class EmailSettingsController extends RestController
     public function isactive_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
             if ($this->emailsettings_model->update(["id" => $id], ["isActive" => $isActive])) {
                 $this->response([
@@ -107,6 +132,12 @@ class EmailSettingsController extends RestController
     public function save_post()
     {
         if ($this->token) {
+            if (!isAllowedWriteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $data = $this->post();
             $data["rank"] = $this->emailsettings_model->rowCount() + 1;
             if ($this->emailsettings_model->add($data)) {
@@ -125,6 +156,12 @@ class EmailSettingsController extends RestController
     public function update_post($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if (!empty($id)) {
                 $settings = $this->emailsettings_model->get(["id" => $id]);
                 if (!empty($settings)) {
@@ -147,7 +184,12 @@ class EmailSettingsController extends RestController
     public function delete_delete($id)
     {
         if ($this->token) {
-            $settings = $this->emailsettings_model->get(["id" => $id]);
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if ($this->emailsettings_model->delete(["id" => $id])) {
                 $this->response([
                     'status' => TRUE,

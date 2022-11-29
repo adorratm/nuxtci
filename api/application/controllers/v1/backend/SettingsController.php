@@ -29,12 +29,19 @@ class SettingsController extends RestController
         $this->load->model('user_model');
         $this->load->model('settings_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
+        $this->moduleName = ucfirst($this->router->fetch_class());
         $this->viewFolder = "settings";
     }
 
     public function index_get($id)
     {
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if (!empty($id)) {
                 $settings = $this->settings_model->get(["id" => $id]);
                 $settings->address_informations = json_decode($settings->address_informations, true);
@@ -56,6 +63,12 @@ class SettingsController extends RestController
         // return response if token is valid
         $output = [];
         if ($this->token) {
+            if (!isAllowedViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $items = $this->settings_model->getRows([], $this->post(null, true));
             $data = [];
             if (!empty($items)) :
@@ -76,6 +89,12 @@ class SettingsController extends RestController
     public function rank_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if ($this->settings_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
                 $this->response([
                     'status' => TRUE,
@@ -92,6 +111,12 @@ class SettingsController extends RestController
     public function isactive_put($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
             if ($this->settings_model->update(["id" => $id], ["isActive" => $isActive])) {
                 $this->response([
@@ -109,6 +134,12 @@ class SettingsController extends RestController
     public function save_post()
     {
         if ($this->token) {
+            if (!isAllowedWriteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $data = $this->post();
             $logo = upload_picture("logo", "uploads/$this->viewFolder", [], "*");
             $mobile_logo = upload_picture("mobile_logo", "uploads/$this->viewFolder", [], "*");
@@ -161,6 +192,12 @@ class SettingsController extends RestController
     public function update_post($id)
     {
         if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             if (!empty($id)) {
                 $settings = $this->settings_model->get(["id" => $id]);
                 if (!empty($settings)) {
@@ -210,6 +247,12 @@ class SettingsController extends RestController
     public function delete_delete($id)
     {
         if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
             $settings = $this->settings_model->get(["id" => $id]);
             if ($this->settings_model->delete(["id" => $id])) {
                 if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}")) :
