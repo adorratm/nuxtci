@@ -51,16 +51,16 @@
               class="dropdown-item"
               :to="'/panel/users/edit/' + getUserInfo?.id"
               ><i class="dropdown-icon fa fa-user-edit"></i
-              ><span>Profil</span></nuxt-link
+              ><span>{{ $t("panel.profile") }}</span></nuxt-link
             >
             <nuxt-link class="dropdown-item" to="/panel/settings/"
               ><i class="dropdown-icon fa fa-cogs"></i
-              ><span>Ayarlar</span></nuxt-link
+              ><span>{{ $t("panel.settings.settings") }}</span></nuxt-link
             >
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" @click="logout()" href="javascript:void(0)"
               ><i class="dropdown-icon fa fa-power-off"></i
-              ><span>Çıkış Yap</span></a
+              ><span>{{ $t("panel.logout") }}</span></a
             >
           </div>
         </li>
@@ -114,11 +114,10 @@ export default {
         // this method will logout the user and make token to false on the local storage of the user browser
         await this.$router.replace("/panel/login");
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     },
   },
-  mounted(){
-  }
+  mounted() {},
 };
 </script>
