@@ -82,57 +82,17 @@
                   </li>
                 </ul>
               </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="javascript:void(0);"
-                  data-toggle="collapse"
-                  data-target="#instagramnav"
-                >
-                  <i class="fa fa-instagram"></i>
-                  <span class="nav-link-text">Instagram İşlemleri</span>
-                </a>
-                <ul
-                  id="instagramnav"
-                  class="nav flex-column collapse collapse-level-1"
-                >
-                  <li class="nav-item">
-                    <ul class="nav flex-column">
-                      <nuxt-link
-                        tag="li"
-                        class="nav-item"
-                        exact
-                        exact-active-class="active"
-                        to="/panel/members/"
-                        custom
-                      >
-                        <a class="nav-link">Hesaplar</a>
-                      </nuxt-link>
-                      <nuxt-link
-                        tag="li"
-                        class="nav-item"
-                        exact
-                        exact-active-class="active"
-                        to="/panel/posts/"
-                        custom
-                      >
-                        <a class="nav-link">Postlar ve Storyler</a>
-                      </nuxt-link>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
             </ul>
             <hr class="nav-separator" />
             <div class="nav-header">
-              <span>SİTEYİ GÖRÜNTÜLEYİN</span>
-              <span>SG</span>
+              <span>{{$t("panel.viewOurSite")}}</span>
+              <span>{{$t("panel.viewOurSite").split(' ').map(function (s) { return s.charAt(0); }).join('')}}</span>
             </div>
             <ul class="navbar-nav flex-column">
               <li class="nav-item">
                 <nuxt-link class="nav-link" to="/">
                   <i class="fa fa-external-link"></i>
-                  <span class="nav-link-text">Siteyi Görüntüle</span>
+                  <span class="nav-link-text">{{$t("panel.viewSite")}}</span>
                 </nuxt-link>
               </li>
             </ul>

@@ -134,15 +134,28 @@ export default {
   },
   methods: {
     async deleteRecord(id) {
-      try {
-        let {data} = await this.$axios.delete(this.deleteurl + id);
-        data.status
-          ? this.$toast.success(data.message, this.$t("successfully"))
-          : this.$toast.error(data.message, this.$t("unsuccessfully"));
-        this.loadItems();
-      } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
-      }
+      await this.$swal({
+        title: this.$t("panel.areYouSure"),
+        text: this.$t("panel.cannotTurnBack"),
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: this.$t("panel.yesDeleteIt"),
+        cancelButtonText: this.$t("panel.no"),
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            let { data } = await this.$axios.delete(this.deleteurl + id);
+            data.status
+              ? this.$toast.success(data.message, this.$t("successfully"))
+              : this.$toast.error(data.message, this.$t("unsuccessfully"));
+            this.loadItems();
+          } catch (error) {
+            this.$toast.error(error.response.data.message, this.$t("error"));
+          }
+        }
+      });
     },
 
     updateParams(newProps) {

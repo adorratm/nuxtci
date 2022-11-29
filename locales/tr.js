@@ -77,7 +77,13 @@ module.exports = {
         deleteRecord: "Kaydı Sil",
         goBack: "Geri Dön",
         save: "Kaydet",
-        next: "Sonraki"
+        next: "Sonraki",
+        viewOurSite: "SİTEYİ GÖRÜNTÜLEYİN",
+        viewSite: "Siteyi Görüntüle",
+        areYouSure: "Emin Misiniz?",
+        cannotTurnBack: "Bu İşlemi Geri Alamayacaksınız!",
+        yesDeleteIt: "Evet, Sil!",
+        no: "Hayır"
     },
     successfully: "Başarılı!",
     unsuccessfully: "Başarısız!",

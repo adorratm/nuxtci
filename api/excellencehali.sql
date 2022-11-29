@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2022 at 03:54 PM
+-- Generation Time: Nov 29, 2022 at 03:22 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -118,8 +118,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phone`, `createdAt`, `updatedAt`, `isActive`, `role_id`, `rank`, `lang`) VALUES
 (1, 'Emre', 'KILIÇ', 'emrekilic@mutfakyapim.com', '0a7483867a2442352e2b86d4b4910826', '05494410120', '2022-10-07 11:20:08', '2022-10-12 13:44:59', 1, 1, 1, 'tr'),
-(2, 'Emre', 'KILIÇ2', 'emrekilic2@mutfakyapim.com', '0a7483867a2442352e2b86d4b4910826', '05494410121', '2022-10-07 11:20:08', '2022-11-25 14:01:02', 1, 2, 2, 'tr'),
-(3, 'Deneme', '123', 'deneme@deneme.com', 'adcd7048512e64b48da55b027577886e', '12312313123', '2022-11-28 10:11:17', '2022-11-28 10:11:17', 1, 3, 3, 'tr');
+(2, 'Emre', 'KILIÇ2', 'emrekilic2@mutfakyapim.com', '0a7483867a2442352e2b86d4b4910826', '05494410121', '2022-10-07 11:20:08', '2022-11-25 14:01:02', 1, 2, 2, 'tr');
 
 -- --------------------------------------------------------
 
@@ -174,9 +173,9 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `title`, `permissions`, `isActive`, `isCover`, `rank`, `createdAt`, `updatedAt`) VALUES
-(1, 'Admin', NULL, 1, 1, 1, '2022-11-28 09:26:09', '2022-11-28 14:51:48'),
-(2, 'Kullanıcı', NULL, 1, 1, 1, '2022-11-28 09:26:09', '2022-11-28 11:22:02'),
-(3, 'Bayi', NULL, 1, 1, 1, '2022-11-28 09:26:29', '2022-11-28 11:22:06');
+(1, 'Admin', '{\"AuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"EmailSettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"SettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UserRolesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UsersController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"FrontendAuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"Welcome\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"}}', 1, 1, 1, '2022-11-28 09:26:09', '2022-11-29 11:48:26'),
+(2, 'Kullanıcı', NULL, 1, 1, 2, '2022-11-28 09:26:09', '2022-11-29 11:50:10'),
+(3, 'Bayi', NULL, 1, 1, 3, '2022-11-28 09:26:29', '2022-11-29 11:50:12');
 
 --
 -- Indexes for dumped tables
@@ -236,7 +235,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_addresses`

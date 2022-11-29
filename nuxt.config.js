@@ -48,7 +48,8 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    'vue-sweetalert2/nuxt'
   ],
 
   i18n: {

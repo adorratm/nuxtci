@@ -21,6 +21,7 @@
     "vue-good-wizard": "^1.4.1",
     "vue-izitoast": "^1.2.1",
     "vue-server-renderer": "^2.6.14",
+    "vue-sweetalert2": "^5.0.5",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
   }
