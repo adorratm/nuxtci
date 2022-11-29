@@ -5,10 +5,11 @@
         @submit.prevent="handleSubmit(saveUserRole)"
         enctype="multipart/form-data"
         method="POST"
+        ref="formv"
       >
-        <div class="row mb-1">
+        <div class="row no-gutters mb-1">
           <div class="col-sm-4">
-            <div class="form-group my-1">
+            <div class="form-group">
               <ValidationProvider
                 vid="title"
                 :name="$t('panel.userRoles.title')"
@@ -67,7 +68,7 @@
           >
             <div class="col-sm-4 text-center">
               <div class="form-group border font-weight-500 p-3">
-                {{ index }}
+                {{ item }}
               </div>
             </div>
             <div class="col-sm-2 text-center">
@@ -81,15 +82,11 @@
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[item]['read']
+                      formData.permissions[item].read
                         ? true
                         : false
                     "
-                    @input="
-                      (event) =>
-                        (formData.permissions[item]['read'] =
-                          event.target.value)
-                    "
+                    v-model="formData.permissions[item].read"
                   />
                   <label
                     class="custom-control-label"
@@ -105,19 +102,15 @@
                     type="checkbox"
                     class="custom-control-input"
                     :id="'customSwitch' + index + 'write'"
-                    :name="'permissions[' + index + '][write]'"
+                    :name="'permissions[' + item + '][write]'"
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[item]['write']
+                      formData.permissions[item].write
                         ? true
                         : false
                     "
-                    @input="
-                      (event) =>
-                        (formData.permissions[item]['write'] =
-                          event.target.value)
-                    "
+                    v-model="formData.permissions[item].write"
                   />
                   <label
                     class="custom-control-label"
@@ -137,15 +130,11 @@
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[item]['update']
+                      formData.permissions[item].update
                         ? true
                         : false
                     "
-                    @input="
-                      (event) =>
-                        (formData.permissions[item]['update'] =
-                          event.target.value)
-                    "
+                    v-model="formData.permissions[item].update"
                   />
                   <label
                     class="custom-control-label"
@@ -161,19 +150,15 @@
                     type="checkbox"
                     class="custom-control-input"
                     :id="'customSwitch' + index + 'delete'"
-                    :name="'permissions[' + index + '][delete]'"
+                    :name="'permissions[' + item + '][delete]'"
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[index]['delete']
+                      formData.permissions[item].delete
                         ? true
                         : false
                     "
-                    @input="
-                      (event) =>
-                        (formData.permissions[index]['delete'] =
-                          event.target.value)
-                    "
+                    v-model="formData.permissions[item].delete"
                   />
                   <label
                     class="custom-control-label"
@@ -221,22 +206,9 @@ export default {
     };
   },
   methods: {
-    getFormData(object) {
-      return Object.keys(object).reduce((formData, key) => {
-        if (object[key] !== null) {
-          formData.append(
-            key,
-            Array.isArray(object[key])
-              ? JSON.stringify(object[key])
-              : object[key]
-          );
-        }
-        return formData;
-      }, new FormData());
-    },
     async saveUserRole() {
       try {
-        const formData = this.getFormData(this.formData);
+        const formData = new FormData(this.$refs.formv);
         let url = this.id
           ? "v1/panel/userroles/update/" + this.id
           : "v1/panel/userroles/save/";
@@ -250,10 +222,10 @@ export default {
           ? this.$toast.success(data.message, this.$t("successfully"))
           : this.$toast.error(data.message, this.$t("unsuccessfully"));
         setTimeout(() => {
-          //this.$router.replace("/panel/user-roles/");
+          this.$router.replace("/panel/user-roles/");
         }, 1000);
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async getRole(id) {
@@ -263,14 +235,24 @@ export default {
           this.controllers = data.controllers;
           if (this.id) {
             this.formData = data.user_roles;
-            this.formData.permissions = this.formData.permissions !== null && JSON.parse(this.formData.permissions).length > 0 ? JSON.parse(this.formData.permissions) : this.controllers;
-            console.log(this.formData.permissions);
+            this.formData.permissions = JSON.parse(this.formData.permissions);
           }
-          
+          if(this.formData.permissions === null){
+            this.formData.permissions = [];
+          }
+          if (this.formData.permissions.length <= 0) {
+            this.controllers.forEach((item, index) => {
+              this.formData.permissions[item] = {
+                read: null,
+                write: null,
+                update: null,
+                delete: null,
+              };
+            });
+          }
         }
       } catch (error) {
         console.log(error);
-        this.$toast.error(error.response.data.message, this.$t("error"));
       }
     },
   },

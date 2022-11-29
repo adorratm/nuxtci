@@ -572,7 +572,7 @@ function getControllerList($path = APPPATH . "controllers")
     $files = array();
     foreach ($rii as $file)
         if (!$file->isDir() && $file->getBasename() != "index.html")
-            $files[] = [$file->getBasename('.' . $file->getExtension()) => ["read" => null, "write" => null, "update" => null, "delete" => null]];
+            $files[] = $file->getBasename('.' . $file->getExtension());
 
     return $files;
 }

@@ -87,12 +87,6 @@ export default {
           type: "string",
         },
         {
-          label: this.$i18n.t("panel.userRoles.permissions"),
-          field: "permissions",
-          html: true,
-          type: "string",
-        },
-        {
           label: this.$i18n.t("panel.isActive"),
           field: "isActive",
           html: true,
@@ -129,10 +123,6 @@ export default {
         },
         {
           field: "title",
-          type: "none",
-        },
-        {
-          field: "permissions",
           type: "none",
         },
         {
