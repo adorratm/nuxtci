@@ -27,7 +27,7 @@ class AuthController extends RestController
     {
         parent::__construct();
 
-        // Load the user model
+        // Load the model
         $this->load->model('user_model');
         $this->load->model('user_role_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();

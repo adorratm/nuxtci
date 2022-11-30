@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use \chriskacerguis\RestServer\RestController;
 
-class UserRolesController extends RestController
+class ProductCategoriesController extends RestController
 {
 
     /**
@@ -24,8 +24,9 @@ class UserRolesController extends RestController
     public function __construct()
     {
         parent::__construct();
+
         // Load the model
-        $this->load->model('user_role_model');
+        $this->load->model('product_category_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
         $this->moduleName = ucfirst($this->router->fetch_class());
     }
@@ -39,20 +40,20 @@ class UserRolesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $roles = $this->user_role_model->get_all(["isActive" => 1]);
+            $productCategory =  $this->product_category_model->get_all();
             if (!empty($id)) {
-                $roles = $this->user_role_model->get(["id" => $id, "isActive" => 1]);
+                $productCategory = $this->product_category_model->get(["id" => $id]);
             }
+
             $this->response([
                 'status' => TRUE,
-                'message' => "Yetki Başarıyla Getirildi.",
-                'user_roles' => $roles,
-                'controllers' => getControllerList()
+                'message' => "Ürün Kategorisi Başarıyla Getirildi.",
+                'productCategory' => $productCategory
             ], RestController::HTTP_OK);
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Yetki Getirilirken Hata Oluştu."
+            'message' => "Ürün Kategorisi Getirilirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -67,16 +68,16 @@ class UserRolesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $items = $this->user_role_model->getRows([], $this->post(null, true));
+            $items = $this->product_category_model->getRows([], $this->post(null, true));
             $data = [];
             if (!empty($items)) :
                 foreach ($items as $item) :
-                    $data[] = ["rank" => $item->rank, "id" => $item->id, "title" => $item->title, "permissions" => $item->permissions, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $item->id];
+                    $data[] = ["rank" => $item->rank, "id" => $item->id, "title" => $item->title, "lang" => $item->lang, "isActive" => $item->isActive, "createdAt" => turkishDate("d F Y, l H:i:s", $item->createdAt), "updatedAt" => turkishDate("d F Y, l H:i:s", $item->updatedAt), "actions" => $item->id];
                 endforeach;
             endif;
             $output = [
-                "recordsTotal" => $this->user_role_model->rowCount(),
-                "recordsFiltered" => $this->user_role_model->countFiltered([], (!empty($this->post(null, true)) ? $this->post(null, true) : [])),
+                "recordsTotal" => $this->product_category_model->rowCount(),
+                "recordsFiltered" => $this->product_category_model->countFiltered([], (!empty($this->post(null, true)) ? $this->post(null, true) : [])),
                 "data" => $data,
             ];
         }
@@ -93,7 +94,7 @@ class UserRolesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if ($this->user_role_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
+            if ($this->product_category_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Sıralama Başarıyla Güncellendi."
@@ -116,7 +117,7 @@ class UserRolesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
-            if ($this->user_role_model->update(["id" => $id], ["isActive" => $isActive])) {
+            if ($this->product_category_model->update(["id" => $id], ["isActive" => $isActive])) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Durum Başarıyla Güncellendi."
@@ -139,20 +140,17 @@ class UserRolesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             $data = $this->post();
-            $data["rank"] = $this->user_role_model->rowCount() + 1;
-            if (!empty($data["permissions"])) {
-                $data["permissions"] = json_encode($data["permissions"]);
-            }
-            if ($this->user_role_model->add($data)) {
+            $data["rank"] = $this->product_category_model->rowCount() + 1;
+            if ($this->product_category_model->add($data)) {
                 $this->response([
                     'status' => TRUE,
-                    'message' => "Yetki Başarıyla Kayıt Edildi."
+                    'message' => "Ürün Kategorisi Başarıyla Kayıt Edildi."
                 ], RestController::HTTP_OK);
             }
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Yetki Kayıt Edilirken Hata Oluştu."
+            'message' => "Ürün Kategorisi Kayıt Edilirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -166,16 +164,13 @@ class UserRolesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $userRole = $this->user_role_model->get(["id" => $id]);
-                if (!empty($userRole)) {
+                $settings = $this->product_category_model->get(["id" => $id]);
+                if (!empty($settings)) {
                     $data = $this->post();
-                    if (!empty($data["permissions"])) {
-                        $data["permissions"] = json_encode($data["permissions"]);
-                    }
-                    if ($this->user_role_model->update(["id" => $id], $data)) {
+                    if ($this->product_category_model->update(["id" => $id], $data)) {
                         $this->response([
                             'status' => TRUE,
-                            'message' => "Yetki Başarıyla Güncellendi."
+                            'message' => "Ürün Kategorisi Başarıyla Güncellendi."
                         ], RestController::HTTP_OK);
                     }
                 }
@@ -183,7 +178,7 @@ class UserRolesController extends RestController
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Yetki Güncellenirken Hata Oluştu."
+            'message' => "Ürün Kategorisi Güncellenirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -196,16 +191,16 @@ class UserRolesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if ($this->user_role_model->delete(["id" => $id, "isCover" => 0])) {
+            if ($this->product_category_model->delete(["id" => $id])) {
                 $this->response([
                     'status' => TRUE,
-                    'message' => "Yetki Başarıyla Silindi."
+                    'message' => "Ürün Kategorisi Başarıyla Silindi."
                 ], RestController::HTTP_OK);
             }
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Yetki Silinirken Hata Oluştu."
+            'message' => "Ürün Kategorisi Silinirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 }

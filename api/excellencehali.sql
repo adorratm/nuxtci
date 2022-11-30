@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2022 at 03:22 PM
+-- Generation Time: Nov 30, 2022 at 03:50 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -47,6 +47,32 @@ CREATE TABLE `email_settings` (
 
 INSERT INTO `email_settings` (`id`, `protocol`, `host`, `port`, `email`, `password`, `lang`, `isActive`, `rank`, `createdAt`, `updatedAt`) VALUES
 (1, 'ssl', 'smtp.yandex.com.tr', 465, 'emrekilic@mutfakyapim.com', 'my12345', 'tr', 1, 1, '2022-11-25 08:17:48', '2022-11-25 08:17:48');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_categories`
+--
+
+CREATE TABLE `product_categories` (
+  `id` int(11) NOT NULL,
+  `top_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `img_url` varchar(255) DEFAULT NULL,
+  `lang` char(2) DEFAULT 'tr',
+  `rank` int(11) DEFAULT 1,
+  `isActive` tinyint(4) DEFAULT 1,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `product_categories`
+--
+
+INSERT INTO `product_categories` (`id`, `top_id`, `title`, `img_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`) VALUES
+(1, 0, 'Ana Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-11-30 14:17:10'),
+(2, 1, 'Alt Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-11-30 14:17:10');
 
 -- --------------------------------------------------------
 
@@ -173,7 +199,7 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `title`, `permissions`, `isActive`, `isCover`, `rank`, `createdAt`, `updatedAt`) VALUES
-(1, 'Admin', '{\"AuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"EmailSettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"SettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UserRolesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UsersController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"FrontendAuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"Welcome\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"}}', 1, 1, 1, '2022-11-28 09:26:09', '2022-11-29 11:48:26'),
+(1, 'Admin', '{\"AuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"EmailSettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"ProductCategoriesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"SettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UserRolesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UsersController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"FrontendAuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"Welcome\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"}}', 1, 1, 1, '2022-11-28 09:26:09', '2022-11-30 14:27:13'),
 (2, 'Kullanıcı', NULL, 1, 1, 2, '2022-11-28 09:26:09', '2022-11-29 11:50:10'),
 (3, 'Bayi', NULL, 1, 1, 3, '2022-11-28 09:26:29', '2022-11-29 11:50:12');
 
@@ -185,6 +211,12 @@ INSERT INTO `user_roles` (`id`, `title`, `permissions`, `isActive`, `isCover`, `
 -- Indexes for table `email_settings`
 --
 ALTER TABLE `email_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `product_categories`
+--
+ALTER TABLE `product_categories`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -224,6 +256,12 @@ ALTER TABLE `user_roles`
 --
 ALTER TABLE `email_settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `settings`

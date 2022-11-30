@@ -25,7 +25,7 @@ class SettingsController extends RestController
     {
         parent::__construct();
 
-        // Load the user model
+        // Load the model
         $this->load->model('user_model');
         $this->load->model('settings_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();

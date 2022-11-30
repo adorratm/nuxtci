@@ -82,6 +82,7 @@
                     :checked="
                       id &&
                       formData.permissions &&
+                      formData.permissions[item] &&
                       formData.permissions[item].read
                         ? true
                         : false
@@ -106,6 +107,7 @@
                     :checked="
                       id &&
                       formData.permissions &&
+                      formData.permissions[item] &&
                       formData.permissions[item].write
                         ? true
                         : false
@@ -130,7 +132,7 @@
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[item].update
+                      formData.permissions[item]?.update
                         ? true
                         : false
                     "
@@ -154,7 +156,7 @@
                     :checked="
                       id &&
                       formData.permissions &&
-                      formData.permissions[item].delete
+                      formData.permissions[item]?.delete
                         ? true
                         : false
                     "
@@ -237,7 +239,7 @@ export default {
             this.formData = data.user_roles;
             this.formData.permissions = JSON.parse(this.formData.permissions);
           }
-          if(this.formData.permissions === null){
+          if (this.formData.permissions === null) {
             this.formData.permissions = [];
           }
           if (this.formData.permissions.length <= 0) {
@@ -248,6 +250,17 @@ export default {
                 update: null,
                 delete: null,
               };
+            });
+          } else {
+            this.controllers.forEach((item, index) => {
+              if (!this.formData.permissions[item]) {
+                this.formData.permissions[item] = {
+                  read: null,
+                  write: null,
+                  update: null,
+                  delete: null,
+                };
+              }
             });
           }
         }

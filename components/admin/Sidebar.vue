@@ -98,6 +98,52 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="javascript:void(0);"
+                  data-toggle="collapse"
+                  data-target="#productcategoriesnav"
+                >
+                  <i class="fa fa-dropbox"></i>
+                  <span class="nav-link-text">{{
+                    $t("panel.productActions")
+                  }}</span>
+                </a>
+                <ul
+                  id="productcategoriesnav"
+                  class="nav flex-column collapse collapse-level-1"
+                >
+                  <li class="nav-item">
+                    <ul class="nav flex-column">
+                      <nuxt-link
+                        tag="li"
+                        class="nav-item"
+                        exact
+                        exact-active-class="active"
+                        to="/panel/product-categories/"
+                        custom
+                      >
+                        <a class="nav-link">{{
+                          $t("panel.productCategories.productCategories")
+                        }}</a>
+                      </nuxt-link>
+                      <nuxt-link
+                        tag="li"
+                        class="nav-item"
+                        exact
+                        exact-active-class="active"
+                        to="/panel/products/"
+                        custom
+                      >
+                        <a class="nav-link">{{
+                          $t("panel.products.products")
+                        }}</a>
+                      </nuxt-link>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
             </ul>
             <hr class="nav-separator" />
             <div class="nav-header">

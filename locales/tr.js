@@ -57,16 +57,25 @@ module.exports = {
         userRoles: {
             userRoles: "Kullanıcı Yetkileri",
             userRolesDesc: "Websitenizdeki Kullanıcı Yetkilerini Buradan Yönetebilirsiniz.",
-            title:"Yetki Başlığı",
+            title: "Yetki Başlığı",
             permissions: "Yetkiler",
-            read:"Okuma Yetkisi",
+            read: "Okuma Yetkisi",
             write: "Yazma Yetkisi",
             update: "Güncelleme Yetkisi",
             delete: "Silme Yetkisi",
             module: "Modül"
         },
+        productCategories: {
+            productCategories: "Ürün Kategorileri",
+            productCategoriesDesc: "Websitenizdeki Ürün Kategorilerini Buradan Yönetebilirsiniz.",
+            title: "Başlık"
+        },
+        products: {
+            products: "Ürünler"
+        },
         dashboard: "Dashboard",
         userActions: "Kullanıcı İşlemleri",
+        productActions: "Ürün İşlemleri",
         profile: "Profil",
         logout: "Çıkış Yap",
         mutfakYapim: "Mutfak Yapım Dijital Reklam Ajansı",

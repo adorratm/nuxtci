@@ -25,7 +25,7 @@ class UsersController extends RestController
     {
         parent::__construct();
 
-        // Load the user model
+        // Load the model
         $this->load->model('user_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
         $this->moduleName = ucfirst($this->router->fetch_class());

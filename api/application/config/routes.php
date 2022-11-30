@@ -73,7 +73,6 @@ $route['v1/panel/emailsettings/update/(:num)'] = 'v1/backend/EmailSettingsContro
 $route['v1/panel/emailsettings/delete/(:num)'] = 'v1/backend/EmailSettingsController/delete/$1';
 
 // USERS
-
 $route['v1/panel/users'] = 'v1/backend/UsersController';
 $route['v1/panel/users/(:num)'] = 'v1/backend/UsersController/$1';
 $route['v1/panel/users/save'] = 'v1/backend/UsersController/save';
@@ -86,3 +85,10 @@ $route['v1/panel/userroles/(:num)'] = 'v1/backend/UserRolesController/$1';
 $route['v1/panel/userroles/save'] = 'v1/backend/UserRolesController/save';
 $route['v1/panel/userroles/update/(:num)'] = 'v1/backend/UserRolesController/update/$1';
 $route['v1/panel/userroles/delete/(:num)'] = 'v1/backend/UserRolesController/delete/$1';
+
+// PRODUCT CATEGORIES
+$route['v1/panel/productcategories'] = 'v1/backend/ProductCategoriesController';
+$route['v1/panel/productcategories/(:num)'] = 'v1/backend/ProductCategoriesController/$1';
+$route['v1/panel/productcategories/save'] = 'v1/backend/ProductCategoriesController/save';
+$route['v1/panel/productcategories/update/(:num)'] = 'v1/backend/ProductCategoriesController/update/$1';
+$route['v1/panel/productcategories/delete/(:num)'] = 'v1/backend/ProductCategoriesController/delete/$1';
