@@ -94,7 +94,7 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if ($this->product_category_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
+            if ($this->product_category_model->update(["id" => $id], ["rank" => $this->put('rank', true), "top_id" => $this->put('top_id', true)])) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Sıralama Başarıyla Güncellendi."

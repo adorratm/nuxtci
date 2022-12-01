@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2022 at 03:50 PM
+-- Generation Time: Dec 01, 2022 at 03:40 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -60,7 +60,7 @@ CREATE TABLE `product_categories` (
   `title` varchar(255) DEFAULT NULL,
   `img_url` varchar(255) DEFAULT NULL,
   `lang` char(2) DEFAULT 'tr',
-  `rank` int(11) DEFAULT 1,
+  `rank` int(11) DEFAULT 0,
   `isActive` tinyint(4) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -71,8 +71,8 @@ CREATE TABLE `product_categories` (
 --
 
 INSERT INTO `product_categories` (`id`, `top_id`, `title`, `img_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`) VALUES
-(1, 0, 'Ana Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-11-30 14:17:10'),
-(2, 1, 'Alt Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-11-30 14:17:10');
+(10, 0, 'Ana Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-12-01 14:19:24'),
+(12, 10, 'Alt Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-12-01 14:19:30');
 
 -- --------------------------------------------------------
 
@@ -261,7 +261,7 @@ ALTER TABLE `email_settings`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `settings`

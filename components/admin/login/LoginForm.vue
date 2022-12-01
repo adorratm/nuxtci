@@ -80,12 +80,21 @@ export default {
   methods: {
     async login() {
       try {
-        let response = await this.$auth.loginWith("admin", {
+        let { data } = await this.$auth.loginWith("admin", {
           data: this.loginData,
         });
-        this.$router.replace("/panel");
+        this.$router.replace("/panel").then(() => {
+          this.$toast.success(
+            data.message +
+              " " +
+              data.user.first_name +
+              " " +
+              data.user.last_name,
+            this.$t("successfully")
+          );
+        });
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
         this.$refs.form.setErrors({
           email: [error.response.data.message],
           password: [error.response.data.message],

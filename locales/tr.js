@@ -100,6 +100,7 @@ module.exports = {
         yesDeleteIt: "Evet, Sil!",
         no: "Hayır"
     },
+    logoutSuccessfully: "Başarıyla Çıkış Yaptınız",
     successfully: "Başarılı!",
     unsuccessfully: "Başarısız!",
     error: "Hata!",

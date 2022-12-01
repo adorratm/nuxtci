@@ -29,7 +29,9 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  <ProductCategoriesContent />
+                  <ProductCategoriesContent :rankurl="
+                      $config.API_URL + 'v1/backend/productCategoriesController/rank/'
+                    " />
                 </div>
               </div>
             </div>

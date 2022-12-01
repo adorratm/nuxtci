@@ -186,7 +186,7 @@ export default {
           this.$router.replace("/panel/settings/");
         }, 1000);
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async getSettings(id) {
@@ -199,7 +199,7 @@ export default {
           );
         }
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
   },

@@ -1,58 +1,105 @@
 <template>
   <div>
-    <Tree v-model="product_categories" :textKey="'id'" :childrenKey="'top_id'" :virtualization="true" :watermark="true">
-      <span slot-scope="{ node, path, tree }">
-        <b class="btn btn-pink btn-sm py-0" @click="tree.toggleFold(node, path)" v-html="node.$folded ? '<i class=\'fa fa-plus\'></i>' : '<i class=\'fa fa-minus\'></i>'"></b>
-        <input
-          type="checkbox"
-          :checked="node.$checked"
-          @change="tree.toggleCheck(node, path)"
-        />
-        {{ node.text }}
-      </span>
-    </Tree>
+    <Draggable
+      :flatData="product_categories"
+      textKey="title"
+      idKey="id"
+      parentIdKey="top_id"
+      :ondragend="changeRank"
+      ref="categories"
+    >
+      <template v-slot="{ node, tree }">
+        <div class="mb-1">
+          <b
+            v-if="parent_categories.includes(node.id)"
+            class="btn btn-pink btn-sm"
+            @click="tree.toggleFold(node)"
+            v-html="
+              node.$folded
+                ? '<i class=\'fa fa-plus\'></i>'
+                : '<i class=\'fa fa-minus\'></i>'
+            "
+          ></b>
+          <input
+            type="checkbox"
+            name="categories[]"
+            v-model="node.$checked"
+            @change="tree.updateChecked(node)"
+          />
+          <span
+            >#{{ node.rank }} - <cite class="font-weight-bold">ID</cite> :
+            {{ node.id }} -
+            <cite class="font-weight-bold">{{ node.title }}</cite></span
+          >
+          <nuxt-link
+            :to="'/panel/product-categories/update/' + node.id"
+            class="btn btn-pink btn-sm"
+          >
+            <i class="fa fa-edit"></i>
+          </nuxt-link>
+        </div>
+      </template>
+    </Draggable>
   </div>
 </template>
 
 <script>
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import "he-tree-vue/dist/he-tree-vue.css";
-import { Tree, Draggable, Check, Fold } from "he-tree-vue";
+import "@he-tree/vue2/dist/he-tree-vue2.css";
+import { Draggable } from "@he-tree/vue2";
 export default {
   components: {
     ValidationProvider,
     ValidationObserver,
-    Tree: Tree.mixPlugins([Draggable, Check, Fold]),
+    Draggable,
   },
-  props: ["id"],
+  props: ["id", "rankurl"],
   data() {
     return {
-
       product_categories: [],
+      parent_categories: [],
     };
   },
   methods: {
-    getFormData(object) {
-      return Object.keys(object).reduce((formData, key) => {
-        if (object[key] !== null) {
-          formData.append(
-            key,
-            Array.isArray(object[key])
-              ? JSON.stringify(object[key])
-              : object[key]
-          );
-        }
-        return formData;
-      }, new FormData());
+    // Rank Change
+    async changeRank(data) {
+      try {
+        console.log(data);
+        let id = data?.draggingNode?.id;
+        let rank = data?.targetPath?.index == 0 ? 1 : data?.targetPath?.index;
+        let topId = data?.targetPath?.parent?.id
+          ? data?.targetPath?.parent?.id
+          : 0;
+        let response = await this.$axios.$put(this.rankurl + id, {
+          rank: rank,
+          top_id: topId,
+        });
+        this.parent_categories = [];
+        this.getProductCategories();
+        response.status
+          ? this.$toast.success(response.message, this.$t("successfully"))
+          : this.$toast.error(response.message, this.$t("unsuccessfully"));
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getProductCategories() {
       try {
         let { data } = await this.$axios.get("v1/panel/productcategories/");
-        if (data && data.product_categories) {
-          this.product_categories = data.product_categories;
+        if (data && data.productCategory) {
+          this.product_categories = data.productCategory;
+
+          this.product_categories.forEach((item, index) => {
+            if (
+              item.top_id != 0 &&
+              !this.parent_categories.includes(item.top_id)
+            ) {
+              this.parent_categories.push(item.top_id);
+            }
+          });
         }
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async saveProductCategory() {
@@ -74,7 +121,7 @@ export default {
           this.$router.replace("/panel/product-categories/");
         }, 1000);
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
   },

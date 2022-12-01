@@ -152,7 +152,7 @@ export default {
               : this.$toast.error(data.message, this.$t("unsuccessfully"));
             this.loadItems();
           } catch (error) {
-            this.$toast.error(error.response.data.message, this.$t("error"));
+            console.log(error);
           }
         }
       });
@@ -217,7 +217,7 @@ export default {
           ? this.$toast.success(response.message, this.$t("successfully"))
           : this.$toast.error(response.message, this.$t("unsuccessfully"));
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
 
@@ -231,7 +231,7 @@ export default {
           ? this.$toast.success(response.message, this.$t("successfully"))
           : this.$toast.error(response.message, this.$t("unsuccessfully"));
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
   },

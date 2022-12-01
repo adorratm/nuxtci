@@ -207,7 +207,7 @@ export default {
           this.$router.replace("/panel/email-settings/");
         }, 1000);
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async getEmailSettings(id) {
@@ -217,7 +217,7 @@ export default {
           this.formData = data.emailsettings;
         }
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
   },

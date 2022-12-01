@@ -254,7 +254,7 @@ export default {
           this.user_roles = data.user_roles;
         }
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async saveUser() {
@@ -276,7 +276,7 @@ export default {
           this.$router.replace("/panel/users/");
         }, 1000);
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
     async getUser(id) {
@@ -288,7 +288,7 @@ export default {
           this.formData.password_repeat = null;
         }
       } catch (error) {
-        this.$toast.error(error.response.data.message, this.$t("error"));
+        console.log(error);
       }
     },
   },

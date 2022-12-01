@@ -48,10 +48,10 @@ class AuthController extends RestController
                 'isActive' => 1,
                 'role_id' => 1
             ]);
-            $user->timestamp = time();
-            $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
-            $user->token = AUTHORIZATION::generateToken((array)$user);
             if ($user) {
+                $user->timestamp = time();
+                $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
+                $user->token = AUTHORIZATION::generateToken((array)$user);
                 // Set the response and exit
                 $this->response([
                     'status' => TRUE,

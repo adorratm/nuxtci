@@ -112,7 +112,12 @@ export default {
       try {
         await this.$auth.logout();
         // this method will logout the user and make token to false on the local storage of the user browser
-        await this.$router.replace("/panel/login");
+        await this.$router.replace("/panel/login").then(() => {
+          this.$toast.success(
+            this.$t("logoutSuccessfully"),
+            this.$t("successfully")
+          );
+        });
       } catch (e) {
         console.log(e);
       }
