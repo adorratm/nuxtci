@@ -5,10 +5,10 @@
       textKey="title"
       idKey="id"
       parentIdKey="top_id"
-      :ondragend="changeRank"
-      ref="categories"
+      @drop="changeRank"
+      :virtualization="false"
     >
-      <template v-slot="{ node, tree }">
+      <template v-slot="{ node,tree }">
         <div class="mb-1">
           <b
             v-if="parent_categories.includes(node.id)"
@@ -23,8 +23,7 @@
           <input
             type="checkbox"
             name="categories[]"
-            v-model="node.$checked"
-            @change="tree.updateChecked(node)"
+            v-model="checked_categories[node.id]"
           />
           <span
             >#{{ node.rank }} - <cite class="font-weight-bold">ID</cite> :
@@ -58,13 +57,16 @@ export default {
     return {
       product_categories: [],
       parent_categories: [],
+      checked_categories:[]
     };
   },
   methods: {
+    log(node){
+      console.log(node);
+    },
     // Rank Change
     async changeRank(data) {
       try {
-        console.log(data);
         let id = data?.draggingNode?.id;
         let rank = data?.targetPath?.index == 0 ? 1 : data?.targetPath?.index;
         let topId = data?.targetPath?.parent?.id
@@ -74,8 +76,17 @@ export default {
           rank: rank,
           top_id: topId,
         });
+
         this.parent_categories = [];
-        this.getProductCategories();
+        this.product_categories = data.targetTree.outputFlatData();
+        this.product_categories.forEach((item, index) => {
+            if (
+              item.top_id != 0 &&
+              !this.parent_categories.includes(item.top_id)
+            ) {
+              this.parent_categories.push(item.top_id);
+            }
+          });
         response.status
           ? this.$toast.success(response.message, this.$t("successfully"))
           : this.$toast.error(response.message, this.$t("unsuccessfully"));
