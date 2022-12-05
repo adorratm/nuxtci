@@ -31,7 +31,7 @@
                 <div class="card-body">
                   <ProductCategoriesContent :rankurl="
                       $config.API_URL + 'v1/backend/productCategoriesController/rank/'
-                    " />
+                    " :deleteurl="$config.API_URL+'v1/panel/productcategories/delete/'" />
                 </div>
               </div>
             </div>

@@ -68,7 +68,8 @@ module.exports = {
         productCategories: {
             productCategories: "Ürün Kategorileri",
             productCategoriesDesc: "Websitenizdeki Ürün Kategorilerini Buradan Yönetebilirsiniz.",
-            title: "Başlık"
+            title: "Başlık",
+            noProductCategoriesFound: "Henüz Eklenmiş Bir Ürün Kategorisi Bulunamadı"
         },
         products: {
             products: "Ürünler"
@@ -100,6 +101,9 @@ module.exports = {
         yesDeleteIt: "Evet, Sil!",
         no: "Hayır"
     },
+    selectAll: "Tümünü Seç",
+    unSelectAll: "Seçimi Temizle",
+    deleteSelected: "Seçilileri Sil",
     logoutSuccessfully: "Başarıyla Çıkış Yaptınız",
     successfully: "Başarılı!",
     unsuccessfully: "Başarısız!",

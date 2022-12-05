@@ -182,7 +182,7 @@ class ProductCategoriesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function delete_delete($id)
+    public function delete_delete($id = null)
     {
         if ($this->token) {
             if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
@@ -191,11 +191,13 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if ($this->product_category_model->delete(["id" => $id])) {
-                $this->response([
-                    'status' => TRUE,
-                    'message' => "Ürün Kategorisi Başarıyla Silindi."
-                ], RestController::HTTP_OK);
+            if (!empty($id)) {
+                if ($this->product_category_model->deleteBulk("id", @explode(",", $id))) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Ürün Kategorisi Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
             }
         }
         $this->response([

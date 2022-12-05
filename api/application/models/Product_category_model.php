@@ -38,6 +38,11 @@ class Product_category_model extends CI_Model
         return $this->db->where($where)->delete($this->tableName);
     }
 
+    public function deleteBulk($wherein = '', $data = [])
+    {
+        return $this->db->where_in($wherein, $data)->delete($this->tableName);
+    }
+
     public function rowCount($where = [])
     {
         return $this->db->where($where)->count_all_results($this->tableName);

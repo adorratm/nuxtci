@@ -6,14 +6,14 @@
       idKey="id"
       parentIdKey="top_id"
       @drop="changeRank"
-      :virtualization="false"
+      v-if="product_categories.length > 0"
     >
-      <template v-slot="{ node,tree }">
-        <div class="mb-1">
+      <template v-slot="{ node, tree }">
+        <div class="mb-1 bg-gold-light-5 p-2">
           <b
-            v-if="parent_categories.includes(node.id)"
             class="btn btn-pink btn-sm"
             @click="tree.toggleFold(node)"
+            v-if="node.$children.length > 0"
             v-html="
               node.$folded
                 ? '<i class=\'fa fa-plus\'></i>'
@@ -22,12 +22,11 @@
           ></b>
           <input
             type="checkbox"
-            name="categories[]"
-            v-model="checked_categories[node.id]"
+            :value="node.id"
+            v-model="checked_categories"
           />
           <span
-            >#{{ node.rank }} - <cite class="font-weight-bold">ID</cite> :
-            {{ node.id }} -
+            >#<cite class="font-weight-bold">ID</cite> : {{ node.id }} -
             <cite class="font-weight-bold">{{ node.title }}</cite></span
           >
           <nuxt-link
@@ -39,6 +38,34 @@
         </div>
       </template>
     </Draggable>
+    <div class="alert alert-info" v-if="product_categories.length <= 0">
+      <h3 class="my-0">
+        {{ $t("panel.productCategories.noProductCategoriesFound") }}
+      </h3>
+    </div>
+    <button
+      v-if="checked_categories.length > 0"
+      @click="checkAll()"
+      class="btn btn-blue mt-50"
+    >
+      <i class="fa fa-check-double"></i>
+      {{ $t("selectAll") }}
+    </button>
+    <button
+      v-if="checked_categories.length > 0"
+      @click="checked_categories = []"
+      class="btn btn-pumpkin mt-50"
+    >
+      <i class="fa fa-check"></i>
+      {{ $t("unSelectAll") }}
+    </button>
+    <button
+      v-if="checked_categories.length > 0"
+      class="btn btn-danger mt-50"
+      @click="deleteSelected()"
+    >
+      <i class="fa fa-trash"></i> {{ $t("deleteSelected") }}
+    </button>
   </div>
 </template>
 
@@ -52,17 +79,19 @@ export default {
     ValidationObserver,
     Draggable,
   },
-  props: ["id", "rankurl"],
+  props: ["id", "rankurl", "deleteurl"],
   data() {
     return {
       product_categories: [],
-      parent_categories: [],
-      checked_categories:[]
+      checked_categories: [],
     };
   },
   methods: {
-    log(node){
-      console.log(node);
+    checkAll() {
+      this.product_categories.forEach((el) => {
+        if (!this.checked_categories.includes(el.id))
+          this.checked_categories.push(el.id);
+      });
     },
     // Rank Change
     async changeRank(data) {
@@ -76,17 +105,6 @@ export default {
           rank: rank,
           top_id: topId,
         });
-
-        this.parent_categories = [];
-        this.product_categories = data.targetTree.outputFlatData();
-        this.product_categories.forEach((item, index) => {
-            if (
-              item.top_id != 0 &&
-              !this.parent_categories.includes(item.top_id)
-            ) {
-              this.parent_categories.push(item.top_id);
-            }
-          });
         response.status
           ? this.$toast.success(response.message, this.$t("successfully"))
           : this.$toast.error(response.message, this.$t("unsuccessfully"));
@@ -99,15 +117,6 @@ export default {
         let { data } = await this.$axios.get("v1/panel/productcategories/");
         if (data && data.productCategory) {
           this.product_categories = data.productCategory;
-
-          this.product_categories.forEach((item, index) => {
-            if (
-              item.top_id != 0 &&
-              !this.parent_categories.includes(item.top_id)
-            ) {
-              this.parent_categories.push(item.top_id);
-            }
-          });
         }
       } catch (error) {
         console.log(error);
@@ -134,6 +143,40 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    async deleteSelected() {
+      await this.$swal({
+        title: this.$t("panel.areYouSure"),
+        text: this.$t("panel.cannotTurnBack"),
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: this.$t("panel.yesDeleteIt"),
+        cancelButtonText: this.$t("panel.no"),
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            let { data } = await this.$axios.delete(
+              this.deleteurl + this.checked_categories.join(",")
+            );
+            data.status
+              ? this.$toast.success(data.message, this.$t("successfully"))
+              : this.$toast.error(data.message, this.$t("unsuccessfully"));
+            this.checked_categories.forEach((elem, index) => {
+              let indexOfObject = this.product_categories.findIndex(
+                (object) => {
+                  return object.id === index;
+                }
+              );
+              this.product_categories.splice(indexOfObject, 1);
+            });
+            this.checked_categories = [];
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
     },
   },
   mounted() {
