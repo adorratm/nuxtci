@@ -13,21 +13,21 @@
                 </div>
                 <div class="card-header card-header-action">
                   <div class="flex-grow-1">
-                    <h6 class="mb-10">{{ $t("panel.users.users") }}</h6>
+                    <h6 class="mb-10">{{ $t("panel.productCategories.productCategories") }}</h6>
                     <p class="font-14 w-80">
-                      {{ $t("panel.users.usersDesc") }}
+                      {{ $t("panel.productCategories.productCategoriesDesc") }}
                     </p>
                   </div>
                   <div class="d-flex align-items-center">
                     <nuxt-link
                       class="btn btn-sm btn-outline-primary rounded-0"
-                      to="/panel/users/"
+                      to="/panel/product-categories/"
                       >{{ $t("panel.goBack") }}</nuxt-link
                     >
                   </div>
                 </div>
                 <div class="card-body">
-                  <UsersContent :id="this.$route.params.id" />
+                  <ProductCategoriesContentEditable :id="this.$route.params.id" />
                 </div>
               </div>
             </div>
@@ -40,11 +40,11 @@
   </div>
 </template>
 <script>
-import UsersContent from "~/components/admin/users/UsersContent.vue";
+import ProductCategoriesContentEditable from "~/components/admin/product-categories/ProductCategoriesContentEditable.vue";
 export default {
   layout: "admin",
   components: {
-    UsersContent,
+    ProductCategoriesContentEditable,
   },
   mounted() {
     this.$nextTick(() => {

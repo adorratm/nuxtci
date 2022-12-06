@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2022 at 03:40 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Dec 06, 2022 at 03:51 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,7 @@ CREATE TABLE `email_settings` (
   `rank` int(11) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `email_settings`
@@ -57,22 +57,26 @@ INSERT INTO `email_settings` (`id`, `protocol`, `host`, `port`, `email`, `passwo
 CREATE TABLE `product_categories` (
   `id` int(11) NOT NULL,
   `top_id` int(11) DEFAULT NULL,
+  `codes_id` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `img_url` varchar(255) DEFAULT NULL,
+  `banner_url` varchar(255) DEFAULT NULL,
   `lang` char(2) DEFAULT 'tr',
   `rank` int(11) DEFAULT 0,
   `isActive` tinyint(4) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_categories`
 --
 
-INSERT INTO `product_categories` (`id`, `top_id`, `title`, `img_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`) VALUES
-(10, 0, 'Ana Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-12-01 14:19:24'),
-(12, 10, 'Alt Kategori', NULL, 'tr', 1, 1, '2022-11-30 14:17:10', '2022-12-01 14:19:30');
+INSERT INTO `product_categories` (`id`, `top_id`, `codes_id`, `title`, `img_url`, `banner_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`) VALUES
+(13, NULL, '1', ' xvxcvxcv', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
+(14, 13, '2', 'czxc', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21'),
+(15, NULL, '3', ' xvxcvxcvvcbvre', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
+(17, 0, '4', 'test', 'c0faafef0b12acf88f9a3a86e14a22c6.webp', '711c619c56de9f443e246ec83f04f97a.webp', 'tr', 2, 1, '2022-12-06 13:56:50', '2022-12-06 14:42:41');
 
 -- --------------------------------------------------------
 
@@ -108,7 +112,7 @@ CREATE TABLE `settings` (
   `address_informations` longtext DEFAULT NULL,
   `appstore` varchar(255) DEFAULT NULL,
   `playstore` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
@@ -136,7 +140,7 @@ CREATE TABLE `users` (
   `role_id` int(11) DEFAULT 2,
   `rank` int(11) DEFAULT 1,
   `lang` char(2) DEFAULT 'tr'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -175,7 +179,7 @@ CREATE TABLE `user_addresses` (
   `rank` int(11) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -192,7 +196,7 @@ CREATE TABLE `user_roles` (
   `rank` int(11) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_roles`
@@ -261,7 +265,7 @@ ALTER TABLE `email_settings`
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `settings`

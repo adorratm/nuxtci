@@ -29,6 +29,7 @@ class ProductCategoriesController extends RestController
         $this->load->model('product_category_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
         $this->moduleName = ucfirst($this->router->fetch_class());
+        $this->viewFolder = "productcategories";
     }
 
     public function index_get($id = null)
@@ -140,6 +141,14 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             $data = $this->post();
+            $img_url = upload_picture("img_url", "uploads/$this->viewFolder", [], "*");
+            $banner_url = upload_picture("banner_url", "uploads/$this->viewFolder", [], "*");
+            if ($img_url["success"]) :
+                $data["img_url"] = $img_url["file_name"];
+            endif;
+            if ($banner_url["success"]) :
+                $data["banner_url"] = $banner_url["file_name"];
+            endif;
             $data["rank"] = $this->product_category_model->rowCount() + 1;
             if ($this->product_category_model->add($data)) {
                 $this->response([
@@ -147,6 +156,16 @@ class ProductCategoriesController extends RestController
                     'message' => "Ürün Kategorisi Başarıyla Kayıt Edildi."
                 ], RestController::HTTP_OK);
             }
+            if ($img_url["success"]) :
+                if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}")) :
+                    unlink(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}");
+                endif;
+            endif;
+            if ($banner_url["success"]) :
+                if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}")) :
+                    unlink(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}");
+                endif;
+            endif;
         }
         $this->response([
             'status' => FALSE,
@@ -164,9 +183,23 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $settings = $this->product_category_model->get(["id" => $id]);
-                if (!empty($settings)) {
+                $productCategory = $this->product_category_model->get(["id" => $id]);
+                if (!empty($productCategory)) {
                     $data = $this->post();
+                    $img_url = upload_picture("img_url", "uploads/$this->viewFolder", [], "*");
+                    $banner_url = upload_picture("banner_url", "uploads/$this->viewFolder", [], "*");
+                    if ($img_url["success"]) :
+                        $data["img_url"] = $img_url["file_name"];
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}");
+                        endif;
+                    endif;
+                    if ($banner_url["success"]) :
+                        $data["banner_url"] = $banner_url["file_name"];
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->mobile_logo}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}");
+                        endif;
+                    endif;
                     if ($this->product_category_model->update(["id" => $id], $data)) {
                         $this->response([
                             'status' => TRUE,

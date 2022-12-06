@@ -175,7 +175,6 @@ class SettingsController extends RestController
                 if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["mobile_logo"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["mobile_logo"]}")) :
                     unlink(FCPATH . "uploads/{$this->viewFolder}/{$data["mobile_logo"]}");
                 endif;
-                $data["mobile_logo"] = $mobile_logo["file_name"];
             endif;
             if ($favicon["success"]) :
                 if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["favicon"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["favicon"]}")) :

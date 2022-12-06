@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div class="alert alert-info" v-if="product_categories.length <= 0">
+      <h3 class="my-0">
+        {{ $t("panel.productCategories.noProductCategoriesFound") }}
+      </h3>
+    </div>
+    <button
+      v-if="checked_categories.length > 0"
+      @click="checkAll()"
+      class="btn btn-blue mb-25"
+    >
+      <i class="fa fa-check-double"></i>
+      {{ $t("selectAll") }}
+    </button>
+    <button
+      v-if="checked_categories.length > 0"
+      @click="checked_categories = []"
+      class="btn btn-pumpkin mb-25"
+    >
+      <i class="fa fa-check"></i>
+      {{ $t("unSelectAll") }}
+    </button>
+    <button
+      v-if="checked_categories.length > 0"
+      class="btn btn-danger mb-25"
+      @click="deleteSelected()"
+    >
+      <i class="fa fa-trash"></i> {{ $t("deleteSelected") }}
+    </button>
     <Draggable
       :flatData="product_categories"
       textKey="title"
@@ -9,9 +37,9 @@
       v-if="product_categories.length > 0"
     >
       <template v-slot="{ node, tree }">
-        <div class="mb-1 bg-gold-light-5 p-2">
+        <div class="mb-1 bg-gold-light-5 d-flex align-items-center align-self-center align-content-center p-2">
           <b
-            class="btn btn-pink btn-sm"
+            class="btn btn-cyan btn-sm"
             @click="tree.toggleFold(node)"
             v-if="node.$children.length > 0"
             v-html="
@@ -24,48 +52,36 @@
             type="checkbox"
             :value="node.id"
             v-model="checked_categories"
+            class="mx-15"
           />
-          <span
-            >#<cite class="font-weight-bold">ID</cite> : {{ node.id }} -
-            <cite class="font-weight-bold">{{ node.title }}</cite></span
+          <small class="font-weight-bold"
+            >#CODES ID : {{ node.codes_id }}</small
           >
+          
+          <span> - {{ node.title }}</span>
+          <span class="custom-control custom-switch ml-15">
+            <input
+              :id="'customSwitch' + node.id"
+              type="checkbox"
+              class="my-check custom-control-input"
+              :checked="node.isActive == 1 ? true : false"
+              @input.prevent="changeIsActive($event, node.id)"
+            />
+            <label
+              class="custom-control-label"
+              :for="'customSwitch' + node.id"
+            ></label>
+          </span>
           <nuxt-link
             :to="'/panel/product-categories/update/' + node.id"
-            class="btn btn-pink btn-sm"
+            class="btn btn-pink btn-sm ml-15"
           >
             <i class="fa fa-edit"></i>
           </nuxt-link>
         </div>
       </template>
     </Draggable>
-    <div class="alert alert-info" v-if="product_categories.length <= 0">
-      <h3 class="my-0">
-        {{ $t("panel.productCategories.noProductCategoriesFound") }}
-      </h3>
-    </div>
-    <button
-      v-if="checked_categories.length > 0"
-      @click="checkAll()"
-      class="btn btn-blue mt-50"
-    >
-      <i class="fa fa-check-double"></i>
-      {{ $t("selectAll") }}
-    </button>
-    <button
-      v-if="checked_categories.length > 0"
-      @click="checked_categories = []"
-      class="btn btn-pumpkin mt-50"
-    >
-      <i class="fa fa-check"></i>
-      {{ $t("unSelectAll") }}
-    </button>
-    <button
-      v-if="checked_categories.length > 0"
-      class="btn btn-danger mt-50"
-      @click="deleteSelected()"
-    >
-      <i class="fa fa-trash"></i> {{ $t("deleteSelected") }}
-    </button>
+    
   </div>
 </template>
 
@@ -79,7 +95,7 @@ export default {
     ValidationObserver,
     Draggable,
   },
-  props: ["id", "rankurl", "deleteurl"],
+  props: ["id", "rankurl", "deleteurl","isactiveurl"],
   data() {
     return {
       product_categories: [],
@@ -87,6 +103,19 @@ export default {
     };
   },
   methods: {
+    // Status Change
+    async changeIsActive(e, id) {
+      try {
+        let response = await this.$axios.$put(this.isactiveurl + id, {
+          isActive: e.target.checked,
+        });
+        response.status
+          ? this.$toast.success(response.message, this.$t("successfully"))
+          : this.$toast.error(response.message, this.$t("unsuccessfully"));
+      } catch (error) {
+        console.log(error);
+      }
+    },
     checkAll() {
       this.product_categories.forEach((el) => {
         if (!this.checked_categories.includes(el.id))

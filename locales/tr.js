@@ -69,6 +69,9 @@ module.exports = {
             productCategories: "Ürün Kategorileri",
             productCategoriesDesc: "Websitenizdeki Ürün Kategorilerini Buradan Yönetebilirsiniz.",
             title: "Başlık",
+            codesId: "CODES ID",
+            imgUrl: "Kategori Görseli",
+            bannerUrl: "Banner Görseli",
             noProductCategoriesFound: "Henüz Eklenmiş Bir Ürün Kategorisi Bulunamadı"
         },
         products: {
