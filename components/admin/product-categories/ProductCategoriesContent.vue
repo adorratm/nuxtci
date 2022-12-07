@@ -35,9 +35,18 @@
       parentIdKey="top_id"
       @drop="changeRank"
       v-if="product_categories.length > 0"
+      ref="draggableTree"
     >
       <template v-slot="{ node, tree }">
-        <div class="mb-1 bg-gold-light-5 d-flex align-items-center align-self-center align-content-center p-2">
+        <div
+          class="
+            mb-1
+            bg-gold-light-5
+            d-flex
+            align-items-center align-self-center align-content-center
+            p-2
+          "
+        >
           <b
             class="btn btn-cyan btn-sm"
             @click="tree.toggleFold(node)"
@@ -50,14 +59,14 @@
           ></b>
           <input
             type="checkbox"
-            :value="node.id"
+            :value="node"
             v-model="checked_categories"
             class="mx-15"
           />
           <small class="font-weight-bold"
             >#CODES ID : {{ node.codes_id }}</small
           >
-          
+
           <span> - {{ node.title }}</span>
           <span class="custom-control custom-switch ml-15">
             <input
@@ -81,7 +90,6 @@
         </div>
       </template>
     </Draggable>
-    
   </div>
 </template>
 
@@ -95,7 +103,7 @@ export default {
     ValidationObserver,
     Draggable,
   },
-  props: ["id", "rankurl", "deleteurl","isactiveurl"],
+  props: ["id", "rankurl", "deleteurl", "isactiveurl"],
   data() {
     return {
       product_categories: [],
@@ -118,8 +126,8 @@ export default {
     },
     checkAll() {
       this.product_categories.forEach((el) => {
-        if (!this.checked_categories.includes(el.id))
-          this.checked_categories.push(el.id);
+        if (!this.checked_categories.includes(el))
+          this.checked_categories.push(el);
       });
     },
     // Rank Change
@@ -186,20 +194,21 @@ export default {
       }).then(async (result) => {
         if (result.value) {
           try {
-            let { data } = await this.$axios.delete(
-              this.deleteurl + this.checked_categories.join(",")
-            );
-            data.status
-              ? this.$toast.success(data.message, this.$t("successfully"))
-              : this.$toast.error(data.message, this.$t("unsuccessfully"));
+            let chkdCategories = [];
             this.checked_categories.forEach((elem, index) => {
-              let indexOfObject = this.product_categories.findIndex(
-                (object) => {
-                  return object.id === index;
-                }
-              );
-              this.product_categories.splice(indexOfObject, 1);
+              chkdCategories.push(elem.id);
+              this.$refs.draggableTree.removeNode(elem);
             });
+            if (chkdCategories.length) {
+              let { data } = await this.$axios.post(this.deleteurl, {
+                id: chkdCategories.join(","),
+              });
+              data.status
+                ? this.$toast.success(data.message, this.$t("successfully"))
+                : this.$toast.error(data.message, this.$t("unsuccessfully"));
+            }
+
+            chkdCategories = [];
             this.checked_categories = [];
           } catch (error) {
             console.log(error);

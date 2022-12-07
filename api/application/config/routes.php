@@ -91,4 +91,4 @@ $route['v1/panel/productcategories'] = 'v1/backend/ProductCategoriesController';
 $route['v1/panel/productcategories/(:num)'] = 'v1/backend/ProductCategoriesController/$1';
 $route['v1/panel/productcategories/save'] = 'v1/backend/ProductCategoriesController/save';
 $route['v1/panel/productcategories/update/(:num)'] = 'v1/backend/ProductCategoriesController/update/$1';
-$route['v1/panel/productcategories/delete/(:num)'] = 'v1/backend/ProductCategoriesController/delete/$1';
+$route['v1/panel/productcategories/delete'] = 'v1/backend/ProductCategoriesController/delete';
