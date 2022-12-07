@@ -31,7 +31,7 @@ class UsersController extends RestController
         $this->moduleName = ucfirst($this->router->fetch_class());
     }
 
-    public function index_get($id)
+    public function index_get($id = null)
     {
         if ($this->token) {
             if (!isAllowedViewModule($this->token, $this->moduleName)) {
@@ -83,7 +83,7 @@ class UsersController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_put($id)
+    public function rank_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -105,7 +105,7 @@ class UsersController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_put($id)
+    public function isactive_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -156,7 +156,7 @@ class UsersController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function update_post($id)
+    public function update_post($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -188,7 +188,7 @@ class UsersController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function delete_delete($id)
+    public function delete_delete($id = null)
     {
         if ($this->token) {
             if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
@@ -202,6 +202,31 @@ class UsersController extends RestController
                     'status' => TRUE,
                     'message' => "Kullanıcı Başarıyla Silindi."
                 ], RestController::HTTP_OK);
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Kullanıcı Silinirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function delete_post()
+    {
+        if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            if (!empty($this->post("id", true))) {
+                $ids = @explode(",", $this->post("id", true));
+                if ($this->user_model->deleteBulk("id", $ids)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Kullanıcı Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
             }
         }
         $this->response([

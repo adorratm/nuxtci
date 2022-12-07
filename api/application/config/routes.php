@@ -64,12 +64,14 @@ $route['v1/panel/current-user'] = 'v1/backend/AuthController/currentUser';
 $route['v1/panel/settings/(:num)'] = 'v1/backend/SettingsController/$1';
 $route['v1/panel/settings/save'] = 'v1/backend/SettingsController/save';
 $route['v1/panel/settings/update/(:num)'] = 'v1/backend/SettingsController/update/$1';
+$route['v1/panel/settings/delete'] = 'v1/backend/SettingsController/delete';
 $route['v1/panel/settings/delete/(:num)'] = 'v1/backend/SettingsController/delete/$1';
 
 // EMAIL SETTINGS
 $route['v1/panel/emailsettings/(:num)'] = 'v1/backend/EmailSettingsController/$1';
 $route['v1/panel/emailsettings/save'] = 'v1/backend/EmailSettingsController/save';
 $route['v1/panel/emailsettings/update/(:num)'] = 'v1/backend/EmailSettingsController/update/$1';
+$route['v1/panel/emailsettings/delete'] = 'v1/backend/EmailSettingsController/delete';
 $route['v1/panel/emailsettings/delete/(:num)'] = 'v1/backend/EmailSettingsController/delete/$1';
 
 // USERS
@@ -77,6 +79,7 @@ $route['v1/panel/users'] = 'v1/backend/UsersController';
 $route['v1/panel/users/(:num)'] = 'v1/backend/UsersController/$1';
 $route['v1/panel/users/save'] = 'v1/backend/UsersController/save';
 $route['v1/panel/users/update/(:num)'] = 'v1/backend/UsersController/update/$1';
+$route['v1/panel/users/delete'] = 'v1/backend/UsersController/delete';
 $route['v1/panel/users/delete/(:num)'] = 'v1/backend/UsersController/delete/$1';
 
 // USER ROLES
@@ -84,6 +87,7 @@ $route['v1/panel/userroles'] = 'v1/backend/UserRolesController';
 $route['v1/panel/userroles/(:num)'] = 'v1/backend/UserRolesController/$1';
 $route['v1/panel/userroles/save'] = 'v1/backend/UserRolesController/save';
 $route['v1/panel/userroles/update/(:num)'] = 'v1/backend/UserRolesController/update/$1';
+$route['v1/panel/userroles/delete'] = 'v1/backend/UserRolesController/delete';
 $route['v1/panel/userroles/delete/(:num)'] = 'v1/backend/UserRolesController/delete/$1';
 
 // PRODUCT CATEGORIES
@@ -92,3 +96,4 @@ $route['v1/panel/productcategories/(:num)'] = 'v1/backend/ProductCategoriesContr
 $route['v1/panel/productcategories/save'] = 'v1/backend/ProductCategoriesController/save';
 $route['v1/panel/productcategories/update/(:num)'] = 'v1/backend/ProductCategoriesController/update/$1';
 $route['v1/panel/productcategories/delete'] = 'v1/backend/ProductCategoriesController/delete';
+$route['v1/panel/productcategories/delete/(:num)'] = 'v1/backend/ProductCategoriesController/delete/$1';

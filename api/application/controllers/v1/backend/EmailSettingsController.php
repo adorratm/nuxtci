@@ -32,7 +32,7 @@ class EmailSettingsController extends RestController
         $this->moduleName = ucfirst($this->router->fetch_class());
     }
 
-    public function index_get($id)
+    public function index_get($id = null)
     {
         if ($this->token) {
             if (!isAllowedViewModule($this->token, $this->moduleName)) {
@@ -42,7 +42,7 @@ class EmailSettingsController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $emailsettings = $this->emailsettings_model->get(["id" => $id]);
+                $emailsettings = $this->emailsettings_model->get(null, ["id" => $id]);
                 $this->response([
                     'status' => TRUE,
                     'message' => "Email Ayarı Başarıyla Getirildi.",
@@ -84,7 +84,7 @@ class EmailSettingsController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_put($id)
+    public function rank_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -106,7 +106,7 @@ class EmailSettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_put($id)
+    public function isactive_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -153,7 +153,7 @@ class EmailSettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function update_post($id)
+    public function update_post($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -163,7 +163,7 @@ class EmailSettingsController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $settings = $this->emailsettings_model->get(["id" => $id]);
+                $settings = $this->emailsettings_model->get(null, ["id" => $id]);
                 if (!empty($settings)) {
                     $data = $this->post();
                     if ($this->emailsettings_model->update(["id" => $id], $data)) {
@@ -181,7 +181,7 @@ class EmailSettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function delete_delete($id)
+    public function delete_delete($id = null)
     {
         if ($this->token) {
             if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
@@ -195,6 +195,31 @@ class EmailSettingsController extends RestController
                     'status' => TRUE,
                     'message' => "Email Ayarları Başarıyla Silindi."
                 ], RestController::HTTP_OK);
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Email Ayarları Silinirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function delete_post()
+    {
+        if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            if (!empty($this->post("id", true))) {
+                $ids = @explode(",", $this->post("id", true));
+                if ($this->emailsettings_model->deleteBulk("id", $ids)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Email Ayarları Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
             }
         }
         $this->response([

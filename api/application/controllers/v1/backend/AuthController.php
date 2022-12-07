@@ -42,7 +42,7 @@ class AuthController extends RestController
         // Validate the post data
         if (!empty($email) && !empty($password)) {
 
-            $user = $this->user_model->get([
+            $user = $this->user_model->get(null, [
                 'email' => $email,
                 'password' => mb_substr(sha1(md5($password)), 0, 32),
                 'isActive' => 1,
@@ -50,7 +50,7 @@ class AuthController extends RestController
             ]);
             if ($user) {
                 $user->timestamp = time();
-                $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
+                $user->permissions = @$this->user_role_model->get(null, ["id" => $user->role_id])->permissions;
                 $user->token = AUTHORIZATION::generateToken((array)$user);
                 // Set the response and exit
                 $this->response([
@@ -136,8 +136,8 @@ class AuthController extends RestController
             // Otherwise, a single user will be returned.
             $con = !empty($this->token->id) ? array('id' => $this->token->id, 'isActive' => 1) : NULL;
             if (!empty($con)) {
-                $user = $this->user_model->get($con);
-                $user->permissions = @$this->user_role_model->get(["id" => $user->role_id])->permissions;
+                $user = $this->user_model->get(null, $con);
+                $user->permissions = @$this->user_role_model->get(null, ["id" => $user->role_id])->permissions;
 
                 // Check if the user data exists
                 if (!empty($user)) {

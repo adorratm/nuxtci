@@ -39,9 +39,9 @@ class UserRolesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $roles = $this->user_role_model->get_all(["isActive" => 1]);
+            $roles = $this->user_role_model->get_all(null, null, ["isActive" => 1]);
             if (!empty($id)) {
-                $roles = $this->user_role_model->get(["id" => $id, "isActive" => 1]);
+                $roles = $this->user_role_model->get(null, ["id" => $id, "isActive" => 1]);
             }
             $this->response([
                 'status' => TRUE,
@@ -84,7 +84,7 @@ class UserRolesController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_put($id)
+    public function rank_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -106,7 +106,7 @@ class UserRolesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_put($id)
+    public function isactive_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -156,7 +156,7 @@ class UserRolesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function update_post($id)
+    public function update_post($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -166,7 +166,7 @@ class UserRolesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $userRole = $this->user_role_model->get(["id" => $id]);
+                $userRole = $this->user_role_model->get(null, ["id" => $id]);
                 if (!empty($userRole)) {
                     $data = $this->post();
                     if (!empty($data["permissions"])) {
@@ -187,7 +187,7 @@ class UserRolesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function delete_delete($id)
+    public function delete_delete($id = null)
     {
         if ($this->token) {
             if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
@@ -201,6 +201,31 @@ class UserRolesController extends RestController
                     'status' => TRUE,
                     'message' => "Yetki Başarıyla Silindi."
                 ], RestController::HTTP_OK);
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Yetki Silinirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function delete_post()
+    {
+        if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            if (!empty($this->post("id", true))) {
+                $ids = @explode(",", $this->post("id", true));
+                if ($this->user_role_model->deleteBulk("id", $ids)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Yetki Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
             }
         }
         $this->response([

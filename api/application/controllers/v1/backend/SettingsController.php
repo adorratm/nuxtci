@@ -33,7 +33,7 @@ class SettingsController extends RestController
         $this->viewFolder = "settings";
     }
 
-    public function index_get($id)
+    public function index_get($id = null)
     {
         if ($this->token) {
             if (!isAllowedViewModule($this->token, $this->moduleName)) {
@@ -43,7 +43,7 @@ class SettingsController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $settings = $this->settings_model->get(["id" => $id]);
+                $settings = $this->settings_model->get(null, ["id" => $id]);
                 $settings->address_informations = json_decode($settings->address_informations, true);
                 $this->response([
                     'status' => TRUE,
@@ -86,7 +86,7 @@ class SettingsController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_put($id)
+    public function rank_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -108,7 +108,7 @@ class SettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_put($id)
+    public function isactive_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -188,7 +188,7 @@ class SettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function update_post($id)
+    public function update_post($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -198,7 +198,7 @@ class SettingsController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $settings = $this->settings_model->get(["id" => $id]);
+                $settings = $this->settings_model->get(null, ["id" => $id]);
                 if (!empty($settings)) {
                     $data = $this->post();
                     $logo = upload_picture("logo", "uploads/$this->viewFolder", [], "*");
@@ -243,7 +243,7 @@ class SettingsController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function delete_delete($id)
+    public function delete_delete($id = null)
     {
         if ($this->token) {
             if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
@@ -252,7 +252,7 @@ class SettingsController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $settings = $this->settings_model->get(["id" => $id]);
+            $settings = $this->settings_model->get(null, ["id" => $id]);
             if ($this->settings_model->delete(["id" => $id])) {
                 if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}")) :
                     unlink(FCPATH . "uploads/{$this->viewFolder}/{$settings->logo}");
@@ -267,6 +267,46 @@ class SettingsController extends RestController
                     'status' => TRUE,
                     'message' => "Site Ayarları Başarıyla Silindi."
                 ], RestController::HTTP_OK);
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Site Ayarları Silinirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function delete_post()
+    {
+        if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            if (!empty($this->post("id", true))) {
+                $ids = @explode(",", $this->post("id", true));
+                $settings = $this->settings_model->get_all(null, null, [], [], [], [], $ids);
+                if (!empty($settings)) {
+                    foreach ($settings as $key => $value) {
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->logo}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->logo}");
+                        endif;
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->mobile_logo}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->mobile_logo}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->mobile_logo}");
+                        endif;
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->favicon}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->favicon}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->favicon}");
+                        endif;
+                    }
+                }
+
+                if ($this->settings_model->deleteBulk("id", $ids)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Site Ayarları Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
             }
         }
         $this->response([

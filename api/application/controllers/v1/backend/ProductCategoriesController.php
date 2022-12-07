@@ -43,7 +43,7 @@ class ProductCategoriesController extends RestController
             }
             $productCategory =  $this->product_category_model->get_all();
             if (!empty($id)) {
-                $productCategory = $this->product_category_model->get(["id" => $id]);
+                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
             }
 
             $this->response([
@@ -86,7 +86,7 @@ class ProductCategoriesController extends RestController
         return $this->response($output, RestController::HTTP_OK);
     }
 
-    public function rank_put($id)
+    public function rank_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -108,7 +108,7 @@ class ProductCategoriesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function isactive_put($id)
+    public function isactive_put($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -173,7 +173,7 @@ class ProductCategoriesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
-    public function update_post($id)
+    public function update_post($id = null)
     {
         if ($this->token) {
             if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
@@ -183,7 +183,7 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $productCategory = $this->product_category_model->get(["id" => $id]);
+                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
                 if (!empty($productCategory)) {
                     $data = $this->post();
                     $img_url = upload_picture("img_url", "uploads/$this->viewFolder", [], "*");
@@ -196,7 +196,7 @@ class ProductCategoriesController extends RestController
                     endif;
                     if ($banner_url["success"]) :
                         $data["banner_url"] = $banner_url["file_name"];
-                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->mobile_logo}")) :
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}")) :
                             unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}");
                         endif;
                     endif;
@@ -215,6 +215,39 @@ class ProductCategoriesController extends RestController
         ], RestController::HTTP_BAD_REQUEST);
     }
 
+    public function delete_delete($id = null)
+    {
+        if ($this->token) {
+            if (!isAllowedDeleteViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            if (!empty($id)) {
+                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
+                if (!empty($productCategory)) {
+                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}")) :
+                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}");
+                    endif;
+                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}")) :
+                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}");
+                    endif;
+                }
+                if ($this->product_category_model->delete(["id" => $id])) {
+                    $this->response([
+                        'status' => TRUE,
+                        'message' => "Ürün Kategorisi Başarıyla Silindi."
+                    ], RestController::HTTP_OK);
+                }
+            }
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Ürün Kategorisi Silinirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
     public function delete_post()
     {
         if ($this->token) {
@@ -225,7 +258,20 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($this->post("id", true))) {
-                if ($this->product_category_model->deleteBulk("id", @explode(",", $this->post("id", true)))) {
+                $ids = @explode(",", $this->post("id", true));
+                $productCategories = $this->product_category_model->get_all(null, null, [], [], [], [], $ids);
+                if (!empty($productCategories)) {
+                    foreach ($productCategories as $key => $value) {
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}");
+                        endif;
+                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}")) :
+                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}");
+                        endif;
+                    }
+                }
+
+                if ($this->product_category_model->deleteBulk("id", $ids)) {
                     $this->response([
                         'status' => TRUE,
                         'message' => "Ürün Kategorisi Başarıyla Silindi."

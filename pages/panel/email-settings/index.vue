@@ -44,7 +44,7 @@
                     "
                     :editurl="'/panel/email-settings/update/'"
                     :deleteurl="
-                      $config.API_URL + 'v1/panel/emailSettings/delete/'
+                      $config.API_URL + 'v1/panel/emailsettings/delete/'
                     "
                     :token="this.$auth.strategy.token.get()"
                     :columns="columns"
