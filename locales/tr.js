@@ -1,5 +1,18 @@
 module.exports = {
     panel: {
+        menus: {
+            menus: "Menüler",
+            menusDesc: "Websitenizdeki Menüleri Buradan Yönetebilirsiniz.",
+            noMenusFound: "Henüz Eklenmiş Bir Menü Bulunamadı",
+            title: "Başlık",
+            position: "Menü Pozisyonu",
+            url: "URL",
+            target: "Menü Açılış Türü",
+            _self: "Varsayılan",
+            _blank: "Yeni Sekme",
+            _parent: "Sayfayı Ana Frame'de Aç",
+            _top: "Sayfayı Pencerenin Gövdesinde Aç"
+        },
         settings: {
             settings: "Ayarlar",
             settingsDesc: "Websitenizin Genel Ayarlarını Buradan Yönetebilirsiniz.",

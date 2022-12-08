@@ -144,6 +144,21 @@
                   </li>
                 </ul>
               </li>
+              <nuxt-link
+                tag="li"
+                class="nav-item"
+                to="/panel/menus/"
+                exact
+                exact-active-class="active"
+                custom
+              >
+                <a class="nav-link"
+                  ><i class="fa fa-list"></i>
+                  <span class="nav-link-text">{{
+                    $t("panel.menus.menus")
+                  }}</span></a
+                >
+              </nuxt-link>
             </ul>
             <hr class="nav-separator" />
             <div class="nav-header">

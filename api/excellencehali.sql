@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2022 at 03:51 PM
+-- Generation Time: Dec 08, 2022 at 12:40 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -51,6 +51,27 @@ INSERT INTO `email_settings` (`id`, `protocol`, `host`, `port`, `email`, `passwo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `menus`
+--
+
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL,
+  `top_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `page_id` int(11) DEFAULT NULL,
+  `target` enum('_self','_blank','_parent','_top') DEFAULT '_self',
+  `position` enum('HEADER','HEADER_RIGHT','MOBILE','FOOTER','FOOTER2') DEFAULT 'HEADER',
+  `lang` char(2) DEFAULT 'tr',
+  `rank` int(11) DEFAULT 0,
+  `isActive` tinyint(4) DEFAULT 1,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product_categories`
 --
 
@@ -76,7 +97,10 @@ INSERT INTO `product_categories` (`id`, `top_id`, `codes_id`, `title`, `img_url`
 (13, NULL, '1', ' xvxcvxcv', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
 (14, 13, '2', 'czxc', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21'),
 (15, NULL, '3', ' xvxcvxcvvcbvre', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
-(17, 0, '4', 'test', 'c0faafef0b12acf88f9a3a86e14a22c6.webp', '711c619c56de9f443e246ec83f04f97a.webp', 'tr', 2, 1, '2022-12-06 13:56:50', '2022-12-06 14:42:41');
+(18, 15, '1', ' xvxcvxcv', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:12'),
+(19, 13, '2', 'czxc', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21'),
+(20, 18, '3', ' xvxcvxcvvcbvre', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:14'),
+(21, 20, '1', ' xvxcvxcv', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:16');
 
 -- --------------------------------------------------------
 
@@ -218,6 +242,12 @@ ALTER TABLE `email_settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `menus`
+--
+ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `product_categories`
 --
 ALTER TABLE `product_categories`
@@ -262,10 +292,16 @@ ALTER TABLE `email_settings`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `menus`
+--
+ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `settings`

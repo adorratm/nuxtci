@@ -6,7 +6,8 @@
       "@/*": ["./*"],
       "~~/*": ["./*"],
       "@@/*": ["./*"]
-    }
+    },
+    "target": "esnext"
   },
   "exclude": ["node_modules", ".nuxt", "dist"]
 }

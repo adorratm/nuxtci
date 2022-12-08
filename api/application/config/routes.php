@@ -90,6 +90,14 @@ $route['v1/panel/userroles/update/(:num)'] = 'v1/backend/UserRolesController/upd
 $route['v1/panel/userroles/delete'] = 'v1/backend/UserRolesController/delete';
 $route['v1/panel/userroles/delete/(:num)'] = 'v1/backend/UserRolesController/delete/$1';
 
+// MENUS
+$route['v1/panel/menus'] = 'v1/backend/MenusController';
+$route['v1/panel/menus/(:num)'] = 'v1/backend/MenusController/$1';
+$route['v1/panel/menus/save'] = 'v1/backend/MenusController/save';
+$route['v1/panel/menus/update/(:num)'] = 'v1/backend/MenusController/update/$1';
+$route['v1/panel/menus/delete'] = 'v1/backend/MenusController/delete';
+$route['v1/panel/menus/delete/(:num)'] = 'v1/backend/MenusController/delete/$1';
+
 // PRODUCT CATEGORIES
 $route['v1/panel/productcategories'] = 'v1/backend/ProductCategoriesController';
 $route['v1/panel/productcategories/(:num)'] = 'v1/backend/ProductCategoriesController/$1';
