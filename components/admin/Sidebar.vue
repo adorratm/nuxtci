@@ -54,6 +54,21 @@
                   }}</span></a
                 >
               </nuxt-link>
+              <nuxt-link
+                tag="li"
+                class="nav-item"
+                to="/panel/codes/"
+                exact
+                exact-active-class="active"
+                custom
+              >
+                <a class="nav-link"
+                  ><i class="fa fa-sliders"></i>
+                  <span class="nav-link-text">{{
+                    $t("panel.codesSettings.codesSettings")
+                  }}</span></a
+                >
+              </nuxt-link>
               <li class="nav-item">
                 <a
                   class="nav-link"

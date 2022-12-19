@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use \chriskacerguis\RestServer\RestController;
 
-class ProductCategoriesController extends RestController
+class ProductsController extends RestController
 {
 
     /**
@@ -26,10 +26,10 @@ class ProductCategoriesController extends RestController
         parent::__construct();
 
         // Load the model
-        $this->load->model('product_category_model');
+        $this->load->model('user_model');
+        $this->load->model('product_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
         $this->moduleName = ucfirst($this->router->fetch_class());
-        $this->viewFolder = "productcategories";
     }
 
     public function index_get($id = null)
@@ -41,20 +41,18 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $productCategory =  $this->product_category_model->get_all();
             if (!empty($id)) {
-                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
+                $product = $this->product_model->get(null, ["id" => $id]);
+                $this->response([
+                    'status' => TRUE,
+                    'message' => "Ürün Başarıyla Getirildi.",
+                    'product' => $product
+                ], RestController::HTTP_OK);
             }
-
-            $this->response([
-                'status' => TRUE,
-                'message' => "Ürün Kategorisi Başarıyla Getirildi.",
-                'productCategory' => $productCategory
-            ], RestController::HTTP_OK);
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Ürün Kategorisi Getirilirken Hata Oluştu."
+            'message' => "Ürün Getirilirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -69,7 +67,7 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            $items = $this->product_category_model->getRows([], $this->post(null, true));
+            $items = $this->product_model->getRows([], $this->post(null, true));
             $data = [];
             if (!empty($items)) :
                 foreach ($items as $item) :
@@ -77,8 +75,8 @@ class ProductCategoriesController extends RestController
                 endforeach;
             endif;
             $output = [
-                "recordsTotal" => $this->product_category_model->rowCount(),
-                "recordsFiltered" => $this->product_category_model->countFiltered([], (!empty($this->post(null, true)) ? $this->post(null, true) : [])),
+                "recordsTotal" => $this->product_model->rowCount(),
+                "recordsFiltered" => $this->product_model->countFiltered([], (!empty($this->post(null, true)) ? $this->post(null, true) : [])),
                 "data" => $data,
             ];
         }
@@ -95,7 +93,7 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if ($this->product_category_model->update(["id" => $id], ["rank" => $this->put('rank', true), "top_id" => $this->put('top_id', true)])) {
+            if ($this->product_model->update(["id" => $id], ["rank" => $this->put('rank', true)])) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Sıralama Başarıyla Güncellendi."
@@ -118,7 +116,7 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             $isActive = boolval($this->put("isActive", true)) === true ? 1 : 0;
-            if ($this->product_category_model->update(["id" => $id], ["isActive" => $isActive])) {
+            if ($this->product_model->update(["id" => $id], ["isActive" => $isActive])) {
                 $this->response([
                     'status' => TRUE,
                     'message' => "Durum Başarıyla Güncellendi."
@@ -142,35 +140,17 @@ class ProductCategoriesController extends RestController
             }
             $data = $this->post();
             $data["seo_url"] = seo($data["title"]);
-            $img_url = upload_picture("img_url", "uploads/$this->viewFolder", [], "*");
-            $banner_url = upload_picture("banner_url", "uploads/$this->viewFolder", [], "*");
-            if ($img_url["success"]) :
-                $data["img_url"] = $img_url["file_name"];
-            endif;
-            if ($banner_url["success"]) :
-                $data["banner_url"] = $banner_url["file_name"];
-            endif;
-            $data["rank"] = $this->product_category_model->rowCount() + 1;
-            if ($this->product_category_model->add($data)) {
+            $data["rank"] = $this->product_model->rowCount() + 1;
+            if ($this->product_model->add($data)) {
                 $this->response([
                     'status' => TRUE,
-                    'message' => "Ürün Kategorisi Başarıyla Kayıt Edildi."
+                    'message' => "Ürün Başarıyla Kayıt Edildi."
                 ], RestController::HTTP_OK);
             }
-            if ($img_url["success"]) :
-                if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}")) :
-                    unlink(FCPATH . "uploads/{$this->viewFolder}/{$data["img_url"]}");
-                endif;
-            endif;
-            if ($banner_url["success"]) :
-                if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}")) :
-                    unlink(FCPATH . "uploads/{$this->viewFolder}/{$data["banner_url"]}");
-                endif;
-            endif;
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Ürün Kategorisi Kayıt Edilirken Hata Oluştu."
+            'message' => "Ürün Kayıt Edilirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -184,28 +164,14 @@ class ProductCategoriesController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             if (!empty($id)) {
-                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
-                if (!empty($productCategory)) {
+                $settings = $this->product_model->get(null, ["id" => $id]);
+                if (!empty($settings)) {
                     $data = $this->post();
                     $data["seo_url"] = seo($data["title"]);
-                    $img_url = upload_picture("img_url", "uploads/$this->viewFolder", [], "*");
-                    $banner_url = upload_picture("banner_url", "uploads/$this->viewFolder", [], "*");
-                    if ($img_url["success"]) :
-                        $data["img_url"] = $img_url["file_name"];
-                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}")) :
-                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}");
-                        endif;
-                    endif;
-                    if ($banner_url["success"]) :
-                        $data["banner_url"] = $banner_url["file_name"];
-                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}")) :
-                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}");
-                        endif;
-                    endif;
-                    if ($this->product_category_model->update(["id" => $id], $data)) {
+                    if ($this->product_model->update(["id" => $id], $data)) {
                         $this->response([
                             'status' => TRUE,
-                            'message' => "Ürün Kategorisi Başarıyla Güncellendi."
+                            'message' => "Ürün Başarıyla Güncellendi."
                         ], RestController::HTTP_OK);
                     }
                 }
@@ -213,7 +179,7 @@ class ProductCategoriesController extends RestController
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Ürün Kategorisi Güncellenirken Hata Oluştu."
+            'message' => "Ürün Güncellenirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -226,27 +192,16 @@ class ProductCategoriesController extends RestController
                     'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
                 ], RestController::HTTP_UNAUTHORIZED);
             }
-            if (!empty($id)) {
-                $productCategory = $this->product_category_model->get(null, ["id" => $id]);
-                if (!empty($productCategory)) {
-                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}")) :
-                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->banner_url}");
-                    endif;
-                    if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}")) :
-                        unlink(FCPATH . "uploads/{$this->viewFolder}/{$productCategory->img_url}");
-                    endif;
-                }
-                if ($this->product_category_model->delete(["id" => $id])) {
-                    $this->response([
-                        'status' => TRUE,
-                        'message' => "Ürün Kategorisi Başarıyla Silindi."
-                    ], RestController::HTTP_OK);
-                }
+            if ($this->product_model->delete(["id" => $id])) {
+                $this->response([
+                    'status' => TRUE,
+                    'message' => "Ürün Başarıyla Silindi."
+                ], RestController::HTTP_OK);
             }
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Ürün Kategorisi Silinirken Hata Oluştu."
+            'message' => "Ürün Silinirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 
@@ -261,29 +216,17 @@ class ProductCategoriesController extends RestController
             }
             if (!empty($this->post("id", true))) {
                 $ids = @explode(",", $this->post("id", true));
-                $productCategories = $this->product_category_model->get_all(null, null, [], [], [], [], $ids);
-                if (!empty($productCategories)) {
-                    foreach ($productCategories as $key => $value) {
-                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}")) :
-                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->banner_url}");
-                        endif;
-                        if (!is_dir(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}") && file_exists(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}")) :
-                            unlink(FCPATH . "uploads/{$this->viewFolder}/{$value->img_url}");
-                        endif;
-                    }
-                }
-
-                if ($this->product_category_model->deleteBulk("id", $ids)) {
+                if ($this->product_model->deleteBulk("id", $ids)) {
                     $this->response([
                         'status' => TRUE,
-                        'message' => "Ürün Kategorisi Başarıyla Silindi."
+                        'message' => "Ürünler Başarıyla Silindi."
                     ], RestController::HTTP_OK);
                 }
             }
         }
         $this->response([
             'status' => FALSE,
-            'message' => "Ürün Kategorisi Silinirken Hata Oluştu."
+            'message' => "Ürünler Silinirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
     }
 }

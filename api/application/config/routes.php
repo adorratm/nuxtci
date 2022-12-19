@@ -74,6 +74,13 @@ $route['v1/panel/emailsettings/update/(:num)'] = 'v1/backend/EmailSettingsContro
 $route['v1/panel/emailsettings/delete'] = 'v1/backend/EmailSettingsController/delete';
 $route['v1/panel/emailsettings/delete/(:num)'] = 'v1/backend/EmailSettingsController/delete/$1';
 
+// CODES SETTINGS
+$route['v1/panel/codes/(:num)'] = 'v1/backend/codesController/$1';
+$route['v1/panel/codes/save'] = 'v1/backend/codesController/save';
+$route['v1/panel/codes/update/(:num)'] = 'v1/backend/codesController/update/$1';
+$route['v1/panel/codes/delete'] = 'v1/backend/codesController/delete';
+$route['v1/panel/codes/delete/(:num)'] = 'v1/backend/codesController/delete/$1';
+
 // USERS
 $route['v1/panel/users'] = 'v1/backend/UsersController';
 $route['v1/panel/users/(:num)'] = 'v1/backend/UsersController/$1';

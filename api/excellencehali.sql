@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2022 at 12:40 PM
+-- Generation Time: Dec 19, 2022 at 03:05 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `excellencehali`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `codes`
+--
+
+CREATE TABLE `codes` (
+  `id` int(11) NOT NULL,
+  `host` varchar(255) DEFAULT NULL,
+  `port` smallint(6) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `lang` char(2) DEFAULT 'tr',
+  `isActive` tinyint(4) DEFAULT 1,
+  `rank` int(11) DEFAULT 1,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `codes`
+--
+
+INSERT INTO `codes` (`id`, `host`, `port`, `email`, `password`, `lang`, `isActive`, `rank`, `createdAt`, `updatedAt`) VALUES
+(1, '78.142.211.12', 90, 'ylcnirmak@ytd.com.tr', '1453', 'tr', 1, 1, '2022-12-19 11:00:49', '2022-12-19 11:15:22'),
+(2, '185.210.92.173', 90, 'mutfak@mutfak.com', '14531453', 'tr', 1, 2, '2022-12-19 11:05:11', '2022-12-19 11:15:28');
 
 -- --------------------------------------------------------
 
@@ -72,35 +99,59 @@ CREATE TABLE `menus` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `codes_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `seo_url` varchar(255) DEFAULT NULL,
+  `barcode` varchar(255) DEFAULT NULL,
+  `vat` int(11) DEFAULT 8,
+  `stock` int(11) DEFAULT 0,
+  `lang` char(2) DEFAULT 'tr',
+  `isActive` tinyint(4) DEFAULT 1,
+  `rank` int(11) DEFAULT 1,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `codes` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product_categories`
 --
 
 CREATE TABLE `product_categories` (
   `id` int(11) NOT NULL,
   `top_id` int(11) DEFAULT NULL,
-  `codes_id` varchar(255) DEFAULT NULL,
+  `codes_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
+  `seo_url` varchar(255) DEFAULT NULL,
   `img_url` varchar(255) DEFAULT NULL,
   `banner_url` varchar(255) DEFAULT NULL,
   `lang` char(2) DEFAULT 'tr',
   `rank` int(11) DEFAULT 0,
   `isActive` tinyint(4) DEFAULT 1,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `codes` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `product_categories`
 --
 
-INSERT INTO `product_categories` (`id`, `top_id`, `codes_id`, `title`, `img_url`, `banner_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`) VALUES
-(13, NULL, '1', ' xvxcvxcv', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
-(14, 13, '2', 'czxc', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21'),
-(15, NULL, '3', ' xvxcvxcvvcbvre', NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29'),
-(18, 15, '1', ' xvxcvxcv', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:12'),
-(19, 13, '2', 'czxc', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21'),
-(20, 18, '3', ' xvxcvxcvvcbvre', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:14'),
-(21, 20, '1', ' xvxcvxcv', NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:16');
+INSERT INTO `product_categories` (`id`, `top_id`, `codes_id`, `title`, `seo_url`, `img_url`, `banner_url`, `lang`, `rank`, `isActive`, `createdAt`, `updatedAt`, `codes`) VALUES
+(13, NULL, 1, ' xvxcvxcv', NULL, NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29', NULL),
+(14, 13, 2, 'czxc', NULL, NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21', NULL),
+(15, NULL, 3, ' xvxcvxcvvcbvre', NULL, NULL, NULL, 'tr', 0, 1, '2022-12-05 14:36:29', '2022-12-05 14:36:29', NULL),
+(18, 15, 1, ' xvxcvxcv', NULL, NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:12', NULL),
+(19, 13, 2, 'czxc', NULL, NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-05 14:38:21', NULL),
+(20, 18, 3, ' xvxcvxcvvcbvre', NULL, NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:14', NULL),
+(21, 20, 1, ' xvxcvxcv', NULL, NULL, NULL, 'tr', 1, 1, '2022-12-05 14:36:29', '2022-12-07 09:36:16', NULL);
 
 -- --------------------------------------------------------
 
@@ -227,13 +278,19 @@ CREATE TABLE `user_roles` (
 --
 
 INSERT INTO `user_roles` (`id`, `title`, `permissions`, `isActive`, `isCover`, `rank`, `createdAt`, `updatedAt`) VALUES
-(1, 'Admin', '{\"AuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"EmailSettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"ProductCategoriesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"SettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UserRolesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UsersController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"FrontendAuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"Welcome\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"}}', 1, 1, 1, '2022-11-28 09:26:09', '2022-11-30 14:27:13'),
+(1, 'Admin', '{\"AuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"CodesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"EmailSettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"ProductCategoriesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"ProductsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"SettingsController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UserRolesController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"UsersController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"FrontendAuthController\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"},\"Welcome\":{\"read\":\"on\",\"write\":\"on\",\"update\":\"on\",\"delete\":\"on\"}}', 1, 1, 1, '2022-11-28 09:26:09', '2022-12-19 10:32:50'),
 (2, 'Kullanıcı', NULL, 1, 1, 2, '2022-11-28 09:26:09', '2022-11-29 11:50:10'),
 (3, 'Bayi', NULL, 1, 1, 3, '2022-11-28 09:26:29', '2022-11-29 11:50:12');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `codes`
+--
+ALTER TABLE `codes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `email_settings`
@@ -245,6 +302,12 @@ ALTER TABLE `email_settings`
 -- Indexes for table `menus`
 --
 ALTER TABLE `menus`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -286,6 +349,12 @@ ALTER TABLE `user_roles`
 --
 
 --
+-- AUTO_INCREMENT for table `codes`
+--
+ALTER TABLE `codes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `email_settings`
 --
 ALTER TABLE `email_settings`
@@ -295,6 +364,12 @@ ALTER TABLE `email_settings`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --

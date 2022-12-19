@@ -56,6 +56,14 @@ module.exports = {
             host: "Host",
             password: "Şifre"
         },
+        codesSettings: {
+            codesSettings: "Codes Ayarları",
+            codesSettingsDesc: "Websitenizin Codes Ayarlarını Buradan Yönetebilirsiniz.",
+            email: "E-Mail",
+            port: "Port",
+            host: "Host",
+            password: "Şifre"
+        },
         users: {
             users: "Kullanıcılar",
             usersDesc: "Websitenizdeki Kullanıcıları Buradan Yönetebilirsiniz.",
