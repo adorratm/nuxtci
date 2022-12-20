@@ -293,4 +293,8 @@ class Product_model extends CI_Model
 			$this->db->order_by(key($order), $order[key($order)]);
 		endif;
 	}
+	public function bulkUpdateOrInsert($data = [])
+	{
+		$this->db->replace($this->tableName,$data);
+	}
 }

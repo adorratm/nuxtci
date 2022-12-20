@@ -28,6 +28,7 @@ class ProductsController extends RestController
         // Load the model
         $this->load->model('user_model');
         $this->load->model('product_model');
+        $this->load->model('codes_model');
         $this->token = AUTHORIZATION::verifyHeaderToken();
         $this->moduleName = ucfirst($this->router->fetch_class());
     }
@@ -228,5 +229,115 @@ class ProductsController extends RestController
             'status' => FALSE,
             'message' => "Ürünler Silinirken Hata Oluştu."
         ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function sync_products_get()
+    {
+        if ($this->token) {
+            if (!isAllowedUpdateViewModule($this->token, $this->moduleName)) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => "Bu İşlemi Yapabilmeniz İçin Yetkiniz Bulunmamaktadır."
+                ], RestController::HTTP_UNAUTHORIZED);
+            }
+            // Login Token Update After 2 Hour
+            if (strtotime($this->codes_model->get(null, ["isActive" => 1])->updatedAt) + 7200 >= strtotime('now')) {
+                $this->login_api();
+            }
+            $this->get_stocks();
+            $this->response([
+                'status' => TRUE,
+                'message' => "Ürünler Başarıyla Güncellendi."
+            ], RestController::HTTP_OK);
+        }
+        $this->response([
+            'status' => FALSE,
+            'message' => "Ürünler Güncellenirken Hata Oluştu."
+        ], RestController::HTTP_BAD_REQUEST);
+    }
+
+    public function login_api()
+    {
+        $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
+        if (!empty($codesConnections)) {
+            foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
+                $token = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "login", ['email' => $codesConnectionsValue->email, 'password' => $codesConnectionsValue->password])->message;
+                if (!empty($token)) {
+                    $this->codes_model->update(["id" => $codesConnectionsValue->id], ["token" => $token]);
+                }
+            }
+        }
+    }
+
+    public function get_stocks()
+    {
+        $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
+        if (!empty($codesConnections)) {
+            $replaceArray = [];
+            foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
+                $data = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
+                if (!empty($data)) {
+                    $rank = 1;
+                    foreach ($data as $returnKey => $returnValue) {
+                        array_push($replaceArray, [
+                            'codes_id' => $returnValue->Id,
+                            'title' => $returnValue->Baslik,
+                            'seo_url' => seo($returnValue->Baslik),
+                            'barcode' => $returnValue->barcode,
+                            'vat' => $returnValue->KDV,
+                            'stock' => $returnValue->stok,
+                            'lang' => 'tr',
+                            'isActive' => $returnValue->Durum,
+                            'rank' => $rank,
+                            'codes' => $codesConnectionsValue->id
+                        ]);
+                        $rank++;
+                    }
+                }
+            }
+            foreach($replaceArray as $key => $value){
+                if($this->product_model->rowCount(null,["codes_id" => $value->codes_id])){
+
+                }
+            }
+            $this->product_model->bulkUpdateOrInsert($replaceArray);
+        }
+    }
+
+    public function curl_request($url = null, $port = null, $endpoint = null, $data = [], $header = ['Content-Type: application/json', 'Accept: application/json'])
+    {
+        /* Endpoint */
+        if (!empty($port)) {
+            $url .= ":" . $port;
+        }
+
+        if (!empty($endpoint)) {
+            $url .= "/" . $endpoint;
+        }
+
+        /* Create Curl */
+        $curl = curl_init();
+
+
+
+        /* Set JSON data to POST */
+        if (!empty($data)) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+
+        if (!empty($header)) {
+            /* Define content type */
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        }
+        curl_setopt($curl, CURLOPT_URL, $url);
+        /* Return json */
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        /* Make Request */
+        $result = json_decode(curl_exec($curl));
+
+        /* Close Curl */
+        curl_close($curl);
+
+        return $result;
     }
 }

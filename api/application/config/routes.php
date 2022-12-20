@@ -112,3 +112,11 @@ $route['v1/panel/productcategories/save'] = 'v1/backend/ProductCategoriesControl
 $route['v1/panel/productcategories/update/(:num)'] = 'v1/backend/ProductCategoriesController/update/$1';
 $route['v1/panel/productcategories/delete'] = 'v1/backend/ProductCategoriesController/delete';
 $route['v1/panel/productcategories/delete/(:num)'] = 'v1/backend/ProductCategoriesController/delete/$1';
+
+// PRODUCTS SETTINGS
+$route['v1/panel/products/(:num)'] = 'v1/backend/productsController/$1';
+$route['v1/panel/products/save'] = 'v1/backend/productsController/save';
+$route['v1/panel/products/update/(:num)'] = 'v1/backend/productsController/update/$1';
+$route['v1/panel/products/delete'] = 'v1/backend/productsController/delete';
+$route['v1/panel/products/delete/(:num)'] = 'v1/backend/productsController/delete/$1';
+$route['v1/panel/products/sync'] = 'v1/backend/productsController/sync_products';

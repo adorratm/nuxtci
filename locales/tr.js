@@ -96,7 +96,9 @@ module.exports = {
             noProductCategoriesFound: "Henüz Eklenmiş Bir Ürün Kategorisi Bulunamadı"
         },
         products: {
-            products: "Ürünler"
+            products: "Ürünler",
+            productsDesc:"Websitenizdeki Ürünleri Buradan Yönetebilirsiniz.",
+            title: "Başlık"
         },
         dashboard: "Dashboard",
         userActions: "Kullanıcı İşlemleri",

@@ -14,16 +14,16 @@
                 <div class="card-header card-header-action">
                   <div class="flex-grow-1">
                     <h6 class="mb-10">
-                      {{ $t("panel.codesSettings.codesSettings") }}
+                      {{ $t("panel.products.products") }}
                     </h6>
                     <p class="font-14 w-80">
-                      {{ $t("panel.codesSettings.codesSettingsDesc") }}
+                      {{ $t("panel.products.productsDesc") }}
                     </p>
                   </div>
                   <div class="d-flex align-items-center">
                     <nuxt-link
                       class="btn btn-sm btn-outline-primary rounded-0"
-                      to="/panel/codes/add"
+                      to="/panel/products/add"
                       >{{ $t("panel.createNew") }}</nuxt-link
                     >
                   </div>
@@ -31,16 +31,16 @@
                 <div class="card-body">
                   <Datatable
                     :dataurl="
-                      $config.API_URL + 'v1/backend/codesController/datatable'
+                      $config.API_URL + 'v1/backend/productsController/datatable'
                     "
                     :rankurl="
-                      $config.API_URL + 'v1/backend/codesController/rank/'
+                      $config.API_URL + 'v1/backend/productsController/rank/'
                     "
                     :isactiveurl="
-                      $config.API_URL + 'v1/backend/codesController/isactive/'
+                      $config.API_URL + 'v1/backend/productsController/isactive/'
                     "
-                    :editurl="'/panel/codes/update/'"
-                    :deleteurl="$config.API_URL + 'v1/panel/codes/delete/'"
+                    :editurl="'/panel/products/update/'"
+                    :deleteurl="$config.API_URL + 'v1/panel/products/delete/'"
                     :token="this.$auth.strategy.token.get()"
                     :columns="columns"
                     :sort="sort"
@@ -81,14 +81,8 @@ export default {
           type: "number",
         },
         {
-          label: this.$i18n.t("panel.codesSettings.email"),
-          field: "email",
-          html: true,
-          type: "string",
-        },
-        {
-          label: this.$i18n.t("panel.codesSettings.host"),
-          field: "host",
+          label: this.$i18n.t("panel.products.title"),
+          field: "title",
           html: true,
           type: "string",
         },

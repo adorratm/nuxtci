@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 19, 2022 at 03:05 PM
+-- Generation Time: Dec 20, 2022 at 03:57 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -33,6 +33,7 @@ CREATE TABLE `codes` (
   `port` smallint(6) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
   `lang` char(2) DEFAULT 'tr',
   `isActive` tinyint(4) DEFAULT 1,
   `rank` int(11) DEFAULT 1,
@@ -44,9 +45,9 @@ CREATE TABLE `codes` (
 -- Dumping data for table `codes`
 --
 
-INSERT INTO `codes` (`id`, `host`, `port`, `email`, `password`, `lang`, `isActive`, `rank`, `createdAt`, `updatedAt`) VALUES
-(1, '78.142.211.12', 90, 'ylcnirmak@ytd.com.tr', '1453', 'tr', 1, 1, '2022-12-19 11:00:49', '2022-12-19 11:15:22'),
-(2, '185.210.92.173', 90, 'mutfak@mutfak.com', '14531453', 'tr', 1, 2, '2022-12-19 11:05:11', '2022-12-19 11:15:28');
+INSERT INTO `codes` (`id`, `host`, `port`, `email`, `password`, `token`, `lang`, `isActive`, `rank`, `createdAt`, `updatedAt`) VALUES
+(1, '78.142.211.12', 90, 'ylcnirmak@ytd.com.tr', '1453', 'd7c5764e-67ec-48b1-91d6-390f5aa96b09', 'tr', 1, 1, '2022-12-19 11:00:49', '2022-12-20 13:49:24'),
+(2, '185.210.92.173', 90, 'mutfak@mutfak.com', '14531453', '62c61deb-9bff-4b6f-91da-29647ed6c584', 'tr', 1, 2, '2022-12-19 11:05:11', '2022-12-20 13:49:24');
 
 -- --------------------------------------------------------
 
