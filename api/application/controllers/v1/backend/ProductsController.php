@@ -241,7 +241,7 @@ class ProductsController extends RestController
                 ], RestController::HTTP_UNAUTHORIZED);
             }
             // Login Token Update After 2 Hour
-            if (strtotime($this->codes_model->get(null, ["isActive" => 1])->updatedAt) + 7200 >= strtotime('now')) {
+            if (strtotime('now') >= strtotime($this->codes_model->get(null, ["isActive" => 1])->updatedAt) + 7200) {
                 $this->login_api();
             }
             $this->get_stocks();
@@ -271,36 +271,66 @@ class ProductsController extends RestController
 
     public function get_stocks()
     {
+        set_time_limit(0);
+        ini_set('memory_limit', '-1');
         $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
         if (!empty($codesConnections)) {
+            $dbRecords = $this->product_model->get_all();
+
             $replaceArray = [];
+            $bulkInsertArray = [];
             foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
                 $data = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
                 if (!empty($data)) {
                     $rank = 1;
+                    $dbRecordsId = $this->product_model->get_all("codes_id", null, ["codes" => $codesConnectionsValue->id]);
+                    $idArray = [];
+                    if (!empty($dbRecordsId)) {
+                        foreach ($dbRecordsId as $dbK => $dbV) {
+                            array_push($idArray, $dbV->codes_id);
+                        }
+                    }
                     foreach ($data as $returnKey => $returnValue) {
-                        array_push($replaceArray, [
-                            'codes_id' => $returnValue->Id,
-                            'title' => $returnValue->Baslik,
-                            'seo_url' => seo($returnValue->Baslik),
-                            'barcode' => $returnValue->barcode,
-                            'vat' => $returnValue->KDV,
-                            'stock' => $returnValue->stok,
+                        $dataArray = [
+                            'codes_id' => clean($returnValue->Id) ?? NULL,
+                            'title' => clean($returnValue->Baslik) ?? NULL,
+                            'seo_url' => clean(seo($returnValue->Baslik)) ?? NULL,
+                            'barcode' => clean($returnValue->barcode) ?? NULL,
+                            'vat' => clean($returnValue->KDV) ?? NULL,
+                            'stock' => clean($returnValue->stok) ?? NULL,
                             'lang' => 'tr',
-                            'isActive' => $returnValue->Durum,
-                            'rank' => $rank,
-                            'codes' => $codesConnectionsValue->id
-                        ]);
+                            'isActive' => clean($returnValue->Durum) ?? NULL,
+                            'rank' => $rank ?? NULL,
+                            'codes' => clean($codesConnectionsValue->id) ?? NULL
+                        ];
+                        if (!empty($idArray) && !in_array($returnValue->Id, $idArray)) {
+                            array_push($bulkInsertArray, $dataArray);
+                        }
+                        array_push($replaceArray, $dataArray);
                         $rank++;
                     }
                 }
             }
-            foreach($replaceArray as $key => $value){
-                if($this->product_model->rowCount(null,["codes_id" => $value->codes_id])){
-
-                }
+            /**
+             * Empty Records Bulk Save
+             */
+            if (!empty($bulkInsertArray)) {
+                $this->product_model->add_batch($bulkInsertArray);
+                $dbRecords = $this->product_model->get_all();
+                $bulkInsertArray = [];
             }
-            $this->product_model->bulkUpdateOrInsert($replaceArray);
+            /**
+             * Same Records Bulk Update
+             */
+            if (!empty($dbRecords) && empty($bulkInsertArray)) {
+                $this->product_model->update_batch([], $replaceArray, "codes_id");
+            }
+            /**
+             * Empty Records Bulk Save
+             */
+            if (empty($dbRecords)) {
+                $this->product_model->add_batch($replaceArray);
+            }
         }
     }
 
