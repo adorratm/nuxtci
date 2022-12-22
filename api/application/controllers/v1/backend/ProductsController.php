@@ -278,21 +278,20 @@ class ProductsController extends RestController
             $dbRecords = $this->product_model->get_all();
 
             $replaceArray = [];
-            $bulkInsertArray = [];
             foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
+                $idArray = [];
+                $dbRecordsId = $this->product_model->get_all("codes_id", null, ["codes" => $codesConnectionsValue->id]);
+                if (!empty($dbRecordsId)) {
+                    foreach ($dbRecordsId as $dbK => $dbV) {
+                        array_push($idArray, intval($dbV->codes_id));
+                    }
+                }
                 $data = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
                 if (!empty($data)) {
                     $rank = 1;
-                    $dbRecordsId = $this->product_model->get_all("codes_id", null, ["codes" => $codesConnectionsValue->id]);
-                    $idArray = [];
-                    if (!empty($dbRecordsId)) {
-                        foreach ($dbRecordsId as $dbK => $dbV) {
-                            array_push($idArray, $dbV->codes_id);
-                        }
-                    }
                     foreach ($data as $returnKey => $returnValue) {
                         $dataArray = [
-                            'codes_id' => clean($returnValue->Id) ?? NULL,
+                            'codes_id' => intval(clean($returnValue->Id)) ?? NULL,
                             'title' => clean($returnValue->Baslik) ?? NULL,
                             'seo_url' => clean(seo($returnValue->Baslik)) ?? NULL,
                             'barcode' => clean($returnValue->barcode) ?? NULL,
@@ -304,8 +303,8 @@ class ProductsController extends RestController
                             'rank' => $rank,
                             'codes' => clean($codesConnectionsValue->id) ?? NULL
                         ];
-                        if (!empty($idArray) && !in_array($returnValue->Id, $idArray)) {
-                            array_push($bulkInsertArray, $dataArray);
+                        if (!empty($idArray) && !in_array(intval($returnValue->Id), $idArray)) {
+                            $this->product_model->add($dataArray);
                         }
                         array_push($replaceArray, $dataArray);
                         $rank++;
@@ -313,17 +312,9 @@ class ProductsController extends RestController
                 }
             }
             /**
-             * Empty Records Bulk Save
-             */
-            if (!empty($bulkInsertArray)) {
-                $this->product_model->add_batch($bulkInsertArray);
-                $dbRecords = $this->product_model->get_all();
-                $bulkInsertArray = [];
-            }
-            /**
              * Same Records Bulk Update
              */
-            if (!empty($dbRecords) && empty($bulkInsertArray)) {
+            if (!empty($dbRecords)) {
                 $this->product_model->update_batch([], $replaceArray, "codes_id");
             }
             /**
