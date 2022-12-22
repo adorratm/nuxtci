@@ -23,6 +23,7 @@
 import LoginCarousel from "~/components/admin/login/LoginCarousel.vue";
 import LoginForm from "~/components/admin/login/LoginForm.vue";
 export default {
+  name:'loginPage',
   layout: "adminLogin",
   components: {
     LoginCarousel,

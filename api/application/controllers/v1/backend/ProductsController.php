@@ -296,11 +296,12 @@ class ProductsController extends RestController
                             'title' => clean($returnValue->Baslik) ?? NULL,
                             'seo_url' => clean(seo($returnValue->Baslik)) ?? NULL,
                             'barcode' => clean($returnValue->barcode) ?? NULL,
+                            'brand' => clean($returnValue->Marka) ?? NULL,
+                            'price' => clean($returnValue->Fiyat1) ?? NULL,
                             'vat' => clean($returnValue->KDV) ?? NULL,
                             'stock' => clean($returnValue->stok) ?? NULL,
-                            'lang' => 'tr',
                             'isActive' => clean($returnValue->Durum) ?? NULL,
-                            'rank' => $rank ?? NULL,
+                            'rank' => $rank,
                             'codes' => clean($codesConnectionsValue->id) ?? NULL
                         ];
                         if (!empty($idArray) && !in_array($returnValue->Id, $idArray)) {
