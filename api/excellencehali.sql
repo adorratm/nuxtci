@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2022 at 03:57 PM
+-- Generation Time: Dec 23, 2022 at 03:43 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -46,8 +46,26 @@ CREATE TABLE `codes` (
 --
 
 INSERT INTO `codes` (`id`, `host`, `port`, `email`, `password`, `token`, `lang`, `isActive`, `rank`, `createdAt`, `updatedAt`) VALUES
-(1, '78.142.211.12', 90, 'ylcnirmak@ytd.com.tr', '1453', 'd7c5764e-67ec-48b1-91d6-390f5aa96b09', 'tr', 1, 1, '2022-12-19 11:00:49', '2022-12-20 13:49:24'),
-(2, '185.210.92.173', 90, 'mutfak@mutfak.com', '14531453', '62c61deb-9bff-4b6f-91da-29647ed6c584', 'tr', 1, 2, '2022-12-19 11:05:11', '2022-12-20 13:49:24');
+(1, '78.142.211.12', 90, 'ylcnirmak@ytd.com.tr', '1453', '2276e91c-ca50-4423-9704-222937701ae3', 'tr', 1, 1, '2022-12-19 11:00:49', '2022-12-23 13:23:34'),
+(2, '185.210.92.173', 90, 'mutfak@mutfak.com', '14531453', '3daeef5b-e192-4af6-be66-c4d4055b7972', 'tr', 1, 2, '2022-12-19 11:05:11', '2022-12-23 13:23:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dimensions`
+--
+
+CREATE TABLE `dimensions` (
+  `id` int(11) NOT NULL,
+  `codes_id` int(11) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `lang` char(2) DEFAULT 'tr',
+  `isActive` tinyint(4) DEFAULT 1,
+  `rank` int(11) DEFAULT 1,
+  `createdAt` timestamp NULL DEFAULT current_timestamp(),
+  `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `codes` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -108,6 +126,8 @@ CREATE TABLE `products` (
   `codes_id` int(11) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `seo_url` varchar(255) DEFAULT NULL,
+  `brand` varchar(255) DEFAULT NULL,
+  `price` float DEFAULT NULL,
   `barcode` varchar(255) DEFAULT NULL,
   `vat` int(11) DEFAULT 8,
   `stock` int(11) DEFAULT 0,
@@ -294,6 +314,12 @@ ALTER TABLE `codes`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `dimensions`
+--
+ALTER TABLE `dimensions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `email_settings`
 --
 ALTER TABLE `email_settings`
@@ -354,6 +380,12 @@ ALTER TABLE `user_roles`
 --
 ALTER TABLE `codes`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `dimensions`
+--
+ALTER TABLE `dimensions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `email_settings`
