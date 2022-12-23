@@ -9,7 +9,7 @@ class AUTHORIZATION
     {
         $CI = &get_instance();
         $token = self::validateToken($token);
-        if ($token != false && (now() - $token->timestamp < ($CI->config->item('token_timeout') * 60))) {
+        if ($token != false && (now() - $token->timestamp < ($CI->config->item('token_timeout')))) {
             return $token;
         }
         return false;

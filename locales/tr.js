@@ -98,6 +98,9 @@ module.exports = {
         products: {
             products: "Ürünler",
             productsDesc:"Websitenizdeki Ürünleri Buradan Yönetebilirsiniz.",
+            syncProducts: "Codes İle Ürünleri Senkronize Et",
+            thisProcessTakingLongTime: "Bu İşlem Biraz Zaman Alabilir.",
+            yesUpdateIt: "Evet, Güncelleme İşlemini Başlat",
             title: "Başlık"
         },
         dashboard: "Dashboard",

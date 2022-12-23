@@ -261,7 +261,7 @@ class ProductsController extends RestController
         $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
         if (!empty($codesConnections)) {
             foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
-                $token = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "login", ['email' => $codesConnectionsValue->email, 'password' => $codesConnectionsValue->password])->message;
+                $token = @curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "login", ['email' => $codesConnectionsValue->email, 'password' => $codesConnectionsValue->password])->message;
                 if (!empty($token)) {
                     $this->codes_model->update(["id" => $codesConnectionsValue->id], ["token" => $token]);
                 }
@@ -275,18 +275,23 @@ class ProductsController extends RestController
         ini_set('memory_limit', '-1');
         $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
         if (!empty($codesConnections)) {
-            $dbRecords = $this->product_model->get_all();
-
+            $insertArray = [];
+            $insertIfNotExistsArray = [];
             $replaceArray = [];
             foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
-                $idArray = [];
-                $dbRecordsId = $this->product_model->get_all("codes_id", null, ["codes" => $codesConnectionsValue->id]);
-                if (!empty($dbRecordsId)) {
-                    foreach ($dbRecordsId as $dbK => $dbV) {
-                        array_push($idArray, intval($dbV->codes_id));
+                $availableIds = [];
+                $removeArray = [];
+                $availableProducts = $this->product_model->get_all("codes_id", "rank ASC", ["codes" => $codesConnectionsValue->id]);
+                if (!empty($availableProducts)) {
+                    foreach ($availableProducts as $aKey => $aValue) {
+                        if (!in_array(intval($aValue->codes_id), $availableIds)) {
+                            array_push($availableIds, intval($aValue->codes_id));
+                        }
                     }
+                    $removeArray = $availableIds;
                 }
-                $data = @$this->curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
+
+                $data = @curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
                 if (!empty($data)) {
                     $rank = 1;
                     foreach ($data as $returnKey => $returnValue) {
@@ -303,63 +308,44 @@ class ProductsController extends RestController
                             'rank' => $rank,
                             'codes' => clean($codesConnectionsValue->id) ?? NULL
                         ];
-                        if (!empty($idArray) && !in_array(intval($returnValue->Id), $idArray)) {
-                            $this->product_model->add($dataArray);
+                        if (!in_array($dataArray['codes_id'], $availableIds)) {
+                            if ($dataArray['codes_id'] !== NULL) {
+                                array_push($insertIfNotExistsArray, $dataArray);
+                            }
                         }
-                        array_push($replaceArray, $dataArray);
+                        if (!empty($removeArray)) {
+                            $key = array_search($dataArray['codes_id'], $removeArray);
+                            unset($removeArray[$key]);
+                        }
+                        if (empty($availableIds)) {
+                            array_push($insertArray, $dataArray);
+                        }
+                        if (!empty($availableIds)) {
+                            array_push($replaceArray, $dataArray);
+                        }
+
                         $rank++;
                     }
                 }
-            }
-            /**
-             * Same Records Bulk Update
-             */
-            if (!empty($dbRecords)) {
-                $this->product_model->update_batch([], $replaceArray, "codes_id");
+                if (!empty($removeArray)) {
+                    $this->product_model->deleteBulk("codes_id", $removeArray);
+                }
             }
             /**
              * Empty Records Bulk Save
              */
-            if (empty($dbRecords)) {
-                $this->product_model->add_batch($replaceArray);
+            if (!empty($insertArray)) {
+                $this->product_model->add_batch($insertArray);
+            }
+            if (empty($insertArray) && !empty($insertIfNotExistsArray)) {
+                $this->product_model->add_batch($insertIfNotExistsArray);
+            }
+            /**
+             * Same Records Bulk Update
+             */
+            if (!empty($replaceArray)) {
+                $this->product_model->update_batch($replaceArray, "codes_id");
             }
         }
-    }
-
-    public function curl_request($url = null, $port = null, $endpoint = null, $data = [], $header = ['Content-Type: application/json', 'Accept: application/json'])
-    {
-        /* Endpoint */
-        if (!empty($port)) {
-            $url .= ":" . $port;
-        }
-
-        if (!empty($endpoint)) {
-            $url .= "/" . $endpoint;
-        }
-
-        /* Create Curl */
-        $curl = curl_init();
-
-
-
-        /* Set JSON data to POST */
-        if (!empty($data)) {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        }
-
-        if (!empty($header)) {
-            /* Define content type */
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-        }
-        curl_setopt($curl, CURLOPT_URL, $url);
-        /* Return json */
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-        /* Make Request */
-        $result = json_decode(curl_exec($curl));
-
-        /* Close Curl */
-        curl_close($curl);
-
-        return $result;
     }
 }

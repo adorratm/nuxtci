@@ -162,7 +162,7 @@ export default {
       serverParams: {
         columnFilters: {},
         start: 0,
-        perPage: 10,
+        perPage: 50,
         page: 0,
         sort: [],
       },

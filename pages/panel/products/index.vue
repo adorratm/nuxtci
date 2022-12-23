@@ -21,29 +21,33 @@
                     </p>
                   </div>
                   <div class="d-flex align-items-center">
-                    <nuxt-link
+                    <a
                       class="btn btn-sm btn-outline-primary rounded-0"
-                      to="/panel/products/add"
-                      >{{ $t("panel.createNew") }}</nuxt-link
+                      href="javascript:void(0)"
+                      @click.prevent="syncProducts()"
+                      >{{ $t("panel.products.syncProducts") }}</a
                     >
                   </div>
                 </div>
                 <div class="card-body">
                   <Datatable
                     :dataurl="
-                      $config.API_URL + 'v1/backend/productsController/datatable'
+                      $config.API_URL +
+                      'v1/backend/productsController/datatable'
                     "
                     :rankurl="
                       $config.API_URL + 'v1/backend/productsController/rank/'
                     "
                     :isactiveurl="
-                      $config.API_URL + 'v1/backend/productsController/isactive/'
+                      $config.API_URL +
+                      'v1/backend/productsController/isactive/'
                     "
                     :editurl="'/panel/products/update/'"
                     :deleteurl="$config.API_URL + 'v1/panel/products/delete/'"
                     :token="this.$auth.strategy.token.get()"
                     :columns="columns"
                     :sort="sort"
+                    ref="dataTable"
                   />
                 </div>
               </div>
@@ -160,6 +164,35 @@ export default {
         $(".hk-wrapper").removeClass("d-none");
       }, 500);
     });
+  },
+  methods: {
+    async syncProducts() {
+      await this.$swal({
+        title: this.$t("panel.areYouSure"),
+        text: this.$t("panel.products.thisProcessTakingLongTime"),
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: this.$t("panel.products.yesUpdateIt"),
+        cancelButtonText: this.$t("panel.no"),
+      }).then(async (result) => {
+        if (result.value) {
+          try {
+            let { data } = await this.$axios.get(
+              this.$config.API_URL +
+                "v1/backend/productsController/sync_products"
+            );
+            data.status
+              ? this.$toast.success(data.message, this.$t("successfully"))
+              : this.$toast.error(data.message, this.$t("unsuccessfully"));
+            this.$refs.dataTable.loadItems();
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+    },
   },
 };
 </script>
