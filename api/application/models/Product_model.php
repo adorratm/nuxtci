@@ -295,10 +295,10 @@ class Product_model extends CI_Model
 	}
 	public function update_batch($data = [], $column = null)
 	{
-		$this->db->update_batch($this->tableName, $data, $column);
+		$this->db->update_batch($this->tableName, $data, $column,1000);
 	}
 	public function add_batch($data = [])
 	{
-		$this->db->insert_batch($this->tableName, $data);
+		$this->db->insert_batch($this->tableName, $data,NULL,1000);
 	}
 }
