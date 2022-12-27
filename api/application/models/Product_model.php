@@ -293,12 +293,8 @@ class Product_model extends CI_Model
 			$this->db->order_by(key($order), $order[key($order)]);
 		endif;
 	}
-	public function update_batch($data = [], $column = null)
+	public function replace($data = [])
 	{
-		$this->db->update_batch($this->tableName, $data, $column,1000);
-	}
-	public function add_batch($data = [])
-	{
-		$this->db->insert_batch($this->tableName, $data,NULL,1000);
+		$this->db->replace($this->tableName, $data);
 	}
 }

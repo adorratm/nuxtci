@@ -274,23 +274,15 @@ class ProductsController extends RestController
         set_time_limit(0);
         ini_set('memory_limit', '-1');
         $codesConnections = $this->codes_model->get_all(null, null, ["isActive" => 1]);
+
         if (!empty($codesConnections)) {
+            $rank = 1;
             foreach ($codesConnections as $codesConnectionsKey => $codesConnectionsValue) {
-                $replaceArray = [];
-                $availableIds = [];
-                $insertIfNotExistsArray = [];
-                $availableProducts = $this->product_model->get_all("codes_id,codes", null, ["codes" => $codesConnectionsValue->id]);
-                foreach ($availableProducts as $avKey => $avValue) {
-                    if (!in_array($avValue->codes_id, $availableIds)) {
-                        array_push($availableIds, $avValue->codes_id);
-                    }
-                }
-                $removeArray = $availableIds;
                 $data = @curl_request($codesConnectionsValue->host, $codesConnectionsValue->port, "stoklistele", [], ['Content-Type: application/json', 'Accept: application/json', 'X-TOKEN: ' . $codesConnectionsValue->token])->data;
                 if (!empty($data)) {
-                    $rank = 1;
                     foreach ($data as $returnKey => $returnValue) {
-                        $dataArray = [
+                        $this->product_model->replace([
+                            'id' => $rank,
                             'codes_id' => intval(clean($returnValue->Id)) ?? NULL,
                             'title' => clean($returnValue->Baslik) ?? NULL,
                             'seo_url' => clean(seo($returnValue->Baslik)) ?? NULL,
@@ -302,28 +294,8 @@ class ProductsController extends RestController
                             'isActive' => clean($returnValue->Durum) ?? NULL,
                             'rank' => $rank,
                             'codes' => clean($codesConnectionsValue->id) ?? NULL
-                        ];
-                        if (!empty($removeArray)) {
-                            $key = array_search($dataArray['codes_id'], $removeArray);
-                            unset($removeArray[$key]);
-                        }
-                        if (!in_array($dataArray['codes_id'], $availableIds)) {
-                            array_push($insertIfNotExistsArray, $dataArray);
-                        }
-                        array_push($replaceArray, $dataArray);
+                        ]);
                         $rank++;
-                    }
-                    if (!empty($removeArray)) {
-                        $this->product_model->deleteBulk("codes_id", $removeArray);
-                    }
-                    if (!empty($insertIfNotExistsArray)) {
-                        $this->product_model->add_batch($insertIfNotExistsArray);
-                    }
-                    /**
-                     * Same Records Bulk Update
-                     */
-                    if (!empty($replaceArray)) {
-                        $this->product_model->update_batch($replaceArray, "codes_id");
                     }
                 }
             }
